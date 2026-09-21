@@ -588,6 +588,109 @@ def test_phase3_3_ground_tile_size_reduction():
     print("  ✓ Interactive Tile Switcher Toolbar in Web Preview verified (128x64, 96x48, 80x40, 60x30)")
     print("  ✓ All Phase 3.3 Ground Tile Size criteria fulfilled (80x40 Canonical): PASSED")
 
+def test_phase3_4_village_map_reconstruction():
+    print("Test 18: Phase 3.4 Village Reconstruction from Blueprint Map (Map village .png)...")
+    
+    # 1. Verify JSON Map Data file
+    map_json_path = "/root/the_echo_of_shadows/assets/data/maps/village.json"
+    assert os.path.exists(map_json_path), "assets/data/maps/village.json MUST exist"
+    with open(map_json_path, "r", encoding="utf-8") as f:
+        map_data = json.load(f)
+
+    assert map_data["map_id"] == "village_abandonne"
+    assert "Map village .png" in map_data["reference_blueprint"]
+    assert map_data["coordinate_system"]["tile_width"] == 80.0
+    assert map_data["coordinate_system"]["tile_height"] == 40.0
+    assert map_data["coordinate_system"]["world_scale"] == 1.6
+    assert map_data["player_spawn"]["world_x"] == 7.0
+    assert map_data["player_spawn"]["world_y"] == 8.0
+    assert map_data["player_spawn"]["orientation"] == "NW"
+
+    # Verify zones, buildings, props, lamps, pois, npcs counts
+    assert len(map_data["zones"]) >= 12, f"Zones: {len(map_data['zones'])}"
+    assert len(map_data["buildings"]) == 11, f"Buildings: {len(map_data['buildings'])}"
+    assert len(map_data["props"]) >= 10, f"Props: {len(map_data['props'])}"
+    assert len(map_data["street_lamps"]) == 14, f"Street lamps: {len(map_data['street_lamps'])}"
+    assert len(map_data["pois"]) == 20, f"POIs: {len(map_data['pois'])}"
+    assert len(map_data["npcs"]) == 7, f"NPCs: {len(map_data['npcs'])}"
+    assert len(map_data["narrative_acts"]) == 3, f"Acts: {len(map_data['narrative_acts'])}"
+
+    # Check key buildings
+    b_ids = [b["id"] for b in map_data["buildings"]]
+    assert "BUILDING_CHURCH" in b_ids
+    assert "BUILDING_FAMILY_HOUSE" in b_ids
+    assert "BUILDING_WATERMILL" in b_ids
+    assert "BUILDING_WINDMILL" in b_ids
+    assert "BUILDING_SAWMILL_SHED" in b_ids
+    assert "BUILDING_MINE_ARCHWAY" in b_ids
+
+    # Check key NPCs
+    npc_names = [n["name"] for n in map_data["npcs"]]
+    for expected in ["Alex Miller", "Emma", "James", "Michael", "David", "Sarah", "Ethan Miller"]:
+        assert expected in npc_names, f"NPC {expected} missing"
+
+    print("  ✓ assets/data/maps/village.json Schema & Data Integrity: PASSED")
+
+    # 2. Verify Dart VillageMap and NavigationGrid implementation
+    vmap_dart = "/root/the_echo_of_shadows/lib/game/world/village_map.dart"
+    assert os.path.exists(vmap_dart), "lib/game/world/village_map.dart must exist"
+    with open(vmap_dart, "r", encoding="utf-8") as f:
+        vmap_code = f.read()
+    assert "class VillageMap" in vmap_code
+    assert "VillageMap.canonical()" in vmap_code
+    assert "BUILDING_CHURCH" in vmap_code
+    assert "BUILDING_FAMILY_HOUSE" in vmap_code
+
+    nav_dart = "/root/the_echo_of_shadows/lib/game/world/navigation_grid.dart"
+    assert os.path.exists(nav_dart), "lib/game/world/navigation_grid.dart must exist"
+    with open(nav_dart, "r", encoding="utf-8") as f:
+        nav_code = f.read()
+    assert "class NavigationGrid" in nav_code
+    assert "isOnBridge" in nav_code
+    assert "isOnPlaza" in nav_code
+    assert "isOnRoad" in nav_code
+    assert "isRiverWater" in nav_code
+    assert "isWalkable" in nav_code
+
+    print("  ✓ Dart VillageMap & NavigationGrid Architectures: PASSED")
+
+    # 3. Verify POIRegistry Canonical Expansion
+    poi_dart = "/root/the_echo_of_shadows/lib/game/world/point_of_interest.dart"
+    with open(poi_dart, "r", encoding="utf-8") as f:
+        poi_code = f.read()
+    assert "poiBridge" in poi_code
+    assert "poiPlaza" in poi_code
+    assert "poiChurch" in poi_code
+    assert "poiWatermill" in poi_code
+    assert "poiWindmill" in poi_code
+    assert "poiMineEntrance" in poi_code
+    assert "narrativeAct" in poi_code
+
+    print("  ✓ 20 Canonical POIs & Narrative Act Progression: PASSED")
+
+    # 4. Verify Web Preview Blueprint Reconstruction
+    web_html = "/root/the_echo_of_shadows/web_preview/index.html"
+    with open(web_html, "r", encoding="utf-8") as f:
+        html = f.read()
+    assert "LE VILLAGE ABANDONNÉ" in html
+    assert "POI_BRIDGE" in html
+    assert "POI_WATERMILL" in html
+    assert "POI_CHURCH" in html
+    assert "POI_WINDMILL" in html
+    assert "images.watermill" in html
+    assert "images.windmill" in html
+    assert "images.emma" in html
+    assert "images.ethan" in html
+    assert "images.james" in html
+    assert "images.michael" in html
+
+    # Verify Player Initial Spawn on Entrance Bridge (Alex.position.x = 7.0; Alex.position.y = 8.0;)
+    assert "7.0 * worldScale" in html
+    assert "8.0 * worldScale" in html
+    assert "Alex.position" in html
+
+    print("  ✓ Full Modular Blueprint Reconstruction in Web Preview & Flame: PASSED")
+
 if __name__ == "__main__":
     print("=== Running The Echo of Shadows Phase 3.3 Verification Suite ===")
     test_isometric_coordinates()
@@ -607,5 +710,6 @@ if __name__ == "__main__":
     test_phase3_2_debug_overlay_clean_release()
     test_phase3_3_alex_identity_consistency()
     test_phase3_3_ground_tile_size_reduction()
+    test_phase3_4_village_map_reconstruction()
     print("=============================================================")
-    print("ALL 17 PHASE 3.3 TESTS PASSED SUCCESSFULLY!")
+    print("ALL 18 TESTS PASSED SUCCESSFULLY!")

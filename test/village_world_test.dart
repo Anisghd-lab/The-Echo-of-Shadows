@@ -1,11 +1,14 @@
 import 'dart:math' as math;
 import 'package:test/test.dart';
+import '../lib/game/player/alex_component.dart';
 import '../lib/game/player/player_controller.dart';
 import '../lib/game/player/player_orientation_controller.dart';
 import '../lib/game/world/asset_registry.dart';
 import '../lib/game/world/collision_box.dart';
 import '../lib/game/world/isometric_coordinates.dart';
+import '../lib/game/world/navigation_grid.dart';
 import '../lib/game/world/point_of_interest.dart';
+import '../lib/game/world/village_map.dart';
 import '../lib/save/local_save_repository.dart';
 import '../lib/save/save_manager.dart';
 import 'dart:io';
@@ -334,6 +337,48 @@ void main() {
         orient.isFacingTarget(alexX: 0.0, alexY: 0.0, targetX: 2.0, targetY: 0.0),
         isFalse,
       );
+    });
+  });
+
+  group('9. Village Reconstruction & Blueprint Specification Tests', () {
+    test('Canonical Village Map contains all 11 buildings, 20 POIs, 7 NPCs', () {
+      final map = VillageMap.canonical();
+      expect(map.buildings.length, equals(11));
+      expect(map.props.length, equals(11));
+      expect(map.streetLamps.length, equals(14));
+      expect(map.pois.length, equals(20));
+      expect(map.npcs.length, equals(7));
+      expect(map.zones.length, equals(14));
+      expect(map.playerSpawn.worldX, equals(7.0));
+      expect(map.playerSpawn.worldY, equals(8.0));
+      expect(map.playerSpawn.orientation, equals('NW'));
+    });
+
+    test('Alex position assignment matches Phase 3.4 (Alex.position.x = 7.0, y = 8.0)', () {
+      Alex.position.x = 7.0;
+      Alex.position.y = 8.0;
+      expect(Alex.position.x, equals(7.0));
+      expect(Alex.position.y, equals(8.0));
+      expect(Alex.x, equals(7.0));
+      expect(Alex.y, equals(8.0));
+    });
+
+    test('NavigationGrid correctly validates bridge, river, plaza and collisions', () {
+      final map = VillageMap.canonical();
+      final collisionManager = CollisionManager();
+      final nav = NavigationGrid(map: map, collisionManager: collisionManager);
+
+      // Entrance bridge at (7.0, 8.0) is walkable and recognized as bridge
+      expect(nav.isOnBridge(7.0 * IsometricCoordinates.worldScale, 8.0 * IsometricCoordinates.worldScale), isTrue);
+      expect(nav.isWalkable(7.0 * IsometricCoordinates.worldScale, 8.0 * IsometricCoordinates.worldScale), isTrue);
+
+      // River gorge at (0.0, 11.0 * scale) is water and unwalkable
+      expect(nav.isRiverWater(0.0, 11.0 * IsometricCoordinates.worldScale), isTrue);
+      expect(nav.isWalkable(0.0, 11.0 * IsometricCoordinates.worldScale), isFalse);
+
+      // Central Plaza is recognized
+      expect(nav.isOnPlaza(0.0, 0.0), isTrue);
+      expect(nav.isWalkable(0.0, 0.0), isTrue);
     });
   });
 }

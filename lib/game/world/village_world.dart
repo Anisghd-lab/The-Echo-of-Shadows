@@ -3,48 +3,62 @@ import '../player/alex_component.dart';
 import '../player/player_animation_controller.dart';
 import '../player/player_controller.dart';
 import 'collision_box.dart';
+import 'isometric_coordinates.dart';
 import 'layers/building_layer.dart';
 import 'layers/characters_layer.dart';
 import 'layers/ground_layer.dart';
 import 'layers/prop_layer.dart';
 import 'layers/road_layer.dart';
 import 'layers/weather_effects_layer.dart';
+import 'navigation_grid.dart';
 import 'point_of_interest.dart';
+import 'village_map.dart';
 
-/// The root Flame World component for the Abandoned Village scene.
+/// The root Flame World component for the reconstructed Village scene based on Map village .png.
 class VillageWorld extends World with HasGameRef {
   final CollisionManager collisionManager = CollisionManager();
+  final VillageMap villageMap;
+  late final NavigationGrid navigationGrid;
   late final PlayerController playerController;
   late final PlayerAnimationController playerAnimationController;
   late final AlexComponent alex;
 
-  // Calibrated world boundaries enclosing the village composition
-  // Dynamically scaled to match the tile coordinate system
-  double get minWorldX => -9.0 * IsometricCoordinates.worldScale;
-  double get maxWorldX => 10.0 * IsometricCoordinates.worldScale;
-  double get minWorldY => -2.5 * IsometricCoordinates.worldScale;
-  double get maxWorldY => 13.5 * IsometricCoordinates.worldScale;
+  // Calibrated world boundaries enclosing the complete village blueprint
+  double get minWorldX => villageMap.bounds.minWorldX * IsometricCoordinates.worldScale;
+  double get maxWorldX => villageMap.bounds.maxWorldX * IsometricCoordinates.worldScale;
+  double get minWorldY => villageMap.bounds.minWorldY * IsometricCoordinates.worldScale;
+  double get maxWorldY => villageMap.bounds.maxWorldY * IsometricCoordinates.worldScale;
 
-  final double initialPlayerX;
-  final double initialPlayerY;
-  final String initialOrientation;
+  final double? initialPlayerX;
+  final double? initialPlayerY;
+  final String? initialOrientation;
 
   // Active Point of Interest
   PointOfInterest? activePOI;
 
   VillageWorld({
-    this.initialPlayerX = 0.0,
-    this.initialPlayerY = 0.0,
-    this.initialOrientation = 'SE',
-  });
+    VillageMap? map,
+    this.initialPlayerX,
+    this.initialPlayerY,
+    this.initialOrientation,
+  }) : villageMap = map ?? VillageMap.canonical();
 
   @override
   Future<void> onLoad() async {
-    // 1. Initialize Player Controllers
+    navigationGrid = NavigationGrid(
+      map: villageMap,
+      collisionManager: collisionManager,
+    );
+
+    // 1. Initialize Player Controllers at canonical entrance bridge
+    final spawnX = initialPlayerX ?? (villageMap.playerSpawn.worldX * IsometricCoordinates.worldScale);
+    final spawnY = initialPlayerY ?? (villageMap.playerSpawn.worldY * IsometricCoordinates.worldScale);
+    final spawnOrient = initialOrientation ?? villageMap.playerSpawn.orientation;
+
     playerController = PlayerController(
-      worldX: initialPlayerX,
-      worldY: initialPlayerY,
-      orientation: initialOrientation,
+      worldX: spawnX,
+      worldY: spawnY,
+      orientation: spawnOrient,
       collisionManager: collisionManager,
     );
 
@@ -60,17 +74,23 @@ class VillageWorld extends World with HasGameRef {
     _addPerimeterCollisions();
 
     // 3. Mount Layers in strict isometric order
-    // Ground (Multi-zone: River, Cobblestones, Plaza, Snow, Yards)
+    // Ground (Multi-zone: River, Bridge, Cobblestones, Plaza, Snow, Yards)
     add(GroundLayer(gridRadius: (24 * IsometricCoordinates.worldScale).ceil()));
 
     // Roads & Pathways
     add(RoadLayer());
 
-    // Buildings (Church, Family House, Cottages)
-    add(BuildingLayer(collisionManager: collisionManager));
+    // Buildings (Reconstructed from Map village .png)
+    add(BuildingLayer(
+      collisionManager: collisionManager,
+      villageMap: villageMap,
+    ));
 
-    // Props (Well, Gates, Street Lamps, Pine & Dead Trees, Cliffs)
-    add(PropLayer(collisionManager: collisionManager));
+    // Props (Well, Statue, Market Stalls, Crane, Cemetery Gate, Street Lamps, Trees)
+    add(PropLayer(
+      collisionManager: collisionManager,
+      villageMap: villageMap,
+    ));
 
     // Characters (Alex with calibrated human scale and dynamic Z-ordering)
     add(CharactersLayer(alex: alex));
@@ -91,7 +111,7 @@ class VillageWorld extends World with HasGameRef {
 
   void _addPerimeterCollisions() {
     final hw = 0.5 * IsometricCoordinates.worldScale;
-    // West forest boundary
+    // West mountain cliff boundary
     collisionManager.addObstacle(
       IsometricCollisionBox(
         id: 'boundary_west',
@@ -102,7 +122,7 @@ class VillageWorld extends World with HasGameRef {
         label: 'boundary',
       ),
     );
-    // East cliff boundary
+    // East mountain cliff boundary
     collisionManager.addObstacle(
       IsometricCollisionBox(
         id: 'boundary_east',
@@ -118,7 +138,7 @@ class VillageWorld extends World with HasGameRef {
       IsometricCollisionBox(
         id: 'boundary_south',
         worldX: (minWorldX + maxWorldX) / 2,
-        worldY: minWorldY - hw,
+        worldY: maxWorldY + hw,
         halfWidth: (maxWorldX - minWorldX) / 2,
         halfHeight: hw,
         label: 'boundary',
@@ -129,7 +149,7 @@ class VillageWorld extends World with HasGameRef {
       IsometricCollisionBox(
         id: 'boundary_north',
         worldX: (minWorldX + maxWorldX) / 2,
-        worldY: maxWorldY + hw,
+        worldY: minWorldY - hw,
         halfWidth: (maxWorldX - minWorldX) / 2,
         halfHeight: hw,
         label: 'boundary',

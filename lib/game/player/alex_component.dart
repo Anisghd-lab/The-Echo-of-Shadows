@@ -4,6 +4,20 @@ import '../world/isometric_coordinates.dart';
 import 'player_animation_controller.dart';
 import 'player_controller.dart';
 
+/// Static global configuration and coordinates for Alex character.
+/// Allows direct coordinate assignment:
+/// `Alex.position.x = 7.0;`
+/// `Alex.position.y = 8.0;`
+class Alex {
+  static final Vector2 position = Vector2(7.0, 8.0);
+
+  static double get x => position.x;
+  static set x(double val) => position.x = val;
+
+  static double get y => position.y;
+  static set y(double val) => position.y = val;
+}
+
 /// Flame visual component rendering Alex in the isometric game world.
 /// Automatically updates dynamic Z-order and screen position.
 class AlexComponent extends PositionComponent with HasGameRef {
@@ -24,6 +38,41 @@ class AlexComponent extends PositionComponent with HasGameRef {
     // Matches door heights (~50px), well rim (~30px), and church scale
     size = Vector2(28, 56);
     anchor = Anchor.bottomCenter;
+
+    // Immediately sync screen position and priority from initial world coordinates
+    final screenPos = IsometricCoordinates.worldToScreen(controller.worldX, controller.worldY);
+    position.setValues(screenPos.x, screenPos.y);
+    priority = IsometricCoordinates.calculateZOrder(controller.worldX, controller.worldY);
+    Alex.position.setValues(controller.worldX, controller.worldY);
+  }
+
+  /// Direct world coordinate accessors
+  double get worldX => controller.worldX;
+  set worldX(double wx) {
+    controller.worldX = wx;
+    Alex.position.x = wx;
+    final screenPos = IsometricCoordinates.worldToScreen(controller.worldX, controller.worldY);
+    position.setValues(screenPos.x, screenPos.y);
+    priority = IsometricCoordinates.calculateZOrder(controller.worldX, controller.worldY);
+  }
+
+  double get worldY => controller.worldY;
+  set worldY(double wy) {
+    controller.worldY = wy;
+    Alex.position.y = wy;
+    final screenPos = IsometricCoordinates.worldToScreen(controller.worldX, controller.worldY);
+    position.setValues(screenPos.x, screenPos.y);
+    priority = IsometricCoordinates.calculateZOrder(controller.worldX, controller.worldY);
+  }
+
+  /// Sets world position directly
+  void setWorldPosition(double wx, double wy) {
+    controller.worldX = wx;
+    controller.worldY = wy;
+    Alex.position.setValues(wx, wy);
+    final screenPos = IsometricCoordinates.worldToScreen(wx, wy);
+    position.setValues(screenPos.x, screenPos.y);
+    priority = IsometricCoordinates.calculateZOrder(wx, wy);
   }
 
   @override
@@ -37,7 +86,8 @@ class AlexComponent extends PositionComponent with HasGameRef {
       controller.worldX,
       controller.worldY,
     );
-    position = Vector2(screenPos.x, screenPos.y);
+    position.setValues(screenPos.x, screenPos.y);
+    Alex.position.setValues(controller.worldX, controller.worldY);
 
     // 2. Dynamic Z-Ordering: depth depends on world ground position
     priority = IsometricCoordinates.calculateZOrder(

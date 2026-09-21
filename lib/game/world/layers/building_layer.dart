@@ -3,7 +3,7 @@ import 'package:flame/components.dart';
 import '../asset_registry.dart';
 import '../collision_box.dart';
 import '../isometric_coordinates.dart';
-import '../point_of_interest.dart';
+import '../village_map.dart';
 
 class BuildingItem {
   final String id;
@@ -29,6 +29,21 @@ class BuildingItem {
     required this.collisionHeight,
     this.collisionOffsetY = 0.0,
   });
+
+  factory BuildingItem.fromMapBuilding(MapBuilding b) {
+    return BuildingItem(
+      id: b.id,
+      poiId: b.poiId,
+      assetId: b.assetId,
+      worldX: b.worldX,
+      worldY: b.worldY,
+      displayWidth: b.displayWidth,
+      displayHeight: b.displayHeight,
+      collisionWidth: b.collisionHalfWidth * 2.0,
+      collisionHeight: b.collisionHalfHeight * 2.0,
+      collisionOffsetY: b.collisionOffsetY,
+    );
+  }
 }
 
 class BuildingSpriteComponent extends PositionComponent with HasGameRef {
@@ -78,69 +93,20 @@ class BuildingSpriteComponent extends PositionComponent with HasGameRef {
   }
 }
 
-/// Layer 3: Main buildings of the village with calibrated scales and ground collision footprints.
+/// Layer 3: Main buildings of the village reconstructed from Map village .png.
 class BuildingLayer extends Component with HasGameRef {
   final CollisionManager collisionManager;
+  final VillageMap? villageMap;
 
-  final List<BuildingItem> buildings = const [
-    // 1. Family House (Destination at north end of main street)
-    BuildingItem(
-      id: 'family_house',
-      poiId: VillagePOIRegistry.familyHouse,
-      assetId: GameAssetRegistry.familyHouseExterior,
-      worldX: 0.0,
-      worldY: 10.5,
-      displayWidth: 320,
-      displayHeight: 298,
-      collisionWidth: 1.8,
-      collisionHeight: 1.2,
-      collisionOffsetY: -0.2,
-    ),
+  BuildingLayer({
+    required this.collisionManager,
+    this.villageMap,
+  });
 
-    // 2. St. Jude Abandoned Church (East Hill)
-    BuildingItem(
-      id: 'village_church',
-      poiId: VillagePOIRegistry.abandonedChurch,
-      assetId: GameAssetRegistry.villageChurch,
-      worldX: 6.5,
-      worldY: 5.0,
-      displayWidth: 280,
-      displayHeight: 370,
-      collisionWidth: 2.0,
-      collisionHeight: 1.6,
-      collisionOffsetY: -0.3,
-    ),
-
-    // 3. Abandoned Cottage 01 (West Path South)
-    BuildingItem(
-      id: 'abandoned_house_01',
-      poiId: VillagePOIRegistry.abandonedHouse01,
-      assetId: GameAssetRegistry.villageHouse01,
-      worldX: -5.5,
-      worldY: 4.5,
-      displayWidth: 260,
-      displayHeight: 244,
-      collisionWidth: 1.6,
-      collisionHeight: 1.2,
-      collisionOffsetY: -0.2,
-    ),
-
-    // 4. Abandoned Cottage 02 (West Path North)
-    BuildingItem(
-      id: 'abandoned_house_02',
-      poiId: VillagePOIRegistry.abandonedHouse02,
-      assetId: GameAssetRegistry.villageHouse02,
-      worldX: -5.5,
-      worldY: 8.5,
-      displayWidth: 240,
-      displayHeight: 270,
-      collisionWidth: 1.5,
-      collisionHeight: 1.2,
-      collisionOffsetY: -0.2,
-    ),
-  ];
-
-  BuildingLayer({required this.collisionManager});
+  List<BuildingItem> get buildings {
+    final vMap = villageMap ?? VillageMap.canonical();
+    return vMap.buildings.map((b) => BuildingItem.fromMapBuilding(b)).toList();
+  }
 
   @override
   Future<void> onLoad() async {

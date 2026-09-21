@@ -6,14 +6,15 @@ import '../isometric_coordinates.dart';
 
 enum TerrainZone {
   frozenRiver,
-  mainRoad,
+  woodenBridge,
   plaza,
+  mainRoad,
   sidePath,
   buildingYard,
   deepSnow,
 }
 
-/// Layer 1: Multi-zone winter terrain avoiding repetitive tileset appearance.
+/// Layer 1: Multi-zone winter terrain reconstructed from Map village .png.
 class GroundLayer extends Component with HasGameRef {
   Sprite? _stoneTileSprite;
   Sprite? _stoneVarSprite;
@@ -22,7 +23,7 @@ class GroundLayer extends Component with HasGameRef {
 
   final int gridRadius;
 
-  GroundLayer({this.gridRadius = 24});
+  GroundLayer({this.gridRadius = 39});
 
   @override
   Future<void> onLoad() async {
@@ -45,44 +46,69 @@ class GroundLayer extends Component with HasGameRef {
     }
   }
 
-  /// Classifies each grid coordinate into a distinct environmental zone.
+  /// Classifies each grid coordinate into a distinct environmental zone based on Map village .png.
   TerrainZone _getZone(int x, int y) {
     final scale = IsometricCoordinates.worldScale;
-    // 1. Frozen River at entrance
-    if (y <= -2.0 * scale) {
+
+    // 1. Wooden Bridge across the river gorge
+    final isBridge = (x - y).abs() <= (1.2 * scale) &&
+        (x + y) >= (8.0 * scale) &&
+        (x + y) <= (15.5 * scale);
+    if (isBridge) {
+      return TerrainZone.woodenBridge;
+    }
+
+    // 2. River Docks
+    final isLeftDock = math.hypot(x - 2.0 * scale, y - 8.5 * scale) <= (1.8 * scale);
+    final isRightDock = math.hypot(x - 6.0 * scale, y - 6.0 * scale) <= (1.8 * scale);
+    if (isLeftDock || isRightDock) {
+      return TerrainZone.woodenBridge;
+    }
+
+    // 3. Frozen River (South Sector)
+    if ((x + y) >= 10.0 * scale) {
       return TerrainZone.frozenRiver;
     }
 
-    // 2. Central Square / Plaza (around world Y: 5.5, X: 0.0)
-    final dx = x.toDouble();
-    final dy = (y - 5.5 * scale);
-    final distToSquare = math.sqrt(dx * dx + dy * dy);
-    if (distToSquare <= 2.8 * scale) {
+    // 4. Central Circular Plaza (around (0.0, 0.0))
+    final distToCenter = math.hypot(x.toDouble(), y.toDouble());
+    if (distToCenter <= 2.6 * scale) {
       return TerrainZone.plaza;
     }
 
-    // 3. Main North-South Village Street
-    if (x.abs() <= 1.0 * scale && y >= -1.0 * scale && y <= 11.0 * scale) {
+    // 5. Main South Avenue (Connecting Bridge to Plaza)
+    if ((x - y).abs() <= 1.2 * scale && (x + y) >= 0.0 && (x + y) <= 9.5 * scale) {
       return TerrainZone.mainRoad;
     }
 
-    // 4. Church Path (East branch)
-    if (x >= 1.0 * scale && x <= 7.0 * scale && y >= 4.0 * scale && y <= 6.0 * scale) {
+    // 6. Church Hill Ascent (Northeast Branch)
+    if (x >= 0.0 && x <= 5.5 * scale && y <= 0.0 && y >= -8.5 * scale) {
+      final lineDist = ((y - (-1.8 * x)) / math.sqrt(1 + 1.8 * 1.8)).abs();
+      if (lineDist <= 1.4 * scale) return TerrainZone.sidePath;
+    }
+
+    // 7. Marketplace & Sawmill Street (Southeast Branch)
+    if (x >= 0.0 && x <= 9.5 * scale && y >= -2.5 * scale && y <= 1.8 * scale) {
       return TerrainZone.sidePath;
     }
 
-    // 5. Cottage Path (West branch)
-    if (x <= -1.0 * scale && x >= -6.0 * scale && y >= 4.0 * scale && y <= 9.0 * scale) {
+    // 8. West Residential & Farm Road (Northwest Branch)
+    if (x <= 0.0 && x >= -9.0 * scale && y >= -4.5 * scale && y <= 2.5 * scale) {
       return TerrainZone.sidePath;
     }
 
-    // 6. Yard around Family House & Church
-    if ((x.abs() <= 3.0 * scale && y >= 9.0 * scale && y <= 12.0 * scale) ||
-        (x >= 4.0 * scale && x <= 8.0 * scale && y >= 3.0 * scale && y <= 7.0 * scale)) {
+    // 9. Watermill Trail (Southwest Branch)
+    if (y >= 2.0 * scale && y <= 9.5 * scale && x <= 4.5 * scale && x >= -3.5 * scale) {
+      return TerrainZone.sidePath;
+    }
+
+    // 10. Yards & Enclosures (Farm field, Church yard, Cottage surrounds)
+    if ((x <= -4.0 * scale && x >= -7.5 * scale && y <= -1.5 * scale && y >= -5.5 * scale) ||
+        (x >= 1.0 * scale && x <= 5.5 * scale && y <= -6.0 * scale && y >= -9.5 * scale)) {
       return TerrainZone.buildingYard;
     }
 
-    // 7. General Snow-covered ground
+    // 11. General Deep Winter Snow
     return TerrainZone.deepSnow;
   }
 
@@ -104,6 +130,10 @@ class GroundLayer extends Component with HasGameRef {
           case TerrainZone.frozenRiver:
             activeSprite = _iceTileSprite ?? _snowTileSprite;
             fallbackColor = const Color(0xFF1E293B);
+            break;
+          case TerrainZone.woodenBridge:
+            activeSprite = _stoneVarSprite ?? _stoneTileSprite;
+            fallbackColor = const Color(0xFF78350F);
             break;
           case TerrainZone.plaza:
             activeSprite = ((x + y) % 2 == 0) ? _stoneTileSprite : _stoneVarSprite;

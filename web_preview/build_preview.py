@@ -23,10 +23,9 @@ def to_base64(rel_path, mirror=False):
     return ""
 
 def build():
-    print("Embedding Phase 3.3 Verified Canonical Alex & Village World assets...")
+    print("Embedding Reconstructed Canonical Village assets from Map village .png...")
     
     # 1. Alex 4-Way Directional Sprites (Phase 3.3 Verified Canonical Set)
-    # Absolute identity consistency: exact same coat, hair, trousers, boots across all 4 directions
     alex_idle_se = to_base64("characters/alex/idle/Alex-—-Animation-Idle03.png")
     alex_idle_sw = to_base64("characters/alex/idle/Alex-—-Animation-Idle03.png", mirror=True)
     alex_idle_ne = to_base64("characters/alex/idle/Alex-—-Animation-Idle22.png")
@@ -47,30 +46,56 @@ def build():
     alex_interact_ne = to_base64("characters/alex/interaction/Alex-—-Interaction28.png")
     alex_interact_nw = to_base64("characters/alex/interaction/Alex-—-Interaction28.png", mirror=True)
     
-    # 2. Buildings & Environment
+    # 2. NPCs
+    npc_emma = to_base64("characters/emma/Emma-—-Personnage-principal01.png")
+    npc_ethan = to_base64("characters/ethan/Ethan-—-Frère-d’Alex01.png")
+    npc_james = to_base64("characters/james/Officer-James01.png")
+    npc_michael = to_base64("characters/michael/Old-Michael01.png")
+
+    # 3. Canonical Village Buildings from Map village .png
     family_house = to_base64("environments/family_house/exterior/Maison-familiale-extérieure01.png")
     church = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet05.png")
-    cottage_01 = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet01.png")
-    cottage_02 = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet02.png")
+    watermill = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet01.png")
+    windmill = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet02.png")
+    cottage_west = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet03.png")
+    cottage_south = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet04.png")
+    cottage_far_west = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet06.png")
+    riverside_cottage = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet07.png")
+    east_workshop = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet08.png")
+    sawmill = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet09.png")
+    mine_archway = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet10.png")
+
+    # 4. Props & Decor
+    market_stall_01 = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet11.png")
+    market_stall_02 = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet12.png")
+    plaza_shrine = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet14.png")
     iron_gate = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet15.png")
-    stone_slab = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet25.png")
-    snow_slab = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet31.png")
-    ice_slab = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet32.png")
-    well = to_base64("environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur01.png")
+    sawmill_crane = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet18.png")
+    dock_crane = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet19.png")
+    lamp_post = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet20.png")
+    stacked_logs = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet24.png")
     pine_tree = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet37.png")
     dead_tree = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet34.png")
-    lamp_post = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet20.png")
+    well = to_base64("environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur01.png")
+    statue = to_base64("environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur07.png")
+    boat = to_base64("environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur18.png")
     cliff = to_base64("environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur52.png")
 
+    # 5. Terrain Tiles
+    stone_slab = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet25.png")
+    stone_slab_var = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet26.png")
+    snow_slab = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet31.png")
+    ice_slab = to_base64("environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet32.png")
+
     html = f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>L'Écho des Ombres — Phase 3.1 Village Continu & 360° Alex</title>
+  <title>L'Écho des Ombres — Le Village Abandonné (Reconstruction Map)</title>
   <style>
     * {{ margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }}
-    html, body {{ width: 100%; height: 100%; overflow: hidden; background: #121B28; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #E2E8F0; }}
+    html, body {{ width: 100%; height: 100%; overflow: hidden; background: #0E1626; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #E2E8F0; }}
     #canvas-container {{ width: 100%; height: 100%; position: relative; }}
     canvas {{ display: block; width: 100%; height: 100%; }}
     
@@ -82,7 +107,7 @@ def build():
     }}
     .location-badge {{
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(15, 23, 42, 0.88);
+      background: rgba(15, 23, 42, 0.90);
       border: 1px solid rgba(148, 163, 184, 0.35);
       border-radius: 20px;
       padding: 8px 16px;
@@ -99,14 +124,14 @@ def build():
       animation: pulse 2s infinite ease-in-out;
     }}
     @keyframes pulse {{
-      0%, 100% {{ border-color: rgba(56, 189, 248, 0.4); }}
-      50% {{ border-color: rgba(56, 189, 248, 0.9); }}
+      0%, 100% {{ box-shadow: 0 0 4px rgba(56, 189, 248, 0.3); }}
+      50% {{ box-shadow: 0 0 12px rgba(56, 189, 248, 0.7); }}
     }}
 
-    /* Debug Panel */
+    /* Debug HUD */
     #debug-panel {{
-      position: absolute; top: 12px; left: 12px;
-      background: rgba(15, 23, 42, 0.92);
+      position: absolute; top: 80px; left: 16px;
+      background: rgba(15, 23, 42, 0.88);
       border: 1px solid #EAB308;
       border-radius: 8px;
       padding: 10px 14px; font-size: 11px; font-family: monospace;
@@ -191,15 +216,6 @@ def build():
     }}
     #sprint-btn.active {{ background: rgba(220, 38, 38, 0.85); border-color: #EF4444; }}
 
-    .test-state-btn {{
-      background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(148, 163, 184, 0.3);
-      color: #94A3B8; border-radius: 8px; padding: 6px 14px; font-size: 11px; font-weight: 700;
-      cursor: pointer; transition: all 0.2s ease;
-    }}
-    .test-state-btn.active {{
-      background: #38BDF8; color: #0F172A; border-color: #0284C7; box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-    }}
-
     #notification {{
       position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%);
       background: rgba(15, 23, 42, 0.95); border: 1px solid #10B981;
@@ -217,7 +233,7 @@ def build():
     <div id="release-hud">
       <div class="location-badge">
         <div class="status-dot"></div>
-        <span class="location-name" id="loc-title">L'ÉCHO DES OMBRES</span>
+        <span class="location-name" id="loc-title">L'ÉCHO DES OMBRES — LE VILLAGE</span>
       </div>
       <div class="interaction-prompt" id="prompt-badge" style="display: none;">
         <span>🔍</span>
@@ -225,7 +241,7 @@ def build():
       </div>
     </div>
 
-    <!-- Tile Size Switcher Toolbar (Phase 3.3) -->
+    <!-- Tile Size Switcher Toolbar -->
     <div id="tile-size-selector" style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; background: rgba(15, 23, 42, 0.92); border: 1px solid rgba(148, 163, 184, 0.35); border-radius: 24px; padding: 5px 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.6); z-index: 10;">
       <span style="font-size: 11px; font-weight: 700; color: #94A3B8; margin-right: 4px; display: flex; align-items: center; gap: 4px;"><span>📐</span> TILES :</span>
       <button class="tile-btn" id="btn-tile-128" onclick="setTileSize(128, 64)" title="Grandes dalles (128x64)">128x64</button>
@@ -238,11 +254,11 @@ def build():
     <div id="debug-panel">
       <div style="color: #EAB308; font-weight: bold; margin-bottom: 4px;">=== DIAGNOSTICS & SYSTEM ===</div>
       <div id="dbg-fps">FPS: 60</div>
-      <div id="dbg-pos">Alex: [0.0, 0.0]</div>
-      <div id="dbg-state">State: IDLE (SE)</div>
+      <div id="dbg-pos">Alex: [6.50, 6.50]</div>
+      <div id="dbg-state">State: IDLE (NW)</div>
       <div id="dbg-poi">POI: NONE</div>
       <div id="dbg-cam">Cam: [0, 0] | Zoom: 1.15</div>
-      <div id="dbg-bounds">Bounds: Continuous World (Zero Void)</div>
+      <div id="dbg-bounds">Bounds: Blueprint Map Reconstruction</div>
     </div>
 
     <!-- Debug Tools -->
@@ -259,7 +275,8 @@ def build():
       <span>Alex 360° Test</span>
     </div>
 
-    <div id="debug-toggle" onclick="toggleDebug()">⚙️</div>
+    <!-- Top Right Debug Toggle -->
+    <div id="debug-toggle" onclick="toggleDebug()" title="Toggle Debug Overlay">⚙</div>
 
     <!-- AlexDirectionTestScene Modal Overlay -->
     <div id="direction-test-modal" style="display: none; position: absolute; inset: 0; background: rgba(10, 14, 23, 0.95); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
@@ -359,21 +376,25 @@ def build():
       </div>
     </div>
 
+    <!-- Action & Rotation Controls -->
+    <div id="action-controls">
+      <div class="rotation-row">
+        <button class="btn-rotate" onclick="rotateAlexCCW()" title="Tourner à gauche (Q)">↺</button>
+        <span class="orient-badge" id="hud-orient">NW</span>
+        <button class="btn-rotate" onclick="rotateAlexCW()" title="Tourner à droite (E)">↻</button>
+      </div>
+      <button id="sprint-btn" onclick="toggleSprint()">
+        <span>⚡</span>
+        <span id="sprint-text">SPRINT</span>
+      </button>
+    </div>
+
+    <!-- Touch Controls -->
     <div id="touch-controls">
       <div id="touch-stick"></div>
     </div>
 
-    <div id="action-controls">
-      <div class="rotation-row">
-        <button class="btn-rotate" title="Turn Left (Q)" onclick="rotateAlexCCW()">↺</button>
-        <div class="orient-badge" id="hud-orient">SE</div>
-        <button class="btn-rotate" title="Turn Right (E)" onclick="rotateAlexCW()">↻</button>
-      </div>
-      <button id="sprint-btn" onclick="toggleSprint()">
-        <span>⚡</span> SPRINT
-      </button>
-    </div>
-
+    <!-- Notification Toast -->
     <div id="notification"></div>
   </div>
 
@@ -394,7 +415,6 @@ def build():
       HALF_H = h / 2;
       worldScale = 128.0 / w;
 
-      // Maintain Alex position invariant in physical screen space
       alex.wx = alex.wx * (worldScale / oldScale);
       alex.wy = alex.wy * (worldScale / oldScale);
 
@@ -404,7 +424,7 @@ def build():
 
       const mult = ((128 * 64) / (w * h)).toFixed(2);
       const prop = ((28 / w) * 100).toFixed(1);
-      showToast(`Dalles: ${{w}}x${{h}} px (2:1) | Densité: ${{mult}}x (+${{Math.round((mult - 1) * 100)}}%) | Alex: ${{prop}}% de dalle`);
+      showToast(`Dalles: ${{w}}x${{h}} px (2:1) | Densité: ${{mult}}x | Alex: ${{prop}}% de dalle`);
     }}
 
     const canvas = document.getElementById('gameCanvas');
@@ -428,54 +448,94 @@ def build():
       interactSW: new Image(),
       interactNE: new Image(),
       interactNW: new Image(),
+      emma: new Image(),
+      ethan: new Image(),
+      james: new Image(),
+      michael: new Image(),
       familyHouse: new Image(),
       church: new Image(),
-      cottage01: new Image(),
-      cottage02: new Image(),
+      watermill: new Image(),
+      windmill: new Image(),
+      cottageWest: new Image(),
+      cottageSouth: new Image(),
+      cottageFarWest: new Image(),
+      riversideCottage: new Image(),
+      eastWorkshop: new Image(),
+      sawmill: new Image(),
+      mineArchway: new Image(),
+      marketStall01: new Image(),
+      marketStall02: new Image(),
+      plazaShrine: new Image(),
       ironGate: new Image(),
-      slab: new Image(),
-      snowSlab: new Image(),
-      iceSlab: new Image(),
-      well: new Image(),
+      sawmillCrane: new Image(),
+      dockCrane: new Image(),
+      lampPost: new Image(),
+      stackedLogs: new Image(),
       pineTree: new Image(),
       deadTree: new Image(),
-      lampPost: new Image(),
-      cliff: new Image()
+      well: new Image(),
+      statue: new Image(),
+      boat: new Image(),
+      cliff: new Image(),
+      slab: new Image(),
+      slabVar: new Image(),
+      snowSlab: new Image(),
+      iceSlab: new Image()
     }};
 
     images.idleSE.src = "{alex_idle_se}";
     images.idleSW.src = "{alex_idle_sw}";
     images.idleNE.src = "{alex_idle_ne}";
     images.idleNW.src = "{alex_idle_nw}";
-
     images.walkSE.src = "{alex_walk_se}";
     images.walkSW.src = "{alex_walk_sw}";
     images.walkNE.src = "{alex_walk_ne}";
     images.walkNW.src = "{alex_walk_nw}";
-
     images.runSE.src = "{alex_run_se}";
     images.runSW.src = "{alex_run_sw}";
     images.runNE.src = "{alex_run_ne}";
     images.runNW.src = "{alex_run_nw}";
-
     images.interactSE.src = "{alex_interact_se}";
     images.interactSW.src = "{alex_interact_sw}";
     images.interactNE.src = "{alex_interact_ne}";
     images.interactNW.src = "{alex_interact_nw}";
 
+    images.emma.src = "{npc_emma}";
+    images.ethan.src = "{npc_ethan}";
+    images.james.src = "{npc_james}";
+    images.michael.src = "{npc_michael}";
+
     images.familyHouse.src = "{family_house}";
     images.church.src = "{church}";
-    images.cottage01.src = "{cottage_01}";
-    images.cottage02.src = "{cottage_02}";
+    images.watermill.src = "{watermill}";
+    images.windmill.src = "{windmill}";
+    images.cottageWest.src = "{cottage_west}";
+    images.cottageSouth.src = "{cottage_south}";
+    images.cottageFarWest.src = "{cottage_far_west}";
+    images.riversideCottage.src = "{riverside_cottage}";
+    images.eastWorkshop.src = "{east_workshop}";
+    images.sawmill.src = "{sawmill}";
+    images.mineArchway.src = "{mine_archway}";
+
+    images.marketStall01.src = "{market_stall_01}";
+    images.marketStall02.src = "{market_stall_02}";
+    images.plazaShrine.src = "{plaza_shrine}";
     images.ironGate.src = "{iron_gate}";
-    images.slab.src = "{stone_slab}";
-    images.snowSlab.src = "{snow_slab}";
-    images.iceSlab.src = "{ice_slab}";
-    images.well.src = "{well}";
+    images.sawmillCrane.src = "{sawmill_crane}";
+    images.dockCrane.src = "{dock_crane}";
+    images.lampPost.src = "{lamp_post}";
+    images.stackedLogs.src = "{stacked_logs}";
     images.pineTree.src = "{pine_tree}";
     images.deadTree.src = "{dead_tree}";
-    images.lampPost.src = "{lamp_post}";
+    images.well.src = "{well}";
+    images.statue.src = "{statue}";
+    images.boat.src = "{boat}";
     images.cliff.src = "{cliff}";
+
+    images.slab.src = "{stone_slab}";
+    images.slabVar.src = "{stone_slab_var}";
+    images.snowSlab.src = "{snow_slab}";
+    images.iceSlab.src = "{ice_slab}";
 
     // 3. Coordinate Projection
     function worldToScreen(wx, wy) {{
@@ -489,20 +549,29 @@ def build():
       return base + Math.round((wx + wy) * 100);
     }}
 
-    // 4. Player State (Calibrated Human Scale 28x56)
+    // 4. Player State — Initial Spawn on Entrance Bridge facing NW into village (Alex.position.x = 7.0; Alex.position.y = 8.0;)
     const alex = {{
-      wx: 0.0,
-      wy: 0.0,
+      wx: 7.0 * worldScale,
+      wy: 8.0 * worldScale,
       w: 28,
       h: 56,
       radius: 0.28,
-      orientation: 'SE',
+      orientation: 'NW',
       state: 'IDLE',
       isSprinting: false,
       frameTimer: 0
     }};
 
-    // Canonical 360° cycle (Clockwise: SE -> SW -> NW -> NE -> SE)
+    // Direct global Alex.position accessor
+    window.Alex = {{
+      position: {{
+        get x() {{ return alex.wx / worldScale; }},
+        set x(val) {{ alex.wx = val * worldScale; }},
+        get y() {{ return alex.wy / worldScale; }},
+        set y(val) {{ alex.wy = val * worldScale; }}
+      }}
+    }};
+
     const canonicalCycle = ['SE', 'SW', 'NW', 'NE'];
 
     function rotateAlexCW() {{
@@ -517,30 +586,57 @@ def build():
       document.getElementById('hud-orient').textContent = alex.orientation;
     }}
 
-    // 5. Canonical Points of Interest (POIs) with base coordinates
+    // 5. Canonical Points of Interest (POIs) reconstructed from Map village .png
     const pois = [
-      {{ id: 'VILLAGE_ENTRANCE', name: 'Village Entrance (Bridge)', baseWx: 0.0, baseWy: 0.0, baseR: 1.8, prompt: '[E] Inspect snowy bridge' }},
-      {{ id: 'VILLAGE_SQUARE', name: 'Central Square', baseWx: 0.0, baseWy: 5.5, baseR: 2.2, prompt: '[E] Examine central plaza' }},
-      {{ id: 'OLD_WELL', name: 'Ancient Stone Well', baseWx: 0.0, baseWy: 6.0, baseR: 1.5, prompt: '[E] Look into the frozen well' }},
-      {{ id: 'ABANDONED_CHURCH', name: 'St. Jude Abandoned Church', baseWx: 6.5, baseWy: 5.0, baseR: 2.4, prompt: '[E] Examine church doors' }},
-      {{ id: 'FAMILY_HOUSE', name: 'Alex Family House', baseWx: 0.0, baseWy: 10.5, baseR: 2.0, prompt: '[E] Enter family house' }},
-      {{ id: 'ABANDONED_HOUSE_01', name: 'Dilapidated Cottage', baseWx: -5.5, baseWy: 4.5, baseR: 1.8, prompt: '[E] Inspect wooden porch' }},
-      {{ id: 'ABANDONED_HOUSE_02', name: 'Forester Shack', baseWx: -5.5, baseWy: 8.5, baseR: 1.8, prompt: '[E] Examine shuttered window' }}
+      {{ id: 'POI_BRIDGE', name: 'Pont de bois (Entrée)', baseWx: 6.5, baseWy: 6.5, baseR: 2.0, prompt: '[E] Traverser le pont de la rivière gelée' }},
+      {{ id: 'POI_PLAZA_MONUMENT', name: 'Place centrale (Monument)', baseWx: 0.0, baseWy: 0.0, baseR: 2.2, prompt: '[E] Examiner la statue de pierre gravée' }},
+      {{ id: 'POI_ANCIENT_WELL', name: 'Puits en pierre gelé', baseWx: 1.2, baseWy: 2.4, baseR: 1.6, prompt: '[E] Regarder dans le puits gelé et obscur' }},
+      {{ id: 'POI_PLAZA_SHRINE', name: 'Oratoire en bois de la place', baseWx: -1.2, baseWy: -1.8, baseR: 1.5, prompt: '[E] Inspecter la plaque votive en bois' }},
+      {{ id: 'POI_FAMILY_HOUSE', name: 'Maison familiale des Miller', baseWx: -1.5, baseWy: -5.0, baseR: 2.2, prompt: '[E] Essayer la porte d\\'entrée de la maison' }},
+      {{ id: 'POI_CHURCH', name: 'Église abandonnée St-Jude', baseWx: 3.5, baseWy: -7.5, baseR: 2.5, prompt: '[E] Examiner les lourdes portes de chêne' }},
+      {{ id: 'POI_CEMETERY', name: 'Cimetière paroissial & Sépultures', baseWx: 1.2, baseWy: -4.5, baseR: 2.0, prompt: '[E] Fouiller les tombes sous la neige' }},
+      {{ id: 'POI_MARKETPLACE', name: 'Place du marché abandonnée', baseWx: 4.5, baseWy: -0.5, baseR: 2.0, prompt: '[E] Fouiller les étals abandonnés' }},
+      {{ id: 'POI_CRAFTSMAN_HOUSE', name: 'Atelier d\\'artisan', baseWx: 6.0, baseWy: -1.5, baseR: 2.0, prompt: '[E] Frapper au volet de l\\'atelier' }},
+      {{ id: 'POI_SAWMILL', name: 'Scierie et grue de levage', baseWx: 8.5, baseWy: -1.0, baseR: 2.2, prompt: '[E] Examiner les grumes et le registre de coupe' }},
+      {{ id: 'POI_WATERMILL', name: 'Vieux Moulin à eau de la falaise', baseWx: -2.5, baseWy: 8.5, baseR: 2.2, prompt: '[E] Inspecter la roue gelée et la trappe' }},
+      {{ id: 'POI_WINDMILL', name: 'Moulin à vent de la crête ouest', baseWx: -8.5, baseWy: -2.0, baseR: 2.2, prompt: '[E] Examiner le mécanisme et le point de vue' }},
+      {{ id: 'POI_FARM', name: 'Champs gelés de la ferme', baseWx: -5.5, baseWy: -3.5, baseR: 2.0, prompt: '[E] Inspecter la remise à outils enneigée' }},
+      {{ id: 'POI_MINE_ENTRANCE', name: 'Porche de l\\'ancienne mine', baseWx: -7.5, baseWy: -7.5, baseR: 2.4, prompt: '[E] Inspecter l\\'entrée du tunnel obscur' }},
+      {{ id: 'POI_BOAT_DOCK', name: 'Embarcadère et barque amarrée', baseWx: 2.0, baseWy: 8.5, baseR: 1.8, prompt: '[E] Examiner la barque prise dans les glaces' }},
+      {{ id: 'POI_CARGO_DOCK', name: 'Quai de déchargement', baseWx: 6.0, baseWy: 6.0, baseR: 1.8, prompt: '[E] Fouiller les caisses de ravitaillement' }},
+      {{ id: 'POI_RIVERSIDE_COTTAGE', name: 'Poste de garde de la rivière', baseWx: 5.5, baseWy: 3.0, baseR: 2.0, prompt: '[E] Regarder à travers la fenêtre éclairée' }},
+      {{ id: 'POI_COTTAGE_WEST', name: 'Maison du forgeron', baseWx: -4.0, baseWy: -0.5, baseR: 2.0, prompt: '[E] Vérifier l\\'entrée de la forge éteinte' }},
+      {{ id: 'POI_COTTAGE_SOUTH', name: 'Maisonnette du pêcheur', baseWx: -2.2, baseWy: 1.8, baseR: 2.0, prompt: '[E] Examiner les filets suspendus au porche' }},
+      {{ id: 'POI_COTTAGE_FAR_WEST', name: 'Chalet forestier de l\\'ouest', baseWx: -5.5, baseWy: 2.0, baseR: 2.0, prompt: '[E] Inspecter les gravures sur la porte' }}
     ];
 
-    // 6. Collision Obstacles with base coordinates
+    // 6. Collision Obstacles reconstructed from Map village .png
     const obstacles = [
-      {{ id: 'well', baseWx: 0.0, baseWy: 6.0, baseHw: 0.7, baseHh: 0.7 }},
-      {{ id: 'church', baseWx: 6.5, baseWy: 5.0, baseHw: 1.5, baseHh: 1.5 }},
-      {{ id: 'cottage01', baseWx: -5.5, baseWy: 4.5, baseHw: 1.3, baseHh: 1.2 }},
-      {{ id: 'cottage02', baseWx: -5.5, baseWy: 8.5, baseHw: 1.2, baseHh: 1.3 }},
-      {{ id: 'house', baseWx: 0.0, baseWy: 10.8, baseHw: 1.6, baseHh: 1.4 }},
-      {{ id: 'gate', baseWx: 4.2, baseWy: 5.0, baseHw: 0.3, baseHh: 0.8 }},
-      {{ id: 'lamp1', baseWx: 1.2, baseWy: 2.5, baseHw: 0.25, baseHh: 0.25 }},
-      {{ id: 'lamp2', baseWx: -1.2, baseWy: 5.5, baseHw: 0.25, baseHh: 0.25 }},
-      {{ id: 'lamp3', baseWx: -1.2, baseWy: 8.5, baseHw: 0.25, baseHh: 0.25 }},
-      {{ id: 'cliff1', baseWx: -3.5, baseWy: 12.5, baseHw: 1.2, baseHh: 1.2 }},
-      {{ id: 'cliff2', baseWx: 4.0, baseWy: 12.0, baseHw: 1.2, baseHh: 1.2 }}
+      // Buildings
+      {{ id: 'church', baseWx: 3.5, baseWy: -7.5, baseHw: 1.6, baseHh: 1.4 }},
+      {{ id: 'family_house', baseWx: -1.5, baseWy: -5.0, baseHw: 1.6, baseHh: 1.2 }},
+      {{ id: 'watermill', baseWx: -2.5, baseWy: 8.5, baseHw: 1.4, baseHh: 1.2 }},
+      {{ id: 'windmill', baseWx: -8.5, baseWy: -2.0, baseHw: 1.2, baseHh: 1.2 }},
+      {{ id: 'cottage_west', baseWx: -4.0, baseWy: -0.5, baseHw: 1.2, baseHh: 1.1 }},
+      {{ id: 'cottage_south', baseWx: -2.2, baseWy: 1.8, baseHw: 1.2, baseHh: 1.1 }},
+      {{ id: 'cottage_far_west', baseWx: -5.5, baseWy: 2.0, baseHw: 1.1, baseHh: 1.0 }},
+      {{ id: 'riverside_cottage', baseWx: 5.5, baseWy: 3.0, baseHw: 1.2, baseHh: 1.1 }},
+      {{ id: 'east_workshop', baseWx: 6.0, baseWy: -1.5, baseHw: 1.1, baseHh: 1.0 }},
+      {{ id: 'sawmill', baseWx: 8.5, baseWy: -1.0, baseHw: 1.3, baseHh: 1.2 }},
+      {{ id: 'mine_archway', baseWx: -7.5, baseWy: -7.5, baseHw: 1.2, baseHh: 1.0 }},
+
+      // Props & Monument
+      {{ id: 'statue', baseWx: 0.0, baseWy: 0.0, baseHw: 0.6, baseHh: 0.6 }},
+      {{ id: 'well', baseWx: 1.2, baseWy: 2.4, baseHw: 0.7, baseHh: 0.7 }},
+      {{ id: 'shrine', baseWx: -1.2, baseWy: -1.8, baseHw: 0.5, baseHh: 0.5 }},
+      {{ id: 'market_stall1', baseWx: 4.5, baseWy: -0.5, baseHw: 0.9, baseHh: 0.6 }},
+      {{ id: 'market_stall2', baseWx: 5.2, baseWy: 0.4, baseHw: 0.8, baseHh: 0.5 }},
+      {{ id: 'sawmill_crane', baseWx: 9.5, baseWy: -1.8, baseHw: 0.6, baseHh: 0.6 }},
+      {{ id: 'logs', baseWx: 8.0, baseWy: 0.2, baseHw: 0.8, baseHh: 0.5 }},
+      {{ id: 'cemetery_gate', baseWx: 1.8, baseWy: -3.2, baseHw: 0.3, baseHh: 0.8 }},
+      {{ id: 'farm_fence', baseWx: -5.5, baseWy: -3.5, baseHw: 1.8, baseHh: 0.3 }},
+      {{ id: 'boat', baseWx: 2.0, baseWy: 8.5, baseHw: 0.6, baseHh: 0.4 }},
+      {{ id: 'dock_crane', baseWx: 6.0, baseWy: 6.0, baseHw: 0.5, baseHh: 0.5 }}
     ];
 
     function checkCollision(x, y, radius) {{
@@ -565,15 +661,15 @@ def build():
       return {{ x: curX, y: curY }};
     }}
 
-    // 7. Camera Clamping (Calibrated to village geometry)
+    // 7. Camera Clamping (Encompassing complete village bounds)
     const camera = {{
       x: 0,
-      y: 0,
+      y: 200,
       minX: -1600,
       maxX: 1600,
-      minY: -850,
-      maxY: 1150,
-      zoom: 1.15
+      minY: -950,
+      maxY: 1100,
+      zoom: 1.10
     }};
 
     // 8. Input State
@@ -595,7 +691,7 @@ def build():
     }});
     window.addEventListener('keyup', (e) => {{ keys[e.key.toLowerCase()] = false; }});
 
-    // Touch Joystick Handling (With Turn-on-the-spot deadzone)
+    // Touch Joystick Handling
     const joystick = document.getElementById('touch-controls');
     const stick = document.getElementById('touch-stick');
     let touchId = null;
@@ -619,7 +715,7 @@ def build():
           touchId = null;
           inputX = 0;
           inputY = 0;
-          stick.style.transform = 'translate(0px, 0px)';
+          stick.style.transform = `translate(0px, 0px)`;
           break;
         }}
       }}
@@ -634,385 +730,22 @@ def build():
       let dx = t.clientX - cx;
       let dy = t.clientY - cy;
       const dist = Math.hypot(dx, dy);
-      const maxDist = rect.width / 2;
-
-      if (dist > maxDist) {{
-        dx = (dx / dist) * maxDist;
-        dy = (dy / dist) * maxDist;
+      const maxR = rect.width / 2 - 25;
+      if (dist > maxR) {{
+        dx = (dx / dist) * maxR;
+        dy = (dy / dist) * maxR;
       }}
       stick.style.transform = `translate(${{dx}}px, ${{dy}}px)`;
-      inputX = dx / maxDist;
-      inputY = dy / maxDist;
+      inputX = dx / maxR;
+      inputY = dy / maxR;
     }}
 
-    // 9. Winter Weather Particles
-    const snowflakes = [];
-    for (let i = 0; i < 90; i++) {{
-      snowflakes.push({{
-        x: (Math.random() - 0.5) * 1600,
-        y: -400 + Math.random() * 1000,
-        vy: 40 + Math.random() * 50,
-        vx: -15 - Math.random() * 20,
-        r: 1.0 + Math.random() * 1.8,
-        alpha: 0.3 + Math.random() * 0.5
-      }});
+    function toggleSprint() {{
+      alex.isSprinting = !alex.isSprinting;
+      const btn = document.getElementById('sprint-btn');
+      btn.classList.toggle('active', alex.isSprinting);
     }}
 
-    // 10. Game Loop
-    let lastTime = performance.now();
-
-    function gameLoop(now) {{
-      const dt = Math.min((now - lastTime) / 1000, 0.1);
-      lastTime = now;
-
-      if (testSceneOpen && testAutoRotate) {{
-        testRotateTimer += dt;
-        if (testRotateTimer >= 1.2) {{
-          testRotateTimer = 0;
-          stepTestRotationCW();
-        }}
-      }}
-
-      // Movement Input
-      let moveX = inputX;
-      let moveY = inputY;
-
-      if (keys['w'] || keys['arrowup']) moveY -= 1;
-      if (keys['s'] || keys['arrowdown']) moveY += 1;
-      if (keys['a'] || keys['arrowleft']) moveX -= 1;
-      if (keys['d'] || keys['arrowright']) moveX += 1;
-
-      const len = Math.hypot(moveX, moveY);
-      
-      // Threshold 1: Below 0.10 -> Deadzone / Idle
-      if (len < 0.10) {{
-        alex.state = 'IDLE';
-      }} else {{
-        const normX = moveX / len;
-        const normY = moveY / len;
-
-        // 4-Way Isometric Orientation from 360° input angle
-        const angle = Math.atan2(normY, normX);
-        if (angle >= 0 && angle < Math.PI / 2) alex.orientation = 'SE';
-        else if (angle >= Math.PI / 2 && angle <= Math.PI) alex.orientation = 'SW';
-        else if (angle >= -Math.PI && angle < -Math.PI / 2) alex.orientation = 'NW';
-        else alex.orientation = 'NE';
-        document.getElementById('hud-orient').textContent = alex.orientation;
-
-        // Threshold 2: Between 0.10 and 0.30 -> Rotate on the spot (NO displacement)
-        if (len < 0.30) {{
-          alex.state = 'IDLE';
-          // World X, Y remain strictly unchanged
-        }} else {{
-          // Threshold 3: Move (Walk or Run)
-          const isRunning = alex.isSprinting || len > 0.72 || keys['shift'];
-          alex.state = isRunning ? 'RUN' : 'WALK';
-          const speed = (isRunning ? 4.8 : 2.4) * worldScale;
-
-          const worldDx = (normX + normY) * speed * dt * 0.707;
-          const worldDy = (-normX + normY) * speed * dt * 0.707;
-
-          const resolved = resolveMovement(alex.wx, alex.wy, alex.wx + worldDx, alex.wy + worldDy, 0.28 * worldScale);
-          alex.wx = resolved.x;
-          alex.wy = resolved.y;
-        }}
-      }}
-
-      // Camera Follow with dynamic viewport clamping preventing any void exposure
-      const alexScreen = worldToScreen(alex.wx, alex.wy);
-      const halfW = (canvas.width / (2 * window.devicePixelRatio)) / camera.zoom;
-      const halfH = (canvas.height / (2 * window.devicePixelRatio)) / camera.zoom;
-
-      const minAllowedX = camera.minX + halfW;
-      const maxAllowedX = camera.maxX - halfW;
-      const targetCamX = minAllowedX < maxAllowedX ? Math.max(minAllowedX, Math.min(alexScreen.x, maxAllowedX)) : 0;
-
-      const minAllowedY = camera.minY + halfH;
-      const maxAllowedY = camera.maxY - halfH;
-      const targetCamY = minAllowedY < maxAllowedY ? Math.max(minAllowedY, Math.min(alexScreen.y, maxAllowedY)) : 100;
-
-      camera.x += (targetCamX - camera.x) * Math.min(5.5 * dt, 1.0);
-      camera.y += (targetCamY - camera.y) * Math.min(5.5 * dt, 1.0);
-
-      // Weather update
-      for (const f of snowflakes) {{
-        f.y += f.vy * dt;
-        f.x += f.vx * dt;
-        if (f.y > 700) {{ f.y = -500; f.x = (Math.random() - 0.5) * 1600; }}
-        if (f.x < -800) f.x = 800;
-      }}
-
-      // POI Check
-      let activePOI = null;
-      for (const poi of pois) {{
-        const px = poi.baseWx * worldScale;
-        const py = poi.baseWy * worldScale;
-        const pr = poi.baseR * worldScale;
-        const dx = alex.wx - px;
-        const dy = alex.wy - py;
-        if (dx * dx + dy * dy <= pr * pr) {{
-          activePOI = poi;
-          break;
-        }}
-      }}
-
-      // Update HUD Elements
-      const locTitle = document.getElementById('loc-title');
-      const promptBadge = document.getElementById('prompt-badge');
-      const promptText = document.getElementById('prompt-text');
-
-      if (activePOI) {{
-        locTitle.textContent = activePOI.name;
-        promptBadge.style.display = 'inline-flex';
-        promptText.textContent = activePOI.prompt;
-      }} else {{
-        locTitle.textContent = "L'ÉCHO DES OMBRES";
-        promptBadge.style.display = 'none';
-      }}
-
-      if (isDebug) {{
-        document.getElementById('dbg-pos').textContent = `Alex: [${{alex.wx.toFixed(2)}}, ${{alex.wy.toFixed(2)}}]`;
-        document.getElementById('dbg-state').textContent = `State: ${{alex.state}} (${{alex.orientation}}) | Z: ${{calculateZ(alex.wx, alex.wy)}}`;
-        document.getElementById('dbg-poi').textContent = `POI: ${{activePOI ? activePOI.id : 'NONE'}}`;
-        document.getElementById('dbg-cam').textContent = `Cam: [${{camera.x.toFixed(0)}}, ${{camera.y.toFixed(0)}}] | Zoom: ${{camera.zoom.toFixed(2)}}`;
-      }}
-
-      render(now);
-      requestAnimationFrame(gameLoop);
-    }}
-
-    function render(now) {{
-      // Continuous background tone (deep winter night blue)
-      ctx.fillStyle = '#121B28';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.save();
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.scale(camera.zoom * window.devicePixelRatio, camera.zoom * window.devicePixelRatio);
-      ctx.translate(-camera.x, -camera.y);
-
-      // 1. Multi-Zone Continuous Ground Layer (Expanded grid coverage without diamond cutoff)
-      const gridR = Math.ceil(24 * worldScale);
-      for (let x = -gridR; x <= gridR; x++) {{
-        for (let y = -gridR; y <= gridR; y++) {{
-          const pos = worldToScreen(x, y);
-
-          // Zone selection scaled with worldScale
-          let isRiver = y <= (-2.0 * worldScale);
-          let isPlaza = Math.hypot(x, y - 5.5 * worldScale) <= (2.8 * worldScale);
-          let isMainRoad = Math.abs(x) <= (1.0 * worldScale) && y >= (-1.0 * worldScale) && y <= (11.0 * worldScale);
-          let isChurchPath = x >= (1.0 * worldScale) && x <= (7.0 * worldScale) && y >= (4.0 * worldScale) && y <= (6.0 * worldScale);
-          let isCottagePath = x <= (-1.0 * worldScale) && x >= (-6.0 * worldScale) && y >= (4.0 * worldScale) && y <= (9.0 * worldScale);
-          let isYard = (Math.abs(x) <= 3.0 * worldScale && y >= 9.0 * worldScale && y <= 12.0 * worldScale) ||
-                       (x >= 4.0 * worldScale && x <= 8.0 * worldScale && y >= 3.0 * worldScale && y <= 7.0 * worldScale);
-
-          let tileImg = images.snowSlab;
-          if (isRiver) {{
-            tileImg = images.iceSlab || images.snowSlab;
-          }} else if (isPlaza || isMainRoad || isChurchPath || isCottagePath) {{
-            tileImg = images.slab;
-          }} else if (isYard) {{
-            tileImg = images.snowSlab;
-          }} else {{
-            tileImg = images.snowSlab;
-          }}
-
-          // Render with 1px overlap to eliminate subpixel cracks
-          if (tileImg && tileImg.complete && tileImg.naturalWidth > 0) {{
-            ctx.drawImage(tileImg, pos.x - HALF_W, pos.y - HALF_H, TILE_W + 1, TILE_H + 1);
-          }} else {{
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y - HALF_H);
-            ctx.lineTo(pos.x + HALF_W, pos.y);
-            ctx.lineTo(pos.x, pos.y + HALF_H);
-            ctx.lineTo(pos.x - HALF_W, pos.y);
-            ctx.closePath();
-            ctx.fillStyle = isRiver ? '#0F172A' : (isPlaza ? '#334155' : (isYard ? '#2A3441' : '#1A232E'));
-            ctx.fill();
-          }}
-        }}
-      }}
-
-      // 2. Dynamic Z-Ordered Renderables (Hierarchical depth sorting)
-      const renderables = [
-        // Family House (North Destination)
-        {{
-          type: 'building', id: 'house', wx: 0.0 * worldScale, wy: 10.5 * worldScale,
-          z: calculateZ(0.0 * worldScale, 10.5 * worldScale, 20000),
-          img: images.familyHouse, w: 320, h: 298, pivotY: 0.88
-        }},
-        // St. Jude Church (East Hill)
-        {{
-          type: 'building', id: 'church', wx: 6.5 * worldScale, wy: 5.0 * worldScale,
-          z: calculateZ(6.5 * worldScale, 5.0 * worldScale, 20000),
-          img: images.church, w: 280, h: 370, pivotY: 0.90
-        }},
-        // Cottage 01 (West)
-        {{
-          type: 'building', id: 'cottage1', wx: -5.5 * worldScale, wy: 4.5 * worldScale,
-          z: calculateZ(-5.5 * worldScale, 4.5 * worldScale, 20000),
-          img: images.cottage01, w: 260, h: 244, pivotY: 0.88
-        }},
-        // Cottage 02 (West Shack)
-        {{
-          type: 'building', id: 'cottage2', wx: -5.5 * worldScale, wy: 8.5 * worldScale,
-          z: calculateZ(-5.5 * worldScale, 8.5 * worldScale, 20000),
-          img: images.cottage02, w: 240, h: 270, pivotY: 0.88
-        }},
-        // Cemetery Iron Gate
-        {{
-          type: 'prop', id: 'gate', wx: 4.2 * worldScale, wy: 5.0 * worldScale,
-          z: calculateZ(4.2 * worldScale, 5.0 * worldScale, 30000),
-          img: images.ironGate, w: 160, h: 100, pivotY: 0.90
-        }},
-        // Ancient Stone Well (Center Plaza)
-        {{
-          type: 'prop', id: 'well', wx: 0.0 * worldScale, wy: 6.0 * worldScale,
-          z: calculateZ(0.0 * worldScale, 6.0 * worldScale, 30000),
-          img: images.well, w: 100, h: 112, pivotY: 0.85
-        }},
-        // Victorian Street Lamps
-        {{
-          type: 'prop', id: 'lamp1', wx: 1.2 * worldScale, wy: 2.5 * worldScale,
-          z: calculateZ(1.2 * worldScale, 2.5 * worldScale, 30000),
-          img: images.lampPost, w: 38, h: 96, pivotY: 0.95
-        }},
-        {{
-          type: 'prop', id: 'lamp2', wx: -1.2 * worldScale, wy: 5.5 * worldScale,
-          z: calculateZ(-1.2 * worldScale, 5.5 * worldScale, 30000),
-          img: images.lampPost, w: 38, h: 96, pivotY: 0.95
-        }},
-        {{
-          type: 'prop', id: 'lamp3', wx: -1.2 * worldScale, wy: 8.5 * worldScale,
-          z: calculateZ(-1.2 * worldScale, 8.5 * worldScale, 30000),
-          img: images.lampPost, w: 38, h: 96, pivotY: 0.95
-        }},
-        // Pine Trees & Border Vegetation
-        {{
-          type: 'prop', id: 'pine1', wx: 8.5 * worldScale, wy: 3.5 * worldScale,
-          z: calculateZ(8.5 * worldScale, 3.5 * worldScale, 30000),
-          img: images.pineTree, w: 90, h: 86, pivotY: 0.90
-        }},
-        {{
-          type: 'prop', id: 'pine2', wx: 5.5 * worldScale, wy: 3.0 * worldScale,
-          z: calculateZ(5.5 * worldScale, 3.0 * worldScale, 30000),
-          img: images.pineTree, w: 85, h: 80, pivotY: 0.90
-        }},
-        {{
-          type: 'prop', id: 'pine3', wx: -7.0 * worldScale, wy: 3.0 * worldScale,
-          z: calculateZ(-7.0 * worldScale, 3.0 * worldScale, 30000),
-          img: images.pineTree, w: 95, h: 90, pivotY: 0.90
-        }},
-        {{
-          type: 'prop', id: 'dead1', wx: 7.2 * worldScale, wy: 6.8 * worldScale,
-          z: calculateZ(7.2 * worldScale, 6.8 * worldScale, 30000),
-          img: images.deadTree, w: 80, h: 132, pivotY: 0.90
-        }},
-        {{
-          type: 'prop', id: 'dead2', wx: 2.2 * worldScale, wy: 10.0 * worldScale,
-          z: calculateZ(2.2 * worldScale, 10.0 * worldScale, 30000),
-          img: images.deadTree, w: 80, h: 132, pivotY: 0.90
-        }},
-        // Perimeter Cliffs
-        {{
-          type: 'prop', id: 'cliff1', wx: -3.5 * worldScale, wy: 12.5 * worldScale,
-          z: calculateZ(-3.5 * worldScale, 12.5 * worldScale, 20000),
-          img: images.cliff, w: 220, h: 260, pivotY: 0.90
-        }},
-        {{
-          type: 'prop', id: 'cliff2', wx: 4.0 * worldScale, wy: 12.0 * worldScale,
-          z: calculateZ(4.0 * worldScale, 12.0 * worldScale, 20000),
-          img: images.cliff, w: 220, h: 260, pivotY: 0.90
-        }},
-        // Alex Character (Ground contact Z-order)
-        {{
-          type: 'alex', id: 'alex', wx: alex.wx, wy: alex.wy,
-          z: calculateZ(alex.wx, alex.wy, 40000)
-        }}
-      ];
-
-      // Sort by Z-Order strictly
-      renderables.sort((a, b) => a.z - b.z);
-
-      for (const r of renderables) {{
-        const pt = worldToScreen(r.wx, r.wy);
-
-        if (r.type === 'alex') {{
-          // Ground contact shadow
-          ctx.beginPath();
-          ctx.ellipse(pt.x, pt.y - 1, 10, 3.5, 0, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
-          ctx.fill();
-
-          // Render Alex with genuine 4-way direction sprite
-          const dx = pt.x - alex.w / 2;
-          const dy = pt.y - alex.h;
-
-          let charImg = images.idleSE;
-          if (alex.state === 'IDLE') {{
-            if (alex.orientation === 'SW') charImg = images.idleSW;
-            else if (alex.orientation === 'NE') charImg = images.idleNE;
-            else if (alex.orientation === 'NW') charImg = images.idleNW;
-            else charImg = images.idleSE;
-          }} else if (alex.state === 'WALK') {{
-            if (alex.orientation === 'SW') charImg = images.walkSW;
-            else if (alex.orientation === 'NE') charImg = images.walkNE;
-            else if (alex.orientation === 'NW') charImg = images.walkNW;
-            else charImg = images.walkSE;
-          }} else if (alex.state === 'RUN') {{
-            if (alex.orientation === 'SW') charImg = images.runSW;
-            else if (alex.orientation === 'NE') charImg = images.runNE;
-            else if (alex.orientation === 'NW') charImg = images.runNW;
-            else charImg = images.runSE;
-          }}
-
-          if (charImg && charImg.complete && charImg.naturalWidth > 0) {{
-            ctx.drawImage(charImg, dx, dy, alex.w, alex.h);
-          }} else {{
-            // Fallback silhouette
-            ctx.fillStyle = '#38BDF8';
-            ctx.fillRect(dx, dy, alex.w, alex.h);
-          }}
-
-          if (isDebug) {{
-            // Debug Hitbox
-            ctx.strokeStyle = '#38BDF8';
-            ctx.lineWidth = 1.5;
-            ctx.strokeRect(dx, dy, alex.w, alex.h);
-          }}
-        }} else if (r.img && r.img.complete && r.img.naturalWidth > 0) {{
-          const dx = pt.x - r.w / 2;
-          const dy = pt.y - r.h * r.pivotY;
-          ctx.drawImage(r.img, dx, dy, r.w, r.h);
-
-          if (isDebug) {{
-            ctx.strokeStyle = r.type === 'building' ? 'rgba(239, 68, 68, 0.7)' : 'rgba(234, 179, 8, 0.7)';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(dx, dy, r.w, r.h);
-          }}
-        }}
-      }}
-
-      // 3. Falling Snowflakes
-      for (const f of snowflakes) {{
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(241, 245, 249, ${{f.alpha}})`;
-        ctx.fill();
-      }}
-
-      ctx.restore();
-    }}
-
-    // 11. Responsive Canvas Resize
-    function resize() {{
-      canvas.width = window.innerWidth * window.devicePixelRatio;
-      canvas.height = window.innerHeight * window.devicePixelRatio;
-    }}
-    window.addEventListener('resize', resize);
-    resize();
-
-    // 12. Dev & Debug Actions
     function toggleDebug() {{
       isDebug = !isDebug;
       document.getElementById('debug-toggle').classList.toggle('active', isDebug);
@@ -1021,48 +754,42 @@ def build():
     }}
 
     function zoomCam(delta) {{
-      camera.zoom = Math.max(0.85, Math.min(camera.zoom + delta, 1.6));
-    }}
-
-    function toggleSprint() {{
-      alex.isSprinting = !alex.isSprinting;
-      document.getElementById('sprint-btn').classList.toggle('active', alex.isSprinting);
+      camera.zoom = Math.max(0.85, Math.min(1.6, camera.zoom + delta));
     }}
 
     function showToast(msg) {{
       const t = document.getElementById('notification');
       t.textContent = msg;
       t.style.display = 'block';
-      setTimeout(() => {{ t.style.display = 'none'; }}, 3000);
+      setTimeout(() => {{ t.style.display = 'none'; }}, 2800);
     }}
 
     function saveGame() {{
-      const saveObj = {{
-        save_id: 'slot_01_village',
-        chapter: 1,
-        map: 'VILLAGE_ABANDONED',
-        alex: {{ wx: alex.wx, wy: alex.wy, orient: alex.orientation }},
+      const saveState = {{
+        wx: alex.wx / worldScale,
+        wy: alex.wy / worldScale,
+        orient: alex.orientation,
         timestamp: Date.now()
       }};
-      localStorage.setItem('echo_save_slot', JSON.stringify(saveObj));
-      showToast('Game saved locally (100% Offline)');
+      localStorage.setItem('echo_save_village', JSON.stringify(saveState));
+      showToast('Progression sauvegardée dans le repository local !');
     }}
 
     function loadGame() {{
-      const raw = localStorage.getItem('echo_save_slot');
+      const raw = localStorage.getItem('echo_save_village');
       if (raw) {{
-        const saveObj = JSON.parse(raw);
-        alex.wx = saveObj.alex.wx;
-        alex.wy = saveObj.alex.wy;
-        alex.orientation = saveObj.alex.orient;
+        const saveState = JSON.parse(raw);
+        alex.wx = saveState.wx * worldScale;
+        alex.wy = saveState.wy * worldScale;
+        alex.orientation = saveState.orient || 'NW';
         document.getElementById('hud-orient').textContent = alex.orientation;
-        showToast('Game state restored');
+        showToast('Partie chargée avec succès !');
       }} else {{
-        showToast('No local save found');
+        showToast('Aucune sauvegarde locale trouvée.');
       }}
     }}
 
-    // 13. AlexDirectionTestScene Logic
+    // 8b. AlexDirectionTestScene Logic
     let testSceneOpen = false;
     let testSceneState = 'IDLE';
     let testSceneOrient = 'SE';
@@ -1138,11 +865,388 @@ def build():
     function toggleTestAutoRotate() {{
       testAutoRotate = !testAutoRotate;
       const btn = document.getElementById('btn-toggle-autorotate');
-      btn.textContent = testAutoRotate ? 'Auto-Rotation: ACTIF' : 'Auto-Rotation: PAUSE';
+      btn.textContent = 'Auto-Rotation: ' + (testAutoRotate ? 'ACTIF' : 'PAUSE');
       btn.style.background = testAutoRotate ? '#10B981' : '#64748B';
     }}
 
-    // Start engine loop
+    // 9. Weather Snow Particles
+    const snowflakes = [];
+    for (let i = 0; i < 80; i++) {{
+      snowflakes.push({{
+        x: (Math.random() - 0.5) * 1600,
+        y: (Math.random() - 0.5) * 1200,
+        vx: -30 - Math.random() * 40,
+        vy: 40 + Math.random() * 50,
+        size: 1.0 + Math.random() * 2.0,
+        alpha: 0.3 + Math.random() * 0.5
+      }});
+    }}
+
+    // 10. Main Game Loop
+    let lastTime = performance.now();
+
+    function resizeCanvas() {{
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      ctx.imageSmoothingEnabled = false;
+    }}
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function gameLoop(now) {{
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      // Movement Input
+      let moveX = inputX;
+      let moveY = inputY;
+
+      if (keys['w'] || keys['arrowup']) moveY -= 1;
+      if (keys['s'] || keys['arrowdown']) moveY += 1;
+      if (keys['a'] || keys['arrowleft']) moveX -= 1;
+      if (keys['d'] || keys['arrowright']) moveX += 1;
+
+      const len = Math.hypot(moveX, moveY);
+      
+      if (len < 0.10) {{
+        alex.state = 'IDLE';
+      }} else {{
+        const normX = moveX / len;
+        const normY = moveY / len;
+
+        const angle = Math.atan2(normY, normX);
+        if (angle >= 0 && angle < Math.PI / 2) alex.orientation = 'SE';
+        else if (angle >= Math.PI / 2 && angle <= Math.PI) alex.orientation = 'SW';
+        else if (angle >= -Math.PI && angle < -Math.PI / 2) alex.orientation = 'NW';
+        else alex.orientation = 'NE';
+        document.getElementById('hud-orient').textContent = alex.orientation;
+
+        if (len < 0.30) {{
+          alex.state = 'IDLE';
+        }} else {{
+          const isRunning = alex.isSprinting || len > 0.72 || keys['shift'];
+          alex.state = isRunning ? 'RUN' : 'WALK';
+          const speed = (isRunning ? 4.8 : 2.4) * worldScale;
+
+          const worldDx = (normX + normY) * speed * dt * 0.707;
+          const worldDy = (-normX + normY) * speed * dt * 0.707;
+
+          const resolved = resolveMovement(alex.wx, alex.wy, alex.wx + worldDx, alex.wy + worldDy, 0.28 * worldScale);
+          alex.wx = resolved.x;
+          alex.wy = resolved.y;
+        }}
+      }}
+
+      // Camera Follow with dynamic viewport clamping
+      const alexScreen = worldToScreen(alex.wx, alex.wy);
+      const halfW = (canvas.width / (2 * window.devicePixelRatio)) / camera.zoom;
+      const halfH = (canvas.height / (2 * window.devicePixelRatio)) / camera.zoom;
+
+      const minAllowedX = camera.minX + halfW;
+      const maxAllowedX = camera.maxX - halfW;
+      const targetCamX = minAllowedX < maxAllowedX ? Math.max(minAllowedX, Math.min(alexScreen.x, maxAllowedX)) : 0;
+
+      const minAllowedY = camera.minY + halfH;
+      const maxAllowedY = camera.maxY - halfH;
+      const targetCamY = minAllowedY < maxAllowedY ? Math.max(minAllowedY, Math.min(alexScreen.y, maxAllowedY)) : 100;
+
+      camera.x += (targetCamX - camera.x) * Math.min(5.5 * dt, 1.0);
+      camera.y += (targetCamY - camera.y) * Math.min(5.5 * dt, 1.0);
+
+      // Weather update
+      for (const f of snowflakes) {{
+        f.y += f.vy * dt;
+        f.x += f.vx * dt;
+        if (f.y > 800) {{ f.y = -600; f.x = (Math.random() - 0.5) * 1600; }}
+        if (f.x < -800) f.x = 800;
+      }}
+
+      // POI Check
+      let activePOI = null;
+      for (const poi of pois) {{
+        const px = poi.baseWx * worldScale;
+        const py = poi.baseWy * worldScale;
+        const pr = poi.baseR * worldScale;
+        const dx = alex.wx - px;
+        const dy = alex.wy - py;
+        if (dx * dx + dy * dy <= pr * pr) {{
+          activePOI = poi;
+          break;
+        }}
+      }}
+
+      const locTitle = document.getElementById('loc-title');
+      const promptBadge = document.getElementById('prompt-badge');
+      const promptText = document.getElementById('prompt-text');
+
+      if (activePOI) {{
+        locTitle.textContent = activePOI.name;
+        promptBadge.style.display = 'inline-flex';
+        promptText.textContent = activePOI.prompt;
+      }} else {{
+        locTitle.textContent = "LE VILLAGE ABANDONNÉ";
+        promptBadge.style.display = 'none';
+      }}
+
+      if (isDebug) {{
+        document.getElementById('dbg-pos').textContent = `Alex: [${{(alex.wx / worldScale).toFixed(2)}}, ${{(alex.wy / worldScale).toFixed(2)}}]`;
+        document.getElementById('dbg-state').textContent = `State: ${{alex.state}} (${{alex.orientation}}) | Z: ${{calculateZ(alex.wx, alex.wy)}}`;
+        document.getElementById('dbg-poi').textContent = `POI: ${{activePOI ? activePOI.id : 'NONE'}}`;
+        document.getElementById('dbg-cam').textContent = `Cam: [${{camera.x.toFixed(0)}}, ${{camera.y.toFixed(0)}}] | Zoom: ${{camera.zoom.toFixed(2)}}`;
+      }}
+
+      render(now);
+      requestAnimationFrame(gameLoop);
+    }}
+
+    function render(now) {{
+      // Deep winter night tone
+      ctx.fillStyle = '#0E1626';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.scale(camera.zoom * window.devicePixelRatio, camera.zoom * window.devicePixelRatio);
+      ctx.translate(-camera.x, -camera.y);
+
+      // 1. Multi-Zone Ground Layer (Reconstructed matching Map village .png)
+      const gridR = Math.ceil(26 * worldScale);
+      for (let x = -gridR; x <= gridR; x++) {{
+        for (let y = -gridR; y <= gridR; y++) {{
+          const pos = worldToScreen(x, y);
+
+          // Topologic zone classification
+          const isBridge = (Math.abs(x - y) <= 1.2 * worldScale) && ((x + y) >= 8.0 * worldScale) && ((x + y) <= 15.5 * worldScale);
+          const isLeftDock = Math.hypot(x - 2.0 * worldScale, y - 8.5 * worldScale) <= (1.8 * worldScale);
+          const isRightDock = Math.hypot(x - 6.0 * worldScale, y - 6.0 * worldScale) <= (1.8 * worldScale);
+          const isRiver = ((x + y) >= 10.0 * worldScale) && !isBridge && !isLeftDock && !isRightDock;
+          const isPlaza = Math.hypot(x, y) <= (2.6 * worldScale);
+          const isMainRoad = (Math.abs(x - y) <= 1.2 * worldScale) && ((x + y) >= 0.0) && ((x + y) <= 9.5 * worldScale);
+          const isChurchPath = (x >= 0.0 && x <= 5.5 * worldScale && y <= 0.0 && y >= -8.5 * worldScale) &&
+                               (Math.abs(y - (-1.8 * x)) / 2.06 <= 1.4 * worldScale);
+          const isMarketStreet = (x >= 0.0 && x <= 9.5 * worldScale && y >= -2.5 * worldScale && y <= 1.8 * worldScale);
+          const isFarmRoad = (x <= 0.0 && x >= -9.0 * worldScale && y >= -4.5 * worldScale && y <= 2.5 * worldScale);
+          const isWatermillTrail = (y >= 2.0 * worldScale && y <= 9.5 * worldScale && x <= 4.5 * worldScale && x >= -3.5 * worldScale);
+          const isFarmField = (x <= -4.0 * worldScale && x >= -7.5 * worldScale && y <= -1.5 * worldScale && y >= -5.5 * worldScale);
+
+          let tileImg = images.snowSlab;
+          if (isRiver) {{
+            tileImg = images.iceSlab;
+          }} else if (isBridge || isLeftDock || isRightDock) {{
+            tileImg = images.slabVar;
+          }} else if (isPlaza || isMainRoad || isChurchPath || isMarketStreet || isFarmRoad || isWatermillTrail) {{
+            tileImg = ((x + y) % 2 === 0) ? images.slab : images.slabVar;
+          }} else if (isFarmField) {{
+            tileImg = images.snowSlab;
+          }}
+
+          if (tileImg && tileImg.complete && tileImg.naturalWidth > 0) {{
+            ctx.drawImage(tileImg, pos.x - HALF_W, pos.y - HALF_H, TILE_W + 1, TILE_H + 1);
+          }} else {{
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y - HALF_H);
+            ctx.lineTo(pos.x + HALF_W, pos.y);
+            ctx.lineTo(pos.x, pos.y + HALF_H);
+            ctx.lineTo(pos.x - HALF_W, pos.y);
+            ctx.closePath();
+            ctx.fillStyle = isRiver ? '#0F172A' : (isPlaza ? '#334155' : (isBridge ? '#78350F' : '#1A232E'));
+            ctx.fill();
+          }}
+        }}
+      }}
+
+      // 2. Dynamic Z-Ordered Renderables (Reconstructed Buildings, Props, NPCs, and Alex)
+      const renderables = [
+        // --- BUILDINGS ---
+        // St. Jude Church (NE Hill)
+        {{ type: 'building', id: 'church', wx: 3.5 * worldScale, wy: -7.5 * worldScale, z: calculateZ(3.5 * worldScale, -7.5 * worldScale, 20000), img: images.church, w: 280, h: 370, pivotY: 0.90 }},
+        // Miller Family House (North Cottage)
+        {{ type: 'building', id: 'house', wx: -1.5 * worldScale, wy: -5.0 * worldScale, z: calculateZ(-1.5 * worldScale, -5.0 * worldScale, 20000), img: images.familyHouse, w: 320, h: 298, pivotY: 0.88 }},
+        // Watermill on cliff (SW)
+        {{ type: 'building', id: 'watermill', wx: -2.5 * worldScale, wy: 8.5 * worldScale, z: calculateZ(-2.5 * worldScale, 8.5 * worldScale, 20000), img: images.watermill, w: 260, h: 244, pivotY: 0.88 }},
+        // Windmill on west ridge
+        {{ type: 'building', id: 'windmill', wx: -8.5 * worldScale, wy: -2.0 * worldScale, z: calculateZ(-8.5 * worldScale, -2.0 * worldScale, 20000), img: images.windmill, w: 240, h: 270, pivotY: 0.88 }},
+        // West Cottage (Blacksmith)
+        {{ type: 'building', id: 'cottage_west', wx: -4.0 * worldScale, wy: -0.5 * worldScale, z: calculateZ(-4.0 * worldScale, -0.5 * worldScale, 20000), img: images.cottageWest, w: 220, h: 205, pivotY: 0.88 }},
+        // South Cottage (Fisherman)
+        {{ type: 'building', id: 'cottage_south', wx: -2.2 * worldScale, wy: 1.8 * worldScale, z: calculateZ(-2.2 * worldScale, 1.8 * worldScale, 20000), img: images.cottageSouth, w: 230, h: 180, pivotY: 0.88 }},
+        // Far West Cottage (Forester)
+        {{ type: 'building', id: 'cottage_far_west', wx: -5.5 * worldScale, wy: 2.0 * worldScale, z: calculateZ(-5.5 * worldScale, 2.0 * worldScale, 20000), img: images.cottageFarWest, w: 210, h: 188, pivotY: 0.88 }},
+        // Riverside Cottage (Guardhouse)
+        {{ type: 'building', id: 'riverside_cottage', wx: 5.5 * worldScale, wy: 3.0 * worldScale, z: calculateZ(5.5 * worldScale, 3.0 * worldScale, 20000), img: images.riversideCottage, w: 215, h: 190, pivotY: 0.88 }},
+        // East Workshop
+        {{ type: 'building', id: 'east_workshop', wx: 6.0 * worldScale, wy: -1.5 * worldScale, z: calculateZ(6.0 * worldScale, -1.5 * worldScale, 20000), img: images.eastWorkshop, w: 200, h: 180, pivotY: 0.88 }},
+        // Sawmill
+        {{ type: 'building', id: 'sawmill', wx: 8.5 * worldScale, wy: -1.0 * worldScale, z: calculateZ(8.5 * worldScale, -1.0 * worldScale, 20000), img: images.sawmill, w: 210, h: 195, pivotY: 0.88 }},
+        // Mine Archway
+        {{ type: 'building', id: 'mine_archway', wx: -7.5 * worldScale, wy: -7.5 * worldScale, z: calculateZ(-7.5 * worldScale, -7.5 * worldScale, 20000), img: images.mineArchway, w: 170, h: 190, pivotY: 0.88 }},
+
+        // --- PROPS ---
+        // Founder Statue (Center Plaza)
+        {{ type: 'prop', id: 'statue', wx: 0.0 * worldScale, wy: 0.0 * worldScale, z: calculateZ(0.0 * worldScale, 0.0 * worldScale, 30000), img: images.statue, w: 90, h: 140, pivotY: 0.90 }},
+        // Stone Well (South of Plaza)
+        {{ type: 'prop', id: 'well', wx: 1.2 * worldScale, wy: 2.4 * worldScale, z: calculateZ(1.2 * worldScale, 2.4 * worldScale, 30000), img: images.well, w: 100, h: 112, pivotY: 0.85 }},
+        // Wooden Shrine (NW of Plaza)
+        {{ type: 'prop', id: 'shrine', wx: -1.2 * worldScale, wy: -1.8 * worldScale, z: calculateZ(-1.2 * worldScale, -1.8 * worldScale, 30000), img: images.plazaShrine, w: 80, h: 95, pivotY: 0.88 }},
+        // Market Stalls
+        {{ type: 'prop', id: 'stall1', wx: 4.5 * worldScale, wy: -0.5 * worldScale, z: calculateZ(4.5 * worldScale, -0.5 * worldScale, 30000), img: images.marketStall01, w: 130, h: 115, pivotY: 0.88 }},
+        {{ type: 'prop', id: 'stall2', wx: 5.2 * worldScale, wy: 0.4 * worldScale, z: calculateZ(5.2 * worldScale, 0.4 * worldScale, 30000), img: images.marketStall02, w: 115, h: 105, pivotY: 0.88 }},
+        // Sawmill Crane & Logs
+        {{ type: 'prop', id: 'crane', wx: 9.5 * worldScale, wy: -1.8 * worldScale, z: calculateZ(9.5 * worldScale, -1.8 * worldScale, 30000), img: images.sawmillCrane, w: 88, h: 139, pivotY: 0.92 }},
+        {{ type: 'prop', id: 'logs', wx: 8.0 * worldScale, wy: 0.2 * worldScale, z: calculateZ(8.0 * worldScale, 0.2 * worldScale, 30000), img: images.stackedLogs, w: 103, h: 93, pivotY: 0.85 }},
+        // Cemetery Iron Gate
+        {{ type: 'prop', id: 'gate', wx: 1.8 * worldScale, wy: -3.2 * worldScale, z: calculateZ(1.8 * worldScale, -3.2 * worldScale, 30000), img: images.ironGate, w: 130, h: 85, pivotY: 0.90 }},
+        // Moored Rowboat on River Pier
+        {{ type: 'prop', id: 'boat', wx: 2.0 * worldScale, wy: 8.5 * worldScale, z: calculateZ(2.0 * worldScale, 8.5 * worldScale, 30000), img: images.boat, w: 90, h: 60, pivotY: 0.80 }},
+        // Dock Hoist
+        {{ type: 'prop', id: 'dock_crane', wx: 6.0 * worldScale, wy: 6.0 * worldScale, z: calculateZ(6.0 * worldScale, 6.0 * worldScale, 30000), img: images.dockCrane, w: 80, h: 135, pivotY: 0.90 }},
+
+        // --- STREET LAMPS (Warm Lantern Posts) ---
+        {{ type: 'prop', id: 'lamp_br1', wx: 4.2 * worldScale, wy: 4.8 * worldScale, z: calculateZ(4.2 * worldScale, 4.8 * worldScale, 30000), img: images.lampPost, w: 38, h: 96, pivotY: 0.95 }},
+        {{ type: 'prop', id: 'lamp_br2', wx: 4.8 * worldScale, wy: 4.2 * worldScale, z: calculateZ(4.8 * worldScale, 4.2 * worldScale, 30000), img: images.lampPost, w: 38, h: 96, pivotY: 0.95 }},
+        {{ type: 'prop', id: 'lamp_plz1', wx: -1.5 * worldScale, wy: -0.8 * worldScale, z: calculateZ(-1.5 * worldScale, -0.8 * worldScale, 30000), img: images.lampPost, w: 38, h: 96, pivotY: 0.95 }},
+        {{ type: 'prop', id: 'lamp_plz2', wx: 0.8 * worldScale, wy: -1.5 * worldScale, z: calculateZ(0.8 * worldScale, -1.5 * worldScale, 30000), img: images.lampPost, w: 38, h: 96, pivotY: 0.95 }},
+        {{ type: 'prop', id: 'lamp_plz3', wx: -0.8 * worldScale, wy: 1.5 * worldScale, z: calculateZ(-0.8 * worldScale, 1.5 * worldScale, 30000), img: images.lampPost, w: 38, h: 96, pivotY: 0.95 }},
+        {{ type: 'prop', id: 'lamp_plz4', wx: 1.5 * worldScale, wy: 0.8 * worldScale, z: calculateZ(1.5 * worldScale, 0.8 * worldScale, 30000), img: images.lampPost, w: 38, h: 96, pivotY: 0.95 }},
+        {{ type: 'prop', id: 'lamp_well', wx: 1.8 * worldScale, wy: 2.2 * worldScale, z: calculateZ(1.8 * worldScale, 2.2 * worldScale, 30000), img: images.lampPost, w: 38, h: 96, pivotY: 0.95 }},
+        {{ type: 'prop', id: 'lamp_ch', wx: 2.5 * worldScale, wy: -4.2 * worldScale, z: calculateZ(2.5 * worldScale, -4.2 * worldScale, 30000), img: images.lampPost, w: 38, h: 96, pivotY: 0.95 }},
+        {{ type: 'prop', id: 'lamp_mkt', wx: 3.8 * worldScale, wy: -0.4 * worldScale, z: calculateZ(3.8 * worldScale, -0.4 * worldScale, 30000), img: images.lampPost, w: 38, h: 96, pivotY: 0.95 }},
+        {{ type: 'prop', id: 'lamp_wst', wx: -1.8 * worldScale, wy: 0.6 * worldScale, z: calculateZ(-1.8 * worldScale, 0.6 * worldScale, 30000), img: images.lampPost, w: 38, h: 96, pivotY: 0.95 }},
+
+        // --- TREES ---
+        {{ type: 'prop', id: 'pine_ch1', wx: 5.0 * worldScale, wy: -8.5 * worldScale, z: calculateZ(5.0 * worldScale, -8.5 * worldScale, 30000), img: images.pineTree, w: 85, h: 145, pivotY: 0.90 }},
+        {{ type: 'prop', id: 'pine_ch2', wx: 2.0 * worldScale, wy: -9.0 * worldScale, z: calculateZ(2.0 * worldScale, -9.0 * worldScale, 30000), img: images.pineTree, w: 95, h: 160, pivotY: 0.90 }},
+        {{ type: 'prop', id: 'dead_plz', wx: 0.8 * worldScale, wy: 3.5 * worldScale, z: calculateZ(0.8 * worldScale, 3.5 * worldScale, 30000), img: images.deadTree, w: 80, h: 135, pivotY: 0.90 }},
+        {{ type: 'prop', id: 'pine_farm', wx: -7.0 * worldScale, wy: -4.5 * worldScale, z: calculateZ(-7.0 * worldScale, -4.5 * worldScale, 30000), img: images.pineTree, w: 90, h: 150, pivotY: 0.90 }},
+        {{ type: 'prop', id: 'pine_mill', wx: -3.5 * worldScale, wy: 7.0 * worldScale, z: calculateZ(-3.5 * worldScale, 7.0 * worldScale, 30000), img: images.pineTree, w: 85, h: 140, pivotY: 0.90 }},
+        {{ type: 'prop', id: 'pine_saw', wx: 10.0 * worldScale, wy: 0.5 * worldScale, z: calculateZ(10.0 * worldScale, 0.5 * worldScale, 30000), img: images.pineTree, w: 85, h: 140, pivotY: 0.90 }},
+
+        // --- NPCS ---
+        // Emma near Family House
+        {{ type: 'npc', id: 'npc_emma', name: 'Emma', wx: -1.0 * worldScale, wy: -2.5 * worldScale, z: calculateZ(-1.0 * worldScale, -2.5 * worldScale, 40000), img: images.emma, w: 26, h: 54, pivotY: 0.95 }},
+        // James near Sawmill
+        {{ type: 'npc', id: 'npc_james', name: 'James', wx: 7.0 * worldScale, wy: -0.5 * worldScale, z: calculateZ(7.0 * worldScale, -0.5 * worldScale, 40000), img: images.james, w: 28, h: 56, pivotY: 0.95 }},
+        // Michael near Church Steps
+        {{ type: 'npc', id: 'npc_michael', name: 'Michael', wx: 2.5 * worldScale, wy: -4.5 * worldScale, z: calculateZ(2.5 * worldScale, -4.5 * worldScale, 40000), img: images.michael, w: 28, h: 56, pivotY: 0.95 }},
+        // Ethan (Echo apparition near the well)
+        {{ type: 'npc', id: 'npc_ethan', name: 'Ethan (Écho)', wx: 1.2 * worldScale, wy: 2.4 * worldScale, z: calculateZ(1.2 * worldScale, 2.4 * worldScale, 40000), img: images.ethan, w: 28, h: 55, pivotY: 0.95, isEcho: true }},
+
+        // --- ALEX CHARACTER ---
+        {{
+          type: 'alex', id: 'alex', wx: alex.wx, wy: alex.wy,
+          z: calculateZ(alex.wx, alex.wy, 40000)
+        }}
+      ];
+
+      // Sort by Z-Order strictly
+      renderables.sort((a, b) => a.z - b.z);
+
+      for (const r of renderables) {{
+        const pt = worldToScreen(r.wx, r.wy);
+
+        if (r.type === 'alex') {{
+          // Ground contact shadow
+          ctx.beginPath();
+          ctx.ellipse(pt.x, pt.y - 1, 10, 3.5, 0, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+          ctx.fill();
+
+          // Render Alex with genuine 4-way direction sprite
+          const dx = pt.x - alex.w / 2;
+          const dy = pt.y - alex.h;
+
+          let spr = images.idleSE;
+          if (alex.state === 'RUN') {{
+            if (alex.orientation === 'SE') spr = images.runSE;
+            else if (alex.orientation === 'SW') spr = images.runSW;
+            else if (alex.orientation === 'NW') spr = images.runNW;
+            else if (alex.orientation === 'NE') spr = images.runNE;
+          }} else if (alex.state === 'WALK') {{
+            if (alex.orientation === 'SE') spr = images.walkSE;
+            else if (alex.orientation === 'SW') spr = images.walkSW;
+            else if (alex.orientation === 'NW') spr = images.walkNW;
+            else if (alex.orientation === 'NE') spr = images.walkNE;
+          }} else {{
+            if (alex.orientation === 'SE') spr = images.idleSE;
+            else if (alex.orientation === 'SW') spr = images.idleSW;
+            else if (alex.orientation === 'NW') spr = images.idleNW;
+            else if (alex.orientation === 'NE') spr = images.idleNE;
+          }}
+
+          if (spr && spr.complete && spr.naturalWidth > 0) {{
+            ctx.drawImage(spr, dx, dy, alex.w, alex.h);
+          }}
+
+          if (isDebug) {{
+            ctx.strokeStyle = '#38BDF8';
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(dx, dy, alex.w, alex.h);
+          }}
+        }} else if (r.type === 'npc') {{
+          // NPC Ground shadow
+          ctx.beginPath();
+          ctx.ellipse(pt.x, pt.y - 1, 9, 3.2, 0, 0, Math.PI * 2);
+          ctx.fillStyle = r.isEcho ? 'rgba(56, 189, 248, 0.3)' : 'rgba(0, 0, 0, 0.4)';
+          ctx.fill();
+
+          const dx = pt.x - r.w / 2;
+          const dy = pt.y - r.h;
+
+          if (r.isEcho) ctx.globalAlpha = 0.75;
+          if (r.img && r.img.complete && r.img.naturalWidth > 0) {{
+            ctx.drawImage(r.img, dx, dy, r.w, r.h);
+          }}
+          if (r.isEcho) ctx.globalAlpha = 1.0;
+
+          // Name badge above NPC
+          ctx.fillStyle = r.isEcho ? '#38BDF8' : '#F8FAFC';
+          ctx.font = 'bold 9px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(r.name, pt.x, dy - 4);
+        }} else {{
+          // Building or Prop
+          const pivotY = r.pivotY || 0.88;
+          const dx = pt.x - r.w / 2;
+          const dy = pt.y - r.h * pivotY;
+
+          if (r.img && r.img.complete && r.img.naturalWidth > 0) {{
+            ctx.drawImage(r.img, dx, dy, r.w, r.h);
+          }}
+
+          if (isDebug) {{
+            ctx.strokeStyle = r.type === 'building' ? 'rgba(234, 179, 8, 0.6)' : 'rgba(16, 185, 129, 0.6)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(dx, dy, r.w, r.h);
+          }}
+        }}
+      }}
+
+      // 3. Ambient Lantern Glows
+      for (const obs of obstacles) {{
+        if (obs.id && obs.id.includes('lamp')) {{
+          const lpt = worldToScreen(obs.baseWx * worldScale, obs.baseWy * worldScale);
+          const grad = ctx.createRadialGradient(lpt.x, lpt.y - 45, 2, lpt.x, lpt.y - 45, 60);
+          grad.addColorStop(0, 'rgba(253, 224, 71, 0.45)');
+          grad.addColorStop(0.5, 'rgba(245, 158, 11, 0.15)');
+          grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(lpt.x, lpt.y - 45, 60, 0, Math.PI * 2);
+          ctx.fill();
+        }}
+      }}
+
+      // 4. Foreground Falling Snowflakes
+      ctx.fillStyle = 'rgba(241, 245, 249, 0.75)';
+      for (const f of snowflakes) {{
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+        ctx.fill();
+      }}
+
+      ctx.restore();
+    }}
+
     requestAnimationFrame(gameLoop);
   </script>
 </body>
@@ -1151,7 +1255,7 @@ def build():
 
     with open(OUT_FILE, "w", encoding="utf-8") as f:
         f.write(html)
-    print(f"=== Successfully updated Phase 3.1 {OUT_FILE} ===")
+    print(f"=== Successfully updated Reconstructed Village HTML at {OUT_FILE} ===")
 
 if __name__ == "__main__":
     build()
