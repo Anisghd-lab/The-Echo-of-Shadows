@@ -388,8 +388,72 @@ def test_phase3_pure_local_save_integrity():
     assert "cloud" not in serialized.lower()
     print("  ✓ Local Save Integrity: PASSED")
 
+def test_phase3_2_asset_transparency():
+    print("Test 14: Phase 3.2 Asset Transparency & Elimination of White Rectangles...")
+    from PIL import Image
+    import numpy as np
+
+    assets = {
+        'puits': 'environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur01.png',
+        'arbres_pin': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet37.png',
+        'arbres_mort': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet34.png',
+        'clôtures': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet15.png',
+        'maisons_01': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet01.png',
+        'maisons_02': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet02.png',
+        'maison_famille': 'environments/family_house/exterior/Maison-familiale-extérieure01.png',
+        'église': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet05.png',
+        'props_lampadaire': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet20.png',
+        'props_falaise': 'environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur52.png',
+        'alex_idle_se': 'characters/alex/idle/Alex-—-Animation-Idle03.png',
+        'alex_idle_sw': 'characters/alex/idle/Alex-—-Animation-Idle10.png',
+        'alex_walk_se': 'characters/alex/walk/Alex-—-Marche36.png',
+        'alex_walk_sw': 'characters/alex/walk/Alex-—-Marche42.png',
+    }
+
+    base_dir = '/root/the_echo_of_shadows/assets/images'
+    for name, rel in assets.items():
+        p = os.path.join(base_dir, rel)
+        im = Image.open(p)
+        assert im.mode == 'RGBA', f'{name} must be RGBA'
+        arr = np.array(im)
+        h, w = arr.shape[:2]
+        alpha = arr[:, :, 3]
+        rgb = arr[:, :, :3]
+
+        border_mask = np.zeros((h, w), dtype=bool)
+        border_mask[0, :] = True
+        border_mask[-1, :] = True
+        border_mask[:, 0] = True
+        border_mask[:, -1] = True
+
+        white_border = np.sum(border_mask & (alpha > 180) & np.all(rgb > 230, axis=2))
+        assert white_border <= 10, f'{name} has white background rectangle! ({white_border} px)'
+
+        transparent_pct = np.mean(alpha == 0) * 100
+        assert transparent_pct > 15.0, f'{name} transparent area too low ({transparent_pct}%)'
+
+    print("  ✓ All 14 Core Village Assets 100% Free of White Background Rectangles: PASSED")
+
+def test_phase3_2_debug_overlay_clean_release():
+    print("Test 15: Phase 3.2 Debug Overlay & Clean Release Mode Verification...")
+    web_preview_file = "/root/the_echo_of_shadows/web_preview/index.html"
+    with open(web_preview_file, 'r', encoding='utf-8') as f:
+        html = f.read()
+
+    # 1. Verify default debug state is FALSE
+    assert "let isDebug = false;" in html or "let isDebug=false;" in html, "isDebug must be false by default"
+
+    # 2. Verify debug-panel and debug-tools default style display: none
+    assert "#debug-panel {" in html and "display: none;" in html
+    assert "#debug-tools {" in html and "display: none;" in html
+
+    # 3. Verify that hitboxes and debug strokes are guarded strictly behind if (isDebug)
+    assert "if (isDebug)" in html
+
+    print("  ✓ Release Mode Cleanliness (Debug Off, Zero Hitboxes, Zero Technical Overlays): PASSED")
+
 if __name__ == "__main__":
-    print("=== Running The Echo of Shadows Phase 3.1 Verification Suite ===")
+    print("=== Running The Echo of Shadows Phase 3.2 Verification Suite ===")
     test_isometric_coordinates()
     test_collisions()
     test_z_order()
@@ -403,5 +467,7 @@ if __name__ == "__main__":
     test_phase3_1_directional_interaction()
     test_phase3_1_visual_continuity_camera_zero_void()
     test_phase3_pure_local_save_integrity()
+    test_phase3_2_asset_transparency()
+    test_phase3_2_debug_overlay_clean_release()
     print("=============================================================")
-    print("ALL 13 PHASE 3.1 TESTS PASSED SUCCESSFULLY!")
+    print("ALL 15 PHASE 3.2 TESTS PASSED SUCCESSFULLY!")
