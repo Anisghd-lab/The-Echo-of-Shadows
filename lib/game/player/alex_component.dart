@@ -61,18 +61,30 @@ class AlexComponent extends PositionComponent with HasGameRef {
     );
 
     // 2. Render active Alex sprite
-    final sprite = animationController.getCurrentSprite(
+    final renderInfo = animationController.getCurrentRenderInfo(
       state: controller.state,
       orientation: controller.orientation,
       runningTime: _runningTime,
     );
 
-    if (sprite != null) {
-      sprite.render(
-        canvas,
-        position: Vector2.zero(),
-        size: size,
-      );
+    if (renderInfo.sprite != null) {
+      if (renderInfo.isFlipped) {
+        canvas.save();
+        canvas.translate(size.x, 0);
+        canvas.scale(-1.0, 1.0);
+        renderInfo.sprite!.render(
+          canvas,
+          position: Vector2.zero(),
+          size: size,
+        );
+        canvas.restore();
+      } else {
+        renderInfo.sprite!.render(
+          canvas,
+          position: Vector2.zero(),
+          size: size,
+        );
+      }
     } else {
       // Fallback debug silhouette
       final debugPaint = Paint()..color = const Color(0xFF3B82F6);

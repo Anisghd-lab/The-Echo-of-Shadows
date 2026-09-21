@@ -109,11 +109,11 @@ class GameAssetRegistry {
   // Canonical Static Asset IDs for Phase 2 Gameplay
   // ===========================================================================
   
-  // Alex Character & Animations (4-Way 360° Rotations)
+  // Alex Character & Animations (4-Way 360° Rotations) - Phase 3.3 Verified Canonical Set
   static const String alexIdleSE = 'alex_animation_idle03';
-  static const String alexIdleSW = 'alex_animation_idle10';
-  static const String alexIdleNE = 'alex_animation_idle06';
-  static const String alexIdleNW = 'alex_animation_idle07';
+  static const String alexIdleSW = 'alex_animation_idle03_fallback';
+  static const String alexIdleNE = 'alex_animation_idle22';
+  static const String alexIdleNW = 'alex_animation_idle22_fallback';
 
   static const String alexWalkStrip = 'alex_marche01';
   static const String alexWalkSE = 'alex_marche36';
@@ -123,15 +123,15 @@ class GameAssetRegistry {
 
   static const String alexRunStrip = 'alex_course01';
   static const String alexRunSE = 'alex_course11';
-  static const String alexRunSW = 'alex_course40';
+  static const String alexRunSW = 'alex_course11_fallback';
   static const String alexRunNE = 'alex_course10';
-  static const String alexRunNW = 'alex_course26';
+  static const String alexRunNW = 'alex_course10_fallback';
 
   static const String alexInteraction = 'alex_interaction01';
   static const String alexInteractSE = 'alex_interaction01';
-  static const String alexInteractSW = 'alex_interaction14';
+  static const String alexInteractSW = 'alex_interaction01_fallback';
   static const String alexInteractNE = 'alex_interaction28';
-  static const String alexInteractNW = 'alex_interaction64';
+  static const String alexInteractNW = 'alex_interaction28_fallback';
   static const String alexPortrait = 'alex_animation_idle02';
 
   // Village Buildings & Exterior
@@ -189,11 +189,11 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexIdleSW,
-        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle10.png',
+        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle03.png',
         type: AssetType.characterAnimation,
         category: 'alex',
-        width: 130,
-        height: 295,
+        width: 139,
+        height: 296,
         pivotX: 0.5,
         pivotY: 0.95,
         orientation: 'SW',
@@ -203,11 +203,11 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexIdleNE,
-        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle06.png',
+        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle22.png',
         type: AssetType.characterAnimation,
         category: 'alex',
-        width: 134,
-        height: 295,
+        width: 131,
+        height: 286,
         pivotX: 0.5,
         pivotY: 0.95,
         orientation: 'NE',
@@ -217,11 +217,11 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexIdleNW,
-        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle07.png',
+        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle22.png',
         type: AssetType.characterAnimation,
         category: 'alex',
-        width: 128,
-        height: 287,
+        width: 131,
+        height: 286,
         pivotX: 0.5,
         pivotY: 0.95,
         orientation: 'NW',
@@ -302,11 +302,11 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexRunSW,
-        path: 'assets/images/characters/alex/run/Alex-—-Course40.png',
+        path: 'assets/images/characters/alex/run/Alex-—-Course11.png',
         type: AssetType.characterAnimation,
         category: 'alex',
-        width: 164,
-        height: 179,
+        width: 97,
+        height: 174,
         orientation: 'SW',
       ),
       const AssetEntry(
@@ -320,11 +320,11 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexRunNW,
-        path: 'assets/images/characters/alex/run/Alex-—-Course26.png',
+        path: 'assets/images/characters/alex/run/Alex-—-Course10.png',
         type: AssetType.characterAnimation,
         category: 'alex',
-        width: 146,
-        height: 146,
+        width: 96,
+        height: 183,
         orientation: 'NW',
       ),
 
@@ -340,11 +340,11 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexInteractSW,
-        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction14.png',
+        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction01.png',
         type: AssetType.characterAnimation,
         category: 'alex',
-        width: 79,
-        height: 174,
+        width: 108,
+        height: 128,
         orientation: 'SW',
       ),
       const AssetEntry(
@@ -358,11 +358,11 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexInteractNW,
-        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction64.png',
+        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction28.png',
         type: AssetType.characterAnimation,
         category: 'alex',
-        width: 76,
-        height: 87,
+        width: 77,
+        height: 141,
         orientation: 'NW',
       ),
 
