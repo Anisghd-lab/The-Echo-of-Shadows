@@ -5,19 +5,30 @@ import 'package:flutter/material.dart';
 class TouchInputController extends ChangeNotifier {
   double _inputX = 0.0;
   double _inputY = 0.0;
+  bool _isTurnOnly = false;
 
   double get inputX => _inputX;
   double get inputY => _inputY;
+  bool get isTurnOnly => _isTurnOnly;
 
-  void setInput(double x, double y) {
+  double get magnitude => math.sqrt(_inputX * _inputX + _inputY * _inputY);
+
+  void setInput(double x, double y, {bool turnOnly = false}) {
     _inputX = x.clamp(-1.0, 1.0);
     _inputY = y.clamp(-1.0, 1.0);
+    _isTurnOnly = turnOnly;
+    notifyListeners();
+  }
+
+  void setTurnOnly(bool val) {
+    _isTurnOnly = val;
     notifyListeners();
   }
 
   void reset() {
     _inputX = 0.0;
     _inputY = 0.0;
+    _isTurnOnly = false;
     notifyListeners();
   }
 }

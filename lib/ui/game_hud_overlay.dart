@@ -279,48 +279,112 @@ class _GameHUDOverlayState extends State<GameHUDOverlay> {
           ),
 
           // ===================================================================
-          // 5. Mobile Sprint Toggle Button
+          // 5. Mobile Sprint & 360° In-Place Rotation Controls
           // ===================================================================
           Positioned(
-            bottom: 28,
+            bottom: 24,
             right: 24,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _runLocked = !_runLocked;
-                });
-              },
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                decoration: BoxDecoration(
-                  color: _runLocked ? const Color(0xCCDC2626) : const Color(0x801E293B),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: _runLocked ? const Color(0xFFEF4444) : const Color(0x3394A3B8),
-                  ),
-                ),
-                child: Row(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                // In-place 360° turn buttons
+                Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      _runLocked ? Icons.directions_run : Icons.directions_walk,
-                      color: Colors.white,
-                      size: 16,
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          widget.game.villageWorld.playerController.rotateCounterClockwise();
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0x801E293B),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: const Color(0x3394A3B8)),
+                        ),
+                        child: const Icon(Icons.rotate_left, color: Colors.white, size: 18),
+                      ),
                     ),
-                    const SizedBox(width: 4),
-                    Text(
-                      _runLocked ? "SPRINT" : "WALK",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.5,
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xB30F172A),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: const Color(0x3338BDF8)),
+                      ),
+                      child: Text(
+                        pc.orientation,
+                        style: const TextStyle(
+                          color: Color(0xFF38BDF8),
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          widget.game.villageWorld.playerController.rotateClockwise();
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0x801E293B),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: const Color(0x3394A3B8)),
+                        ),
+                        child: const Icon(Icons.rotate_right, color: Colors.white, size: 18),
                       ),
                     ),
                   ],
                 ),
-              ),
+                const SizedBox(height: 8),
+                // Sprint button
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _runLocked = !_runLocked;
+                    });
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: _runLocked ? const Color(0xCCDC2626) : const Color(0x801E293B),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: _runLocked ? const Color(0xFFEF4444) : const Color(0x3394A3B8),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          _runLocked ? Icons.directions_run : Icons.directions_walk,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          _runLocked ? "SPRINT" : "WALK",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

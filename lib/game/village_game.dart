@@ -64,11 +64,14 @@ class VillageGame extends FlameGame with KeyboardEvents {
 
     cameraController = IsometricCameraController(
       camera: camera,
-      minBounds: Vector2(-850, -380),
-      maxBounds: Vector2(750, 780),
+      minBounds: Vector2(-1600, -850),
+      maxBounds: Vector2(1600, 1150),
       zoomLevel: 1.15,
     );
   }
+
+  @override
+  Color backgroundColor() => const Color(0xFF121B28); // Atmospheric deep winter night blue
 
   @override
   void update(double dt) {
@@ -77,9 +80,20 @@ class VillageGame extends FlameGame with KeyboardEvents {
     // 1. Combine Touch Input + Keyboard Input
     double inputX = touchController.inputX;
     double inputY = touchController.inputY;
+    bool turnOnly = touchController.isTurnOnly;
 
     // Keyboard overrides or supplements touch
     if (_pressedKeys.isNotEmpty) {
+      // In-place rotation keys: Q (Counter-Clockwise) and E (Clockwise)
+      if (_pressedKeys.contains(LogicalKeyboardKey.keyQ)) {
+        villageWorld.playerController.rotateCounterClockwise();
+        _pressedKeys.remove(LogicalKeyboardKey.keyQ);
+      }
+      if (_pressedKeys.contains(LogicalKeyboardKey.keyE)) {
+        villageWorld.playerController.rotateClockwise();
+        _pressedKeys.remove(LogicalKeyboardKey.keyE);
+      }
+
       double kx = 0;
       double ky = 0;
       if (_pressedKeys.contains(LogicalKeyboardKey.keyA) ||
@@ -109,11 +123,12 @@ class VillageGame extends FlameGame with KeyboardEvents {
       }
     }
 
-    // 2. Update Alex movement & animation state
+    // 2. Update Alex movement & animation state (with in-place rotation support)
     villageWorld.playerController.update(
       inputX: inputX,
       inputY: inputY,
       dt: dt,
+      turnOnly: turnOnly,
     );
 
     // 3. Update Camera following Alex

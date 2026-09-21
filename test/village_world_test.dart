@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:test/test.dart';
 import '../lib/game/player/player_controller.dart';
+import '../lib/game/player/player_orientation_controller.dart';
 import '../lib/game/world/asset_registry.dart';
 import '../lib/game/world/collision_box.dart';
 import '../lib/game/world/isometric_coordinates.dart';
@@ -226,6 +227,92 @@ void main() {
       // Far away in deep forest (12.0, 12.0)
       final inDeepForest = VillagePOIRegistry.findActivePOI(12.0, 12.0);
       expect(inDeepForest, isNull);
+    });
+  });
+
+  group('8. Phase 3.1 360° Rotation & Orientation Controller Tests', () {
+    test('Clockwise 360° rotation cycle: SE -> SW -> NW -> NE -> SE', () {
+      final orient = PlayerOrientationController(initialOrientation: 'SE');
+      expect(orient.orientation, equals('SE'));
+
+      expect(orient.rotateClockwise(), equals('SW'));
+      expect(orient.rotateClockwise(), equals('NW'));
+      expect(orient.rotateClockwise(), equals('NE'));
+      expect(orient.rotateClockwise(), equals('SE'));
+    });
+
+    test('Counter-clockwise 360° rotation cycle: SE -> NE -> NW -> SW -> SE', () {
+      final orient = PlayerOrientationController(initialOrientation: 'SE');
+      expect(orient.orientation, equals('SE'));
+
+      expect(orient.rotateCounterClockwise(), equals('NE'));
+      expect(orient.rotateCounterClockwise(), equals('NW'));
+      expect(orient.rotateCounterClockwise(), equals('SW'));
+      expect(orient.rotateCounterClockwise(), equals('SE'));
+    });
+
+    test('In-place rotation leaves Alex world coordinates strictly unchanged', () {
+      final colManager = CollisionManager();
+      final player = PlayerController(
+        worldX: 3.5,
+        worldY: 7.2,
+        orientation: 'SE',
+        collisionManager: colManager,
+      );
+
+      // Perform full 360° rotation in-place
+      player.rotateClockwise();
+      expect(player.orientation, equals('SW'));
+      expect(player.worldX, equals(3.5));
+      expect(player.worldY, equals(7.2));
+
+      player.rotateClockwise();
+      expect(player.orientation, equals('NW'));
+      expect(player.worldX, equals(3.5));
+      expect(player.worldY, equals(7.2));
+
+      player.rotateClockwise();
+      expect(player.orientation, equals('NE'));
+      expect(player.worldX, equals(3.5));
+      expect(player.worldY, equals(7.2));
+
+      player.rotateClockwise();
+      expect(player.orientation, equals('SE'));
+      expect(player.worldX, equals(3.5));
+      expect(player.worldY, equals(7.2));
+    });
+
+    test('Low joystick magnitude rotates Alex without moving (turn-in-place zone)', () {
+      final colManager = CollisionManager();
+      final player = PlayerController(
+        worldX: 1.0,
+        worldY: 1.0,
+        orientation: 'SE',
+        collisionManager: colManager,
+      );
+
+      // Joystick directed towards SW (-1.0, 1.0) with small magnitude (0.20 < walkThreshold 0.30)
+      player.update(inputX: -0.14, inputY: 0.14, dt: 0.1);
+      expect(player.orientation, equals('SW'));
+      expect(player.worldX, equals(1.0)); // Position unchanged!
+      expect(player.worldY, equals(1.0));
+      expect(player.state, equals(PlayerMovementState.idle));
+    });
+
+    test('Directional interaction detection (isFacingTarget)', () {
+      final orient = PlayerOrientationController(initialOrientation: 'SE');
+      // Target in front of Alex (towards +X, +Y in screen space)
+      expect(
+        orient.isFacingTarget(alexX: 0.0, alexY: 0.0, targetX: 2.0, targetY: 0.0),
+        isTrue,
+      );
+
+      // Turn Alex to face NW (away from target)
+      orient.setOrientation('NW');
+      expect(
+        orient.isFacingTarget(alexX: 0.0, alexY: 0.0, targetX: 2.0, targetY: 0.0),
+        isFalse,
+      );
     });
   });
 }

@@ -22,7 +22,7 @@ class GroundLayer extends Component with HasGameRef {
 
   final int gridRadius;
 
-  GroundLayer({this.gridRadius = 14});
+  GroundLayer({this.gridRadius = 24});
 
   @override
   Future<void> onLoad() async {
@@ -88,11 +88,10 @@ class GroundLayer extends Component with HasGameRef {
   void render(Canvas canvas) {
     super.render(canvas);
 
+    // Continuous ground coverage: render all tiles in rectangular grid
+    // without diamond cutoff to prevent any void exposure at screen corners
     for (var x = -gridRadius; x <= gridRadius; x++) {
       for (var y = -gridRadius; y <= gridRadius; y++) {
-        // Organic diamond bounds to blend with forest background
-        if (x.abs() + y.abs() > gridRadius + 4) continue;
-
         final screenPos = IsometricCoordinates.gridToScreen(x, y);
         final zone = _getZone(x, y);
 
@@ -126,6 +125,7 @@ class GroundLayer extends Component with HasGameRef {
             break;
         }
 
+        // Add 1.0 px overlap to completely eliminate subpixel rasterization gaps/seams
         if (activeSprite != null) {
           activeSprite.render(
             canvas,
@@ -134,26 +134,19 @@ class GroundLayer extends Component with HasGameRef {
               screenPos.y - IsometricCoordinates.halfTileHeight,
             ),
             size: Vector2(
-              IsometricCoordinates.tileWidth,
-              IsometricCoordinates.tileHeight,
+              IsometricCoordinates.tileWidth + 1.0,
+              IsometricCoordinates.tileHeight + 1.0,
             ),
           );
         } else {
           final path = Path()
-            ..moveTo(screenPos.x, screenPos.y - IsometricCoordinates.halfTileHeight)
-            ..lineTo(screenPos.x + IsometricCoordinates.halfTileWidth, screenPos.y)
-            ..lineTo(screenPos.x, screenPos.y + IsometricCoordinates.halfTileHeight)
-            ..lineTo(screenPos.x - IsometricCoordinates.halfTileWidth, screenPos.y)
+            ..moveTo(screenPos.x, screenPos.y - IsometricCoordinates.halfTileHeight - 0.5)
+            ..lineTo(screenPos.x + IsometricCoordinates.halfTileWidth + 0.5, screenPos.y)
+            ..lineTo(screenPos.x, screenPos.y + IsometricCoordinates.halfTileHeight + 0.5)
+            ..lineTo(screenPos.x - IsometricCoordinates.halfTileWidth - 0.5, screenPos.y)
             ..close();
 
           canvas.drawPath(path, Paint()..color = fallbackColor);
-          canvas.drawPath(
-            path,
-            Paint()
-              ..color = const Color(0x22FFFFFF)
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 0.5,
-          );
         }
       }
     }

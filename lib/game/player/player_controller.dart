@@ -1,18 +1,20 @@
 import 'dart:math' as math;
 import '../world/collision_box.dart';
-import '../world/isometric_coordinates.dart';
+import 'player_orientation_controller.dart';
 
 enum PlayerMovementState {
   idle,
   walk,
   run,
+  interact,
 }
 
-/// Logical controller governing Alex's movement, speed, state transitions, and collision checking.
+/// Logical controller governing Alex's movement, speed, state transitions,
+/// in-place 360° rotation, and collision checking.
 class PlayerController {
   double worldX;
   double worldY;
-  String orientation;
+  final PlayerOrientationController orientationController;
   PlayerMovementState state = PlayerMovementState.idle;
 
   // Speeds in continuous world units per second
@@ -20,39 +22,94 @@ class PlayerController {
   static const double runSpeed = 4.8;
   static const double playerCollisionRadius = 0.28; // ~35px in screen space
 
+  // Joystick thresholds:
+  // - below 0.10: deadzone (remain completely still)
+  // - between 0.10 and 0.30: turn-on-the-spot without displacement
+  // - between 0.30 and 0.70: walk
+  // - above 0.70: run
+  static const double deadzoneThreshold = 0.10;
+  static const double walkThreshold = 0.30;
+  static const double runThreshold = 0.70;
+
   final CollisionManager collisionManager;
 
   PlayerController({
     required this.worldX,
     required this.worldY,
-    this.orientation = 'SE',
+    String orientation = PlayerOrientationController.southEast,
     required this.collisionManager,
-  });
+  }) : orientationController = PlayerOrientationController(initialOrientation: orientation);
 
-  /// Updates Alex's position and state based on input vector and elapsed delta time.
+  /// Current 2-letter canonical orientation code ('SE', 'SW', 'NE', 'NW').
+  String get orientation => orientationController.orientation;
+
+  set orientation(String newOrient) {
+    orientationController.setOrientation(newOrient);
+  }
+
+  /// Rotates Alex 90° clockwise without changing world position.
+  /// SE -> SW -> NW -> NE -> SE
+  String rotateClockwise() {
+    state = PlayerMovementState.idle;
+    return orientationController.rotateClockwise();
+  }
+
+  /// Rotates Alex 90° counter-clockwise without changing world position.
+  /// SE -> NE -> NW -> SW -> SE
+  String rotateCounterClockwise() {
+    state = PlayerMovementState.idle;
+    return orientationController.rotateCounterClockwise();
+  }
+
+  /// Checks if Alex is facing towards a target world point (targetX, targetY).
+  bool isFacingTarget(double targetX, double targetY, {double maxAngleDegrees = 75.0}) {
+    return orientationController.isFacingTarget(
+      alexX: worldX,
+      alexY: worldY,
+      targetX: targetX,
+      targetY: targetY,
+      maxAngleDegrees: maxAngleDegrees,
+    );
+  }
+
+  /// Updates Alex's position and orientation based on input vector and elapsed delta time.
+  /// Supports in-place turning when input magnitude is low or when [turnOnly] is true.
   void update({
     required double inputX,
     required double inputY,
     required double dt,
+    bool turnOnly = false,
   }) {
     final magnitude = math.sqrt(inputX * inputX + inputY * inputY);
 
-    if (magnitude < 0.08) {
-      state = PlayerMovementState.idle;
+    // 1. Deadzone: below 0.10 magnitude, stay still
+    if (magnitude < deadzoneThreshold) {
+      if (state != PlayerMovementState.interact) {
+        state = PlayerMovementState.idle;
+      }
       return;
     }
-
-    // Determine target state based on joystick tilt / pressure
-    final isRunning = magnitude > 0.65;
-    state = isRunning ? PlayerMovementState.run : PlayerMovementState.walk;
-    final currentSpeed = isRunning ? runSpeed : walkSpeed;
 
     // Normalize input vector
     final normX = inputX / magnitude;
     final normY = inputY / magnitude;
 
-    // Update 4-way orientation
-    orientation = IsometricCoordinates.vectorToOrientation(normX, normY);
+    // 2. In-place rotation zone: rotate orientation without moving
+    if (turnOnly || magnitude < walkThreshold) {
+      orientationController.updateFromVector(normX, normY);
+      if (state != PlayerMovementState.interact) {
+        state = PlayerMovementState.idle;
+      }
+      // Position strictly remains unchanged
+      return;
+    }
+
+    // 3. Movement zone (walk or run)
+    orientationController.updateFromVector(normX, normY);
+
+    final isRunning = magnitude >= runThreshold;
+    state = isRunning ? PlayerMovementState.run : PlayerMovementState.walk;
+    final currentSpeed = isRunning ? runSpeed : walkSpeed;
 
     // Compute intended displacement in isometric world coordinates
     // When pressing down-right (screen +X, +Y), world increases X

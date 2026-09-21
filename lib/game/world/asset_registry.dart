@@ -109,14 +109,29 @@ class GameAssetRegistry {
   // Canonical Static Asset IDs for Phase 2 Gameplay
   // ===========================================================================
   
-  // Alex Character & Animations
+  // Alex Character & Animations (4-Way 360° Rotations)
   static const String alexIdleSE = 'alex_animation_idle03';
-  static const String alexIdleSW = 'alex_animation_idle04';
+  static const String alexIdleSW = 'alex_animation_idle10';
   static const String alexIdleNE = 'alex_animation_idle06';
   static const String alexIdleNW = 'alex_animation_idle07';
+
   static const String alexWalkStrip = 'alex_marche01';
+  static const String alexWalkSE = 'alex_marche36';
+  static const String alexWalkSW = 'alex_marche42';
+  static const String alexWalkNE = 'alex_marche18';
+  static const String alexWalkNW = 'alex_marche10';
+
   static const String alexRunStrip = 'alex_course01';
+  static const String alexRunSE = 'alex_course11';
+  static const String alexRunSW = 'alex_course40';
+  static const String alexRunNE = 'alex_course10';
+  static const String alexRunNW = 'alex_course26';
+
   static const String alexInteraction = 'alex_interaction01';
+  static const String alexInteractSE = 'alex_interaction01';
+  static const String alexInteractSW = 'alex_interaction14';
+  static const String alexInteractNE = 'alex_interaction28';
+  static const String alexInteractNW = 'alex_interaction64';
   static const String alexPortrait = 'alex_animation_idle02';
 
   // Village Buildings & Exterior
@@ -174,11 +189,11 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexIdleSW,
-        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle04.png',
+        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle10.png',
         type: AssetType.characterAnimation,
         category: 'alex',
-        width: 135,
-        height: 286,
+        width: 130,
+        height: 295,
         pivotX: 0.5,
         pivotY: 0.95,
         orientation: 'SW',
@@ -215,7 +230,7 @@ class GameAssetRegistry {
         collisionHeight: 16,
       ),
 
-      // Alex Walk & Run
+      // Alex Walk Cycles (4 Directions)
       const AssetEntry(
         assetId: alexWalkStrip,
         path: 'assets/images/characters/alex/walk/Alex-—-Marche01.png',
@@ -228,6 +243,44 @@ class GameAssetRegistry {
         orientation: 'SE',
       ),
       const AssetEntry(
+        assetId: alexWalkSE,
+        path: 'assets/images/characters/alex/walk/Alex-—-Marche36.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 92,
+        height: 176,
+        orientation: 'SE',
+      ),
+      const AssetEntry(
+        assetId: alexWalkSW,
+        path: 'assets/images/characters/alex/walk/Alex-—-Marche42.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 86,
+        height: 169,
+        orientation: 'SW',
+      ),
+      const AssetEntry(
+        assetId: alexWalkNE,
+        path: 'assets/images/characters/alex/walk/Alex-—-Marche18.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 80,
+        height: 179,
+        orientation: 'NE',
+      ),
+      const AssetEntry(
+        assetId: alexWalkNW,
+        path: 'assets/images/characters/alex/walk/Alex-—-Marche10.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 82,
+        height: 178,
+        orientation: 'NW',
+      ),
+
+      // Alex Run Cycles (4 Directions)
+      const AssetEntry(
         assetId: alexRunStrip,
         path: 'assets/images/characters/alex/run/Alex-—-Course01.png',
         type: AssetType.characterAnimation,
@@ -237,6 +290,80 @@ class GameAssetRegistry {
         pivotX: 0.5,
         pivotY: 0.95,
         orientation: 'SE',
+      ),
+      const AssetEntry(
+        assetId: alexRunSE,
+        path: 'assets/images/characters/alex/run/Alex-—-Course11.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 97,
+        height: 174,
+        orientation: 'SE',
+      ),
+      const AssetEntry(
+        assetId: alexRunSW,
+        path: 'assets/images/characters/alex/run/Alex-—-Course40.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 164,
+        height: 179,
+        orientation: 'SW',
+      ),
+      const AssetEntry(
+        assetId: alexRunNE,
+        path: 'assets/images/characters/alex/run/Alex-—-Course10.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 96,
+        height: 183,
+        orientation: 'NE',
+      ),
+      const AssetEntry(
+        assetId: alexRunNW,
+        path: 'assets/images/characters/alex/run/Alex-—-Course26.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 146,
+        height: 146,
+        orientation: 'NW',
+      ),
+
+      // Alex Interaction (4 Directions)
+      const AssetEntry(
+        assetId: alexInteractSE,
+        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction01.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 108,
+        height: 128,
+        orientation: 'SE',
+      ),
+      const AssetEntry(
+        assetId: alexInteractSW,
+        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction14.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 79,
+        height: 174,
+        orientation: 'SW',
+      ),
+      const AssetEntry(
+        assetId: alexInteractNE,
+        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction28.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 77,
+        height: 141,
+        orientation: 'NE',
+      ),
+      const AssetEntry(
+        assetId: alexInteractNW,
+        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction64.png',
+        type: AssetType.characterAnimation,
+        category: 'alex',
+        width: 76,
+        height: 87,
+        orientation: 'NW',
       ),
 
       // Village Environment
