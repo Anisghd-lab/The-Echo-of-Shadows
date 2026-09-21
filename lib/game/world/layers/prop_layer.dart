@@ -37,13 +37,17 @@ class PropSpriteComponent extends PositionComponent with HasGameRef {
     anchor = Anchor.bottomCenter;
     size = Vector2(prop.displayWidth, prop.displayHeight);
 
-    final screenPos = IsometricCoordinates.worldToScreen(prop.worldX, prop.worldY);
+    final scale = IsometricCoordinates.worldScale;
+    final wx = prop.worldX * scale;
+    final wy = prop.worldY * scale;
+
+    final screenPos = IsometricCoordinates.worldToScreen(wx, wy);
     position = Vector2(screenPos.x, screenPos.y);
 
     // Dynamic Z-Order based on base ground contact point
     priority = IsometricCoordinates.calculateZOrder(
-      prop.worldX,
-      prop.worldY,
+      wx,
+      wy,
       layerBase: IsometricCoordinates.zOrderProps,
     );
   }
@@ -245,6 +249,7 @@ class PropLayer extends Component with HasGameRef {
 
   @override
   Future<void> onLoad() async {
+    final scale = IsometricCoordinates.worldScale;
     for (final p in props) {
       add(PropSpriteComponent(p));
 
@@ -252,10 +257,10 @@ class PropLayer extends Component with HasGameRef {
         collisionManager.addObstacle(
           IsometricCollisionBox(
             id: 'col_${p.id}',
-            worldX: p.worldX,
-            worldY: p.worldY,
-            halfWidth: p.collisionWidth / 2,
-            halfHeight: p.collisionHeight / 2,
+            worldX: p.worldX * scale,
+            worldY: p.worldY * scale,
+            halfWidth: (p.collisionWidth / 2) * scale,
+            halfHeight: (p.collisionHeight / 2) * scale,
             label: p.id,
           ),
         );

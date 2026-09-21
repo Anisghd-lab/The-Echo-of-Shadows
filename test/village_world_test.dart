@@ -12,11 +12,32 @@ import 'dart:io';
 
 void main() {
   group('1. Isometric Coordinate System Tests', () {
-    test('Constants match specification (128x64)', () {
-      expect(IsometricCoordinates.tileWidth, equals(128.0));
-      expect(IsometricCoordinates.tileHeight, equals(64.0));
-      expect(IsometricCoordinates.halfTileWidth, equals(64.0));
-      expect(IsometricCoordinates.halfTileHeight, equals(32.0));
+    test('Constants match Phase 3.3 specification (96x48, strict 2:1 ratio)', () {
+      expect(IsometricCoordinates.tileWidth, equals(96.0));
+      expect(IsometricCoordinates.tileHeight, equals(48.0));
+      expect(IsometricCoordinates.halfTileWidth, equals(48.0));
+      expect(IsometricCoordinates.halfTileHeight, equals(24.0));
+      expect(IsometricCoordinates.tileWidth / IsometricCoordinates.tileHeight, equals(2.0));
+      expect(IsometricCoordinates.worldScale, closeTo(128.0 / 96.0, 0.001));
+    });
+
+    test('Dimetric 2:1 ratio validation and alternative sizing (80x40, 64x32)', () {
+      IsometricCoordinates.setTileDimensions(80.0, 40.0);
+      expect(IsometricCoordinates.tileWidth, equals(80.0));
+      expect(IsometricCoordinates.tileHeight, equals(40.0));
+      expect(IsometricCoordinates.tileWidth / IsometricCoordinates.tileHeight, equals(2.0));
+
+      IsometricCoordinates.setTileDimensions(64.0, 32.0);
+      expect(IsometricCoordinates.tileWidth, equals(64.0));
+      expect(IsometricCoordinates.tileHeight, equals(32.0));
+
+      // Rejection of non-2:1 ratio
+      expect(() => IsometricCoordinates.setTileDimensions(100.0, 60.0), throwsArgumentError);
+
+      // Reset to canonical default
+      IsometricCoordinates.resetToDefault();
+      expect(IsometricCoordinates.tileWidth, equals(96.0));
+      expect(IsometricCoordinates.tileHeight, equals(48.0));
     });
 
     test('World to Screen and Screen to World reversibility', () {

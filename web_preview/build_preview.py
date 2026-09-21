@@ -136,6 +136,17 @@ def build():
     }}
     .btn-dev:hover {{ background: rgba(51, 65, 85, 0.9); }}
 
+    .tile-btn {{
+      background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(148, 163, 184, 0.35);
+      color: #94A3B8; border-radius: 14px; padding: 4px 10px; font-size: 11px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s ease;
+    }}
+    .tile-btn:hover {{ background: rgba(51, 65, 85, 0.9); color: #F8FAFC; }}
+    .tile-btn.active {{
+      background: #38BDF8; color: #0F172A; border-color: #0284C7;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+    }}
+
     /* Touch Controls */
     #touch-controls {{
       position: absolute; bottom: 20px; left: 20px;
@@ -212,6 +223,15 @@ def build():
         <span>🔍</span>
         <span id="prompt-text">Inspect</span>
       </div>
+    </div>
+
+    <!-- Tile Size Switcher Toolbar (Phase 3.3) -->
+    <div id="tile-size-selector" style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; background: rgba(15, 23, 42, 0.92); border: 1px solid rgba(148, 163, 184, 0.35); border-radius: 24px; padding: 5px 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.6); z-index: 10;">
+      <span style="font-size: 11px; font-weight: 700; color: #94A3B8; margin-right: 4px; display: flex; align-items: center; gap: 4px;"><span>📐</span> TILES :</span>
+      <button class="tile-btn" id="btn-tile-128" onclick="setTileSize(128, 64)" title="Ancien format (grandes dalles)">128x64</button>
+      <button class="tile-btn active" id="btn-tile-96" onclick="setTileSize(96, 48)" title="Premier test obligatoire (+78% pavés)">96x48 (Défaut)</button>
+      <button class="tile-btn" id="btn-tile-80" onclick="setTileSize(80, 40)" title="Sol fin & détaillé (+156% pavés)">80x40</button>
+      <button class="tile-btn" id="btn-tile-64" onclick="setTileSize(64, 32)" title="Haute densité (+300% pavés)">64x32</button>
     </div>
 
     <!-- Debug HUD -->
@@ -358,11 +378,34 @@ def build():
   </div>
 
   <script>
-    // 1. Isometric Engine Constants
-    const TILE_W = 128;
-    const TILE_H = 64;
-    const HALF_W = 64;
-    const HALF_H = 32;
+    // 1. Isometric Engine Constants & Dynamic Dimetric Tile Sizing (Phase 3.3)
+    let TILE_W = 96;
+    let TILE_H = 48;
+    let HALF_W = 48;
+    let HALF_H = 24;
+    let worldScale = 128.0 / 96.0;
+
+    function setTileSize(w, h) {{
+      if (w / h !== 2) return;
+      const oldScale = worldScale;
+      TILE_W = w;
+      TILE_H = h;
+      HALF_W = w / 2;
+      HALF_H = h / 2;
+      worldScale = 128.0 / w;
+
+      // Maintain Alex position invariant in physical screen space
+      alex.wx = alex.wx * (worldScale / oldScale);
+      alex.wy = alex.wy * (worldScale / oldScale);
+
+      document.querySelectorAll('.tile-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-tile-' + w);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const mult = ((128 * 64) / (w * h)).toFixed(2);
+      const prop = ((28 / w) * 100).toFixed(1);
+      showToast(`Dalles: ${{w}}x${{h}} px (2:1) | Densité: ${{mult}}x (+${{Math.round((mult - 1) * 100)}}%) | Alex: ${{prop}}% de dalle`);
+    }}
 
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
@@ -474,36 +517,40 @@ def build():
       document.getElementById('hud-orient').textContent = alex.orientation;
     }}
 
-    // 5. Canonical Points of Interest (POIs)
+    // 5. Canonical Points of Interest (POIs) with base coordinates
     const pois = [
-      {{ id: 'VILLAGE_ENTRANCE', name: 'Village Entrance (Bridge)', wx: 0.0, wy: 0.0, r: 1.8, prompt: '[E] Inspect snowy bridge' }},
-      {{ id: 'VILLAGE_SQUARE', name: 'Central Square', wx: 0.0, wy: 5.5, r: 2.2, prompt: '[E] Examine central plaza' }},
-      {{ id: 'OLD_WELL', name: 'Ancient Stone Well', wx: 0.0, wy: 6.0, r: 1.5, prompt: '[E] Look into the frozen well' }},
-      {{ id: 'ABANDONED_CHURCH', name: 'St. Jude Abandoned Church', wx: 6.5, wy: 5.0, r: 2.4, prompt: '[E] Examine church doors' }},
-      {{ id: 'FAMILY_HOUSE', name: 'Alex Family House', wx: 0.0, wy: 10.5, r: 2.0, prompt: '[E] Enter family house' }},
-      {{ id: 'ABANDONED_HOUSE_01', name: 'Dilapidated Cottage', wx: -5.5, wy: 4.5, r: 1.8, prompt: '[E] Inspect wooden porch' }},
-      {{ id: 'ABANDONED_HOUSE_02', name: 'Forester Shack', wx: -5.5, wy: 8.5, r: 1.8, prompt: '[E] Examine shuttered window' }}
+      {{ id: 'VILLAGE_ENTRANCE', name: 'Village Entrance (Bridge)', baseWx: 0.0, baseWy: 0.0, baseR: 1.8, prompt: '[E] Inspect snowy bridge' }},
+      {{ id: 'VILLAGE_SQUARE', name: 'Central Square', baseWx: 0.0, baseWy: 5.5, baseR: 2.2, prompt: '[E] Examine central plaza' }},
+      {{ id: 'OLD_WELL', name: 'Ancient Stone Well', baseWx: 0.0, baseWy: 6.0, baseR: 1.5, prompt: '[E] Look into the frozen well' }},
+      {{ id: 'ABANDONED_CHURCH', name: 'St. Jude Abandoned Church', baseWx: 6.5, baseWy: 5.0, baseR: 2.4, prompt: '[E] Examine church doors' }},
+      {{ id: 'FAMILY_HOUSE', name: 'Alex Family House', baseWx: 0.0, baseWy: 10.5, baseR: 2.0, prompt: '[E] Enter family house' }},
+      {{ id: 'ABANDONED_HOUSE_01', name: 'Dilapidated Cottage', baseWx: -5.5, baseWy: 4.5, baseR: 1.8, prompt: '[E] Inspect wooden porch' }},
+      {{ id: 'ABANDONED_HOUSE_02', name: 'Forester Shack', baseWx: -5.5, baseWy: 8.5, baseR: 1.8, prompt: '[E] Examine shuttered window' }}
     ];
 
-    // 6. Collision Obstacles
+    // 6. Collision Obstacles with base coordinates
     const obstacles = [
-      {{ id: 'well', wx: 0.0, wy: 6.0, hw: 0.7, hh: 0.7 }},
-      {{ id: 'church', wx: 6.5, wy: 5.0, hw: 1.5, hh: 1.5 }},
-      {{ id: 'cottage01', wx: -5.5, wy: 4.5, hw: 1.3, hh: 1.2 }},
-      {{ id: 'cottage02', wx: -5.5, wy: 8.5, hw: 1.2, hh: 1.3 }},
-      {{ id: 'house', wx: 0.0, wy: 10.8, hw: 1.6, hh: 1.4 }},
-      {{ id: 'gate', wx: 4.2, wy: 5.0, hw: 0.3, hh: 0.8 }},
-      {{ id: 'lamp1', wx: 1.2, wy: 2.5, hw: 0.25, hh: 0.25 }},
-      {{ id: 'lamp2', wx: -1.2, wy: 5.5, hw: 0.25, hh: 0.25 }},
-      {{ id: 'lamp3', wx: -1.2, wy: 8.5, hw: 0.25, hh: 0.25 }},
-      {{ id: 'cliff1', wx: -3.5, wy: 12.5, hw: 1.2, hh: 1.2 }},
-      {{ id: 'cliff2', wx: 4.0, wy: 12.0, hw: 1.2, hh: 1.2 }}
+      {{ id: 'well', baseWx: 0.0, baseWy: 6.0, baseHw: 0.7, baseHh: 0.7 }},
+      {{ id: 'church', baseWx: 6.5, baseWy: 5.0, baseHw: 1.5, baseHh: 1.5 }},
+      {{ id: 'cottage01', baseWx: -5.5, baseWy: 4.5, baseHw: 1.3, baseHh: 1.2 }},
+      {{ id: 'cottage02', baseWx: -5.5, baseWy: 8.5, baseHw: 1.2, baseHh: 1.3 }},
+      {{ id: 'house', baseWx: 0.0, baseWy: 10.8, baseHw: 1.6, baseHh: 1.4 }},
+      {{ id: 'gate', baseWx: 4.2, baseWy: 5.0, baseHw: 0.3, baseHh: 0.8 }},
+      {{ id: 'lamp1', baseWx: 1.2, baseWy: 2.5, baseHw: 0.25, baseHh: 0.25 }},
+      {{ id: 'lamp2', baseWx: -1.2, baseWy: 5.5, baseHw: 0.25, baseHh: 0.25 }},
+      {{ id: 'lamp3', baseWx: -1.2, baseWy: 8.5, baseHw: 0.25, baseHh: 0.25 }},
+      {{ id: 'cliff1', baseWx: -3.5, baseWy: 12.5, baseHw: 1.2, baseHh: 1.2 }},
+      {{ id: 'cliff2', baseWx: 4.0, baseWy: 12.0, baseHw: 1.2, baseHh: 1.2 }}
     ];
 
     function checkCollision(x, y, radius) {{
       for (const obs of obstacles) {{
-        const cx = Math.max(obs.wx - obs.hw, Math.min(x, obs.wx + obs.hw));
-        const cy = Math.max(obs.wy - obs.hh, Math.min(y, obs.wy + obs.hh));
+        const ox = obs.baseWx * worldScale;
+        const oy = obs.baseWy * worldScale;
+        const ohw = obs.baseHw * worldScale;
+        const ohh = obs.baseHh * worldScale;
+        const cx = Math.max(ox - ohw, Math.min(x, ox + ohw));
+        const cy = Math.max(oy - ohh, Math.min(y, oy + ohh));
         const dx = x - cx;
         const dy = y - cy;
         if (dx * dx + dy * dy < radius * radius) return true;
@@ -541,6 +588,10 @@ def build():
       if (k === 'q') rotateAlexCCW();
       if (k === 'e') rotateAlexCW();
       if (k === 't') toggleDirectionTestScene();
+      if (k === '1') setTileSize(128, 64);
+      if (k === '2') setTileSize(96, 48);
+      if (k === '3') setTileSize(80, 40);
+      if (k === '4') setTileSize(64, 32);
     }});
     window.addEventListener('keyup', (e) => {{ keys[e.key.toLowerCase()] = false; }});
 
@@ -656,12 +707,12 @@ def build():
           // Threshold 3: Move (Walk or Run)
           const isRunning = alex.isSprinting || len > 0.72 || keys['shift'];
           alex.state = isRunning ? 'RUN' : 'WALK';
-          const speed = isRunning ? 4.8 : 2.4;
+          const speed = (isRunning ? 4.8 : 2.4) * worldScale;
 
           const worldDx = (normX + normY) * speed * dt * 0.707;
           const worldDy = (-normX + normY) * speed * dt * 0.707;
 
-          const resolved = resolveMovement(alex.wx, alex.wy, alex.wx + worldDx, alex.wy + worldDy, alex.radius);
+          const resolved = resolveMovement(alex.wx, alex.wy, alex.wx + worldDx, alex.wy + worldDy, 0.28 * worldScale);
           alex.wx = resolved.x;
           alex.wy = resolved.y;
         }}
@@ -694,9 +745,12 @@ def build():
       // POI Check
       let activePOI = null;
       for (const poi of pois) {{
-        const dx = alex.wx - poi.wx;
-        const dy = alex.wy - poi.wy;
-        if (dx * dx + dy * dy <= poi.r * poi.r) {{
+        const px = poi.baseWx * worldScale;
+        const py = poi.baseWy * worldScale;
+        const pr = poi.baseR * worldScale;
+        const dx = alex.wx - px;
+        const dy = alex.wy - py;
+        if (dx * dx + dy * dy <= pr * pr) {{
           activePOI = poi;
           break;
         }}
@@ -738,18 +792,19 @@ def build():
       ctx.translate(-camera.x, -camera.y);
 
       // 1. Multi-Zone Continuous Ground Layer (Expanded grid coverage without diamond cutoff)
-      const gridR = 24;
+      const gridR = Math.ceil(24 * worldScale);
       for (let x = -gridR; x <= gridR; x++) {{
         for (let y = -gridR; y <= gridR; y++) {{
           const pos = worldToScreen(x, y);
 
-          // Zone selection
-          let isRiver = y <= -2;
-          let isPlaza = Math.hypot(x, y - 5.5) <= 2.8;
-          let isMainRoad = Math.abs(x) <= 1 && y >= -1 && y <= 11;
-          let isChurchPath = x >= 1 && x <= 7 && y >= 4 && y <= 6;
-          let isCottagePath = x <= -1 && x >= -6 && y >= 4 && y <= 9;
-          let isYard = (Math.abs(x) <= 3 && y >= 9 && y <= 12) || (x >= 4 && x <= 8 && y >= 3 && y <= 7);
+          // Zone selection scaled with worldScale
+          let isRiver = y <= (-2.0 * worldScale);
+          let isPlaza = Math.hypot(x, y - 5.5 * worldScale) <= (2.8 * worldScale);
+          let isMainRoad = Math.abs(x) <= (1.0 * worldScale) && y >= (-1.0 * worldScale) && y <= (11.0 * worldScale);
+          let isChurchPath = x >= (1.0 * worldScale) && x <= (7.0 * worldScale) && y >= (4.0 * worldScale) && y <= (6.0 * worldScale);
+          let isCottagePath = x <= (-1.0 * worldScale) && x >= (-6.0 * worldScale) && y >= (4.0 * worldScale) && y <= (9.0 * worldScale);
+          let isYard = (Math.abs(x) <= 3.0 * worldScale && y >= 9.0 * worldScale && y <= 12.0 * worldScale) ||
+                       (x >= 4.0 * worldScale && x <= 8.0 * worldScale && y >= 3.0 * worldScale && y <= 7.0 * worldScale);
 
           let tileImg = images.snowSlab;
           if (isRiver) {{
@@ -782,91 +837,91 @@ def build():
       const renderables = [
         // Family House (North Destination)
         {{
-          type: 'building', id: 'house', wx: 0.0, wy: 10.5,
-          z: calculateZ(0.0, 10.5, 20000),
+          type: 'building', id: 'house', wx: 0.0 * worldScale, wy: 10.5 * worldScale,
+          z: calculateZ(0.0 * worldScale, 10.5 * worldScale, 20000),
           img: images.familyHouse, w: 320, h: 298, pivotY: 0.88
         }},
         // St. Jude Church (East Hill)
         {{
-          type: 'building', id: 'church', wx: 6.5, wy: 5.0,
-          z: calculateZ(6.5, 5.0, 20000),
+          type: 'building', id: 'church', wx: 6.5 * worldScale, wy: 5.0 * worldScale,
+          z: calculateZ(6.5 * worldScale, 5.0 * worldScale, 20000),
           img: images.church, w: 280, h: 370, pivotY: 0.90
         }},
         // Cottage 01 (West)
         {{
-          type: 'building', id: 'cottage1', wx: -5.5, wy: 4.5,
-          z: calculateZ(-5.5, 4.5, 20000),
+          type: 'building', id: 'cottage1', wx: -5.5 * worldScale, wy: 4.5 * worldScale,
+          z: calculateZ(-5.5 * worldScale, 4.5 * worldScale, 20000),
           img: images.cottage01, w: 260, h: 244, pivotY: 0.88
         }},
         // Cottage 02 (West Shack)
         {{
-          type: 'building', id: 'cottage2', wx: -5.5, wy: 8.5,
-          z: calculateZ(-5.5, 8.5, 20000),
+          type: 'building', id: 'cottage2', wx: -5.5 * worldScale, wy: 8.5 * worldScale,
+          z: calculateZ(-5.5 * worldScale, 8.5 * worldScale, 20000),
           img: images.cottage02, w: 240, h: 270, pivotY: 0.88
         }},
         // Cemetery Iron Gate
         {{
-          type: 'prop', id: 'gate', wx: 4.2, wy: 5.0,
-          z: calculateZ(4.2, 5.0, 30000),
+          type: 'prop', id: 'gate', wx: 4.2 * worldScale, wy: 5.0 * worldScale,
+          z: calculateZ(4.2 * worldScale, 5.0 * worldScale, 30000),
           img: images.ironGate, w: 160, h: 100, pivotY: 0.90
         }},
         // Ancient Stone Well (Center Plaza)
         {{
-          type: 'prop', id: 'well', wx: 0.0, wy: 6.0,
-          z: calculateZ(0.0, 6.0, 30000),
+          type: 'prop', id: 'well', wx: 0.0 * worldScale, wy: 6.0 * worldScale,
+          z: calculateZ(0.0 * worldScale, 6.0 * worldScale, 30000),
           img: images.well, w: 100, h: 112, pivotY: 0.85
         }},
         // Victorian Street Lamps
         {{
-          type: 'prop', id: 'lamp1', wx: 1.2, wy: 2.5,
-          z: calculateZ(1.2, 2.5, 30000),
+          type: 'prop', id: 'lamp1', wx: 1.2 * worldScale, wy: 2.5 * worldScale,
+          z: calculateZ(1.2 * worldScale, 2.5 * worldScale, 30000),
           img: images.lampPost, w: 38, h: 96, pivotY: 0.95
         }},
         {{
-          type: 'prop', id: 'lamp2', wx: -1.2, wy: 5.5,
-          z: calculateZ(-1.2, 5.5, 30000),
+          type: 'prop', id: 'lamp2', wx: -1.2 * worldScale, wy: 5.5 * worldScale,
+          z: calculateZ(-1.2 * worldScale, 5.5 * worldScale, 30000),
           img: images.lampPost, w: 38, h: 96, pivotY: 0.95
         }},
         {{
-          type: 'prop', id: 'lamp3', wx: -1.2, wy: 8.5,
-          z: calculateZ(-1.2, 8.5, 30000),
+          type: 'prop', id: 'lamp3', wx: -1.2 * worldScale, wy: 8.5 * worldScale,
+          z: calculateZ(-1.2 * worldScale, 8.5 * worldScale, 30000),
           img: images.lampPost, w: 38, h: 96, pivotY: 0.95
         }},
         // Pine Trees & Border Vegetation
         {{
-          type: 'prop', id: 'pine1', wx: 8.5, wy: 3.5,
-          z: calculateZ(8.5, 3.5, 30000),
+          type: 'prop', id: 'pine1', wx: 8.5 * worldScale, wy: 3.5 * worldScale,
+          z: calculateZ(8.5 * worldScale, 3.5 * worldScale, 30000),
           img: images.pineTree, w: 90, h: 86, pivotY: 0.90
         }},
         {{
-          type: 'prop', id: 'pine2', wx: 5.5, wy: 3.0,
-          z: calculateZ(5.5, 3.0, 30000),
+          type: 'prop', id: 'pine2', wx: 5.5 * worldScale, wy: 3.0 * worldScale,
+          z: calculateZ(5.5 * worldScale, 3.0 * worldScale, 30000),
           img: images.pineTree, w: 85, h: 80, pivotY: 0.90
         }},
         {{
-          type: 'prop', id: 'pine3', wx: -7.0, wy: 3.0,
-          z: calculateZ(-7.0, 3.0, 30000),
+          type: 'prop', id: 'pine3', wx: -7.0 * worldScale, wy: 3.0 * worldScale,
+          z: calculateZ(-7.0 * worldScale, 3.0 * worldScale, 30000),
           img: images.pineTree, w: 95, h: 90, pivotY: 0.90
         }},
         {{
-          type: 'prop', id: 'dead1', wx: 7.2, wy: 6.8,
-          z: calculateZ(7.2, 6.8, 30000),
+          type: 'prop', id: 'dead1', wx: 7.2 * worldScale, wy: 6.8 * worldScale,
+          z: calculateZ(7.2 * worldScale, 6.8 * worldScale, 30000),
           img: images.deadTree, w: 80, h: 132, pivotY: 0.90
         }},
         {{
-          type: 'prop', id: 'dead2', wx: 2.2, wy: 10.0,
-          z: calculateZ(2.2, 10.0, 30000),
+          type: 'prop', id: 'dead2', wx: 2.2 * worldScale, wy: 10.0 * worldScale,
+          z: calculateZ(2.2 * worldScale, 10.0 * worldScale, 30000),
           img: images.deadTree, w: 80, h: 132, pivotY: 0.90
         }},
         // Perimeter Cliffs
         {{
-          type: 'prop', id: 'cliff1', wx: -3.5, wy: 12.5,
-          z: calculateZ(-3.5, 12.5, 20000),
+          type: 'prop', id: 'cliff1', wx: -3.5 * worldScale, wy: 12.5 * worldScale,
+          z: calculateZ(-3.5 * worldScale, 12.5 * worldScale, 20000),
           img: images.cliff, w: 220, h: 260, pivotY: 0.90
         }},
         {{
-          type: 'prop', id: 'cliff2', wx: 4.0, wy: 12.0,
-          z: calculateZ(4.0, 12.0, 20000),
+          type: 'prop', id: 'cliff2', wx: 4.0 * worldScale, wy: 12.0 * worldScale,
+          z: calculateZ(4.0 * worldScale, 12.0 * worldScale, 20000),
           img: images.cliff, w: 220, h: 260, pivotY: 0.90
         }},
         // Alex Character (Ground contact Z-order)

@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import '../world/collision_box.dart';
+import '../world/isometric_coordinates.dart';
 import 'player_orientation_controller.dart';
 
 enum PlayerMovementState {
@@ -17,10 +18,11 @@ class PlayerController {
   final PlayerOrientationController orientationController;
   PlayerMovementState state = PlayerMovementState.idle;
 
-  // Speeds in continuous world units per second
-  static const double walkSpeed = 2.4;
-  static const double runSpeed = 4.8;
-  static const double playerCollisionRadius = 0.28; // ~35px in screen space
+  // Speeds in continuous world units per second, scaled with IsometricCoordinates.worldScale
+  // to ensure constant physical pixel speed across any tile dimension.
+  static double get walkSpeed => 2.4 * IsometricCoordinates.worldScale;
+  static double get runSpeed => 4.8 * IsometricCoordinates.worldScale;
+  static double get playerCollisionRadius => 0.28 * IsometricCoordinates.worldScale; // ~35px in screen space
 
   // Joystick thresholds:
   // - below 0.10: deadzone (remain completely still)

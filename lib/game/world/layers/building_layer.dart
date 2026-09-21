@@ -39,16 +39,17 @@ class BuildingSpriteComponent extends PositionComponent with HasGameRef {
     anchor = Anchor.bottomCenter;
     size = Vector2(building.displayWidth, building.displayHeight);
 
-    final screenPos = IsometricCoordinates.worldToScreen(
-      building.worldX,
-      building.worldY,
-    );
+    final scale = IsometricCoordinates.worldScale;
+    final wx = building.worldX * scale;
+    final wy = building.worldY * scale;
+
+    final screenPos = IsometricCoordinates.worldToScreen(wx, wy);
     position = Vector2(screenPos.x, screenPos.y);
 
     // Z-Order: dynamic priority anchored at the base of the foundation
     priority = IsometricCoordinates.calculateZOrder(
-      building.worldX,
-      building.worldY,
+      wx,
+      wy,
       layerBase: IsometricCoordinates.zOrderBuilding,
     );
   }
@@ -143,16 +144,17 @@ class BuildingLayer extends Component with HasGameRef {
 
   @override
   Future<void> onLoad() async {
+    final scale = IsometricCoordinates.worldScale;
     for (final b in buildings) {
       add(BuildingSpriteComponent(b));
 
       collisionManager.addObstacle(
         IsometricCollisionBox(
           id: 'col_${b.id}',
-          worldX: b.worldX,
-          worldY: b.worldY + b.collisionOffsetY,
-          halfWidth: b.collisionWidth / 2,
-          halfHeight: b.collisionHeight / 2,
+          worldX: b.worldX * scale,
+          worldY: (b.worldY + b.collisionOffsetY) * scale,
+          halfWidth: (b.collisionWidth / 2) * scale,
+          halfHeight: (b.collisionHeight / 2) * scale,
           label: b.id,
         ),
       );

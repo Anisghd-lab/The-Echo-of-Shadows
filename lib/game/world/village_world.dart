@@ -19,10 +19,11 @@ class VillageWorld extends World with HasGameRef {
   late final AlexComponent alex;
 
   // Calibrated world boundaries enclosing the village composition
-  final double minWorldX = -9.0;
-  final double maxWorldX = 10.0;
-  final double minWorldY = -2.5;
-  final double maxWorldY = 13.5;
+  // Dynamically scaled to match the tile coordinate system
+  double get minWorldX => -9.0 * IsometricCoordinates.worldScale;
+  double get maxWorldX => 10.0 * IsometricCoordinates.worldScale;
+  double get minWorldY => -2.5 * IsometricCoordinates.worldScale;
+  double get maxWorldY => 13.5 * IsometricCoordinates.worldScale;
 
   final double initialPlayerX;
   final double initialPlayerY;
@@ -60,7 +61,7 @@ class VillageWorld extends World with HasGameRef {
 
     // 3. Mount Layers in strict isometric order
     // Ground (Multi-zone: River, Cobblestones, Plaza, Snow, Yards)
-    add(GroundLayer(gridRadius: 15));
+    add(GroundLayer(gridRadius: (24 * IsometricCoordinates.worldScale).ceil()));
 
     // Roads & Pathways
     add(RoadLayer());
@@ -89,13 +90,14 @@ class VillageWorld extends World with HasGameRef {
   }
 
   void _addPerimeterCollisions() {
+    final hw = 0.5 * IsometricCoordinates.worldScale;
     // West forest boundary
     collisionManager.addObstacle(
       IsometricCollisionBox(
         id: 'boundary_west',
-        worldX: minWorldX - 0.5,
+        worldX: minWorldX - hw,
         worldY: (minWorldY + maxWorldY) / 2,
-        halfWidth: 0.5,
+        halfWidth: hw,
         halfHeight: (maxWorldY - minWorldY) / 2,
         label: 'boundary',
       ),
@@ -104,9 +106,9 @@ class VillageWorld extends World with HasGameRef {
     collisionManager.addObstacle(
       IsometricCollisionBox(
         id: 'boundary_east',
-        worldX: maxWorldX + 0.5,
+        worldX: maxWorldX + hw,
         worldY: (minWorldY + maxWorldY) / 2,
-        halfWidth: 0.5,
+        halfWidth: hw,
         halfHeight: (maxWorldY - minWorldY) / 2,
         label: 'boundary',
       ),
@@ -116,9 +118,9 @@ class VillageWorld extends World with HasGameRef {
       IsometricCollisionBox(
         id: 'boundary_south',
         worldX: (minWorldX + maxWorldX) / 2,
-        worldY: minWorldY - 0.5,
+        worldY: minWorldY - hw,
         halfWidth: (maxWorldX - minWorldX) / 2,
-        halfHeight: 0.5,
+        halfHeight: hw,
         label: 'boundary',
       ),
     );
@@ -127,9 +129,9 @@ class VillageWorld extends World with HasGameRef {
       IsometricCollisionBox(
         id: 'boundary_north',
         worldX: (minWorldX + maxWorldX) / 2,
-        worldY: maxWorldY + 0.5,
+        worldY: maxWorldY + hw,
         halfWidth: (maxWorldX - minWorldX) / 2,
-        halfHeight: 0.5,
+        halfHeight: hw,
         label: 'boundary',
       ),
     );

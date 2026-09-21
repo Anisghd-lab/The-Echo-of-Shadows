@@ -47,36 +47,38 @@ class GroundLayer extends Component with HasGameRef {
 
   /// Classifies each grid coordinate into a distinct environmental zone.
   TerrainZone _getZone(int x, int y) {
+    final scale = IsometricCoordinates.worldScale;
     // 1. Frozen River at entrance
-    if (y <= -2) {
+    if (y <= -2.0 * scale) {
       return TerrainZone.frozenRiver;
     }
 
     // 2. Central Square / Plaza (around world Y: 5.5, X: 0.0)
     final dx = x.toDouble();
-    final dy = (y - 5.5);
+    final dy = (y - 5.5 * scale);
     final distToSquare = math.sqrt(dx * dx + dy * dy);
-    if (distToSquare <= 2.8) {
+    if (distToSquare <= 2.8 * scale) {
       return TerrainZone.plaza;
     }
 
     // 3. Main North-South Village Street
-    if (x.abs() <= 1 && y >= -1 && y <= 11) {
+    if (x.abs() <= 1.0 * scale && y >= -1.0 * scale && y <= 11.0 * scale) {
       return TerrainZone.mainRoad;
     }
 
     // 4. Church Path (East branch)
-    if (x >= 1 && x <= 7 && y >= 4 && y <= 6) {
+    if (x >= 1.0 * scale && x <= 7.0 * scale && y >= 4.0 * scale && y <= 6.0 * scale) {
       return TerrainZone.sidePath;
     }
 
     // 5. Cottage Path (West branch)
-    if (x <= -1 && x >= -6 && y >= 4 && y <= 9) {
+    if (x <= -1.0 * scale && x >= -6.0 * scale && y >= 4.0 * scale && y <= 9.0 * scale) {
       return TerrainZone.sidePath;
     }
 
     // 6. Yard around Family House & Church
-    if ((x.abs() <= 3 && y >= 9 && y <= 12) || (x >= 4 && x <= 8 && y >= 3 && y <= 7)) {
+    if ((x.abs() <= 3.0 * scale && y >= 9.0 * scale && y <= 12.0 * scale) ||
+        (x >= 4.0 * scale && x <= 8.0 * scale && y >= 3.0 * scale && y <= 7.0 * scale)) {
       return TerrainZone.buildingYard;
     }
 

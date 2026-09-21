@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'isometric_coordinates.dart';
 
 /// Point of Interest in the Village World ready for narrative interactions.
 class PointOfInterest {
@@ -21,14 +22,17 @@ class PointOfInterest {
   });
 
   bool isNear(double playerX, double playerY) {
-    final dx = playerX - worldX;
-    final dy = playerY - worldY;
-    return (dx * dx + dy * dy) <= (triggerRadius * triggerRadius);
+    final scale = IsometricCoordinates.worldScale;
+    final dx = playerX - (worldX * scale);
+    final dy = playerY - (worldY * scale);
+    final r = triggerRadius * scale;
+    return (dx * dx + dy * dy) <= (r * r);
   }
 
   double distanceTo(double playerX, double playerY) {
-    final dx = playerX - worldX;
-    final dy = playerY - worldY;
+    final scale = IsometricCoordinates.worldScale;
+    final dx = playerX - (worldX * scale);
+    final dy = playerY - (worldY * scale);
     return math.sqrt(dx * dx + dy * dy);
   }
 }
