@@ -12,13 +12,13 @@ import 'dart:io';
 
 void main() {
   group('1. Isometric Coordinate System Tests', () {
-    test('Constants match Phase 3.3 specification (60x30, strict 2:1 ratio)', () {
-      expect(IsometricCoordinates.tileWidth, equals(60.0));
-      expect(IsometricCoordinates.tileHeight, equals(30.0));
-      expect(IsometricCoordinates.halfTileWidth, equals(30.0));
-      expect(IsometricCoordinates.halfTileHeight, equals(15.0));
+    test('Constants match Phase 3.3 specification (80x40, strict 2:1 ratio)', () {
+      expect(IsometricCoordinates.tileWidth, equals(80.0));
+      expect(IsometricCoordinates.tileHeight, equals(40.0));
+      expect(IsometricCoordinates.halfTileWidth, equals(40.0));
+      expect(IsometricCoordinates.halfTileHeight, equals(20.0));
       expect(IsometricCoordinates.tileWidth / IsometricCoordinates.tileHeight, equals(2.0));
-      expect(IsometricCoordinates.worldScale, closeTo(128.0 / 60.0, 0.001));
+      expect(IsometricCoordinates.worldScale, closeTo(128.0 / 80.0, 0.001));
     });
 
     test('Dimetric 2:1 ratio validation and alternative sizing (96x48, 80x40, 60x30)', () {
@@ -27,17 +27,17 @@ void main() {
       expect(IsometricCoordinates.tileHeight, equals(48.0));
       expect(IsometricCoordinates.tileWidth / IsometricCoordinates.tileHeight, equals(2.0));
 
-      IsometricCoordinates.setTileDimensions(80.0, 40.0);
-      expect(IsometricCoordinates.tileWidth, equals(80.0));
-      expect(IsometricCoordinates.tileHeight, equals(40.0));
+      IsometricCoordinates.setTileDimensions(60.0, 30.0);
+      expect(IsometricCoordinates.tileWidth, equals(60.0));
+      expect(IsometricCoordinates.tileHeight, equals(30.0));
 
       // Rejection of non-2:1 ratio
       expect(() => IsometricCoordinates.setTileDimensions(100.0, 60.0), throwsArgumentError);
 
       // Reset to canonical default
       IsometricCoordinates.resetToDefault();
-      expect(IsometricCoordinates.tileWidth, equals(60.0));
-      expect(IsometricCoordinates.tileHeight, equals(30.0));
+      expect(IsometricCoordinates.tileWidth, equals(80.0));
+      expect(IsometricCoordinates.tileHeight, equals(40.0));
     });
 
     test('World to Screen and Screen to World reversibility', () {
