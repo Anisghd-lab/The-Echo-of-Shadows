@@ -228,10 +228,10 @@ def build():
     <!-- Tile Size Switcher Toolbar (Phase 3.3) -->
     <div id="tile-size-selector" style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; background: rgba(15, 23, 42, 0.92); border: 1px solid rgba(148, 163, 184, 0.35); border-radius: 24px; padding: 5px 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.6); z-index: 10;">
       <span style="font-size: 11px; font-weight: 700; color: #94A3B8; margin-right: 4px; display: flex; align-items: center; gap: 4px;"><span>📐</span> TILES :</span>
-      <button class="tile-btn" id="btn-tile-128" onclick="setTileSize(128, 64)" title="Ancien format (grandes dalles)">128x64</button>
-      <button class="tile-btn active" id="btn-tile-96" onclick="setTileSize(96, 48)" title="Premier test obligatoire (+78% pavés)">96x48 (Défaut)</button>
-      <button class="tile-btn" id="btn-tile-80" onclick="setTileSize(80, 40)" title="Sol fin & détaillé (+156% pavés)">80x40</button>
-      <button class="tile-btn" id="btn-tile-64" onclick="setTileSize(64, 32)" title="Haute densité (+300% pavés)">64x32</button>
+      <button class="tile-btn" id="btn-tile-128" onclick="setTileSize(128, 64)" title="Grandes dalles">128x64</button>
+      <button class="tile-btn" id="btn-tile-96" onclick="setTileSize(96, 48)" title="Premier test (+78% pavés)">96x48</button>
+      <button class="tile-btn" id="btn-tile-80" onclick="setTileSize(80, 40)" title="Sol fin (+156% pavés)">80x40</button>
+      <button class="tile-btn active" id="btn-tile-60" onclick="setTileSize(60, 30)" title="Choix utilisateur (60x30, +355% pavés, ratio 2:1)">60x30 (Actif)</button>
     </div>
 
     <!-- Debug HUD -->
@@ -379,11 +379,11 @@ def build():
 
   <script>
     // 1. Isometric Engine Constants & Dynamic Dimetric Tile Sizing (Phase 3.3)
-    let TILE_W = 96;
-    let TILE_H = 48;
-    let HALF_W = 48;
-    let HALF_H = 24;
-    let worldScale = 128.0 / 96.0;
+    let TILE_W = 60;
+    let TILE_H = 30;
+    let HALF_W = 30;
+    let HALF_H = 15;
+    let worldScale = 128.0 / 60.0;
 
     function setTileSize(w, h) {{
       if (w / h !== 2) return;
@@ -591,7 +591,7 @@ def build():
       if (k === '1') setTileSize(128, 64);
       if (k === '2') setTileSize(96, 48);
       if (k === '3') setTileSize(80, 40);
-      if (k === '4') setTileSize(64, 32);
+      if (k === '4') setTileSize(60, 30);
     }});
     window.addEventListener('keyup', (e) => {{ keys[e.key.toLowerCase()] = false; }});
 

@@ -3,11 +3,11 @@ import json
 import math
 
 def test_isometric_coordinates():
-    print("Test 1: Isometric Coordinates (Phase 3.3 96x48, strict 2:1 ratio)...")
-    TILE_W = 96.0
-    TILE_H = 48.0
-    HALF_W = 48.0
-    HALF_H = 24.0
+    print("Test 1: Isometric Coordinates (Phase 3.3 60x30, strict 2:1 ratio)...")
+    TILE_W = 60.0
+    TILE_H = 30.0
+    HALF_W = 30.0
+    HALF_H = 15.0
 
     assert TILE_W / TILE_H == 2.0, "Must preserve strict 2:1 dimetric ratio"
 
@@ -321,15 +321,15 @@ def test_phase3_1_visual_continuity_camera_zero_void():
     viewports = [(1920, 1080), (2400, 1080), (1280, 720)]
     zooms = [0.85, 1.15, 1.6]
     
-    # Terrain grid radius scaled to match tileWidth = 96 (grid_r = 32)
-    grid_r = 32
-    HALF_W = 48.0
-    HALF_H = 24.0
+    # Terrain grid radius scaled to match tileWidth = 60 (grid_r = 52)
+    grid_r = 52
+    HALF_W = 30.0
+    HALF_H = 15.0
     # Minimum and maximum screen coordinates covered by terrain
-    terrain_min_x = -grid_r * 2 * HALF_W # -3072
-    terrain_max_x = grid_r * 2 * HALF_W  # +3072
-    terrain_min_y = -grid_r * 2 * HALF_H # -1536
-    terrain_max_y = grid_r * 2 * HALF_H  # +1536
+    terrain_min_x = -grid_r * 2 * HALF_W # -3120
+    terrain_max_x = grid_r * 2 * HALF_W  # +3120
+    terrain_min_y = -grid_r * 2 * HALF_H # -1560
+    terrain_max_y = grid_r * 2 * HALF_H  # +1560
 
     camera_min_x = -1600.0
     camera_max_x = 1600.0
@@ -535,19 +535,19 @@ def test_phase3_3_alex_identity_consistency():
     print("  ✓ 100% Character Identity Guaranteed across all 4 directions (Zero Morphing): PASSED")
 
 def test_phase3_3_ground_tile_size_reduction():
-    print("Test 17: Phase 3.3 Ground Tile Size Reduction (96x48, 80x40, Strict 2:1 Ratio, High Density Paving)...")
+    print("Test 17: Phase 3.3 Ground Tile Size Reduction (60x30, Strict 2:1 Ratio, High Density Paving)...")
     from PIL import Image
 
     # 1. Verify Dart IsometricCoordinates tile dimensions
     iso_file = "/root/the_echo_of_shadows/lib/game/world/isometric_coordinates.dart"
     with open(iso_file, "r", encoding="utf-8") as f:
         iso_code = f.read()
-    assert "tileWidth = 96.0" in iso_code, "tileWidth must be 96.0"
-    assert "tileHeight = 48.0" in iso_code, "tileHeight must be 48.0"
+    assert "tileWidth = 60.0" in iso_code, "tileWidth must be 60.0"
+    assert "tileHeight = 30.0" in iso_code, "tileHeight must be 30.0"
     assert "width / height != 2.0" in iso_code or "worldScale" in iso_code, "Must enforce 2:1 ratio"
 
     # 2. Verify strict dimetric 2:1 ratio
-    configs = [(128, 64), (96, 48), (80, 40), (64, 32)]
+    configs = [(128, 64), (96, 48), (80, 40), (60, 30)]
     for w, h in configs:
         assert w / h == 2.0, f"Dimensions {w}x{h} must satisfy 2:1 dimetric ratio"
 
@@ -555,11 +555,11 @@ def test_phase3_3_ground_tile_size_reduction():
     base_area = 128 * 64
     density_96 = base_area / (96 * 48)
     density_80 = base_area / (80 * 40)
-    density_64 = base_area / (64 * 32)
+    density_60 = base_area / (60 * 30)
     assert abs(density_96 - 1.7778) < 0.01, f"96x48 density: {density_96} != 1.78x"
     assert abs(density_80 - 2.5600) < 0.01, f"80x40 density: {density_80} != 2.56x"
-    assert abs(density_64 - 4.0000) < 0.01, f"64x32 density: {density_64} != 4.00x"
-    print(f"  ✓ Tile Paving Density verified: 96x48 (+78% tiles), 80x40 (+156% tiles), 64x32 (+300% tiles)")
+    assert abs(density_60 - 4.5511) < 0.01, f"60x30 density: {density_60} != 4.55x"
+    print(f"  ✓ Tile Paving Density verified: 60x30 (+355% tiles), 80x40 (+156% tiles), 96x48 (+78% tiles)")
 
     # 4. Verify Alex Human Scale Preservation and Relative Proportion Increase
     # Alex is 28x56 px
@@ -567,10 +567,9 @@ def test_phase3_3_ground_tile_size_reduction():
     prop_128 = alex_w / 128.0
     prop_96  = alex_w / 96.0
     prop_80  = alex_w / 80.0
-    prop_64  = alex_w / 64.0
-    assert prop_96 > prop_128, "Alex must be proportionnellement plus grand par rapport aux dalles"
-    assert prop_80 > prop_96, "80x40 further increases Alex relative prominence"
-    print(f"  ✓ Alex Relative Scale: 128x64 ({prop_128*100:.1f}%) -> 96x48 ({prop_96*100:.1f}%) -> 80x40 ({prop_80*100:.1f}%)")
+    prop_60  = alex_w / 60.0
+    assert prop_60 > prop_80 > prop_96 > prop_128, "Alex must be proportionnellement plus grand par rapport aux dalles"
+    print(f"  ✓ Alex Relative Scale: 128x64 ({prop_128*100:.1f}%) -> 96x48 ({prop_96*100:.1f}%) -> 80x40 ({prop_80*100:.1f}%) -> 60x30 ({prop_60*100:.1f}%)")
 
     # 5. Verify Comparative Contact Sheet Artifact
     cmp_img_path = "/root/the_echo_of_shadows/tile_size_comparison.png"
@@ -584,10 +583,10 @@ def test_phase3_3_ground_tile_size_reduction():
     with open(web_html, "r", encoding="utf-8") as f:
         html = f.read()
     assert "tile-size-selector" in html, "index.html must have #tile-size-selector"
-    assert "btn-tile-128" in html and "btn-tile-96" in html and "btn-tile-80" in html, "index.html must have tile size buttons"
+    assert "btn-tile-128" in html and "btn-tile-96" in html and "btn-tile-80" in html and "btn-tile-60" in html, "index.html must have tile size buttons"
     assert "setTileSize" in html, "index.html must implement setTileSize"
-    print("  ✓ Interactive Tile Switcher Toolbar in Web Preview verified (128x64, 96x48, 80x40, 64x32)")
-    print("  ✓ All Phase 3.3 Ground Tile Size criteria fulfilled: PASSED")
+    print("  ✓ Interactive Tile Switcher Toolbar in Web Preview verified (128x64, 96x48, 80x40, 60x30)")
+    print("  ✓ All Phase 3.3 Ground Tile Size criteria fulfilled (60x30 Canonical): PASSED")
 
 if __name__ == "__main__":
     print("=== Running The Echo of Shadows Phase 3.3 Verification Suite ===")

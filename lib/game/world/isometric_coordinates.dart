@@ -11,10 +11,10 @@ import 'dart:math' as math;
 /// - Screen coordinates (screenX, screenY): 2D pixel coordinates rendered on canvas.
 /// - Grid coordinates (gridX, gridY): integer tile indices.
 class IsometricCoordinates {
-  // Canonical isometric tile dimensions (Phase 3.3 Fine Cobblestone Slabs)
-  // Default: 96x48 px (strict 2:1 dimetric ratio)
-  static double tileWidth = 96.0;
-  static double tileHeight = 48.0;
+  // Canonical isometric tile dimensions (Phase 3.3 Fine Cobblestones & High Density Paving)
+  // Default: 60x30 px (strict 2:1 dimetric ratio, 4.55x tile density)
+  static double tileWidth = 60.0;
+  static double tileHeight = 30.0;
   static double get halfTileWidth => tileWidth / 2.0;
   static double get halfTileHeight => tileHeight / 2.0;
 
@@ -31,10 +31,10 @@ class IsometricCoordinates {
     tileHeight = height;
   }
 
-  /// Resets to Phase 3.3 canonical default (96x48).
+  /// Resets to Phase 3.3 canonical default (60x30).
   static void resetToDefault() {
-    tileWidth = 96.0;
-    tileHeight = 48.0;
+    tileWidth = 60.0;
+    tileHeight = 30.0;
   }
 
   // Layer base offsets for Z-ordering
