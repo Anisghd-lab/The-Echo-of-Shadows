@@ -64,9 +64,9 @@ class VillageGame extends FlameGame with KeyboardEvents {
 
     cameraController = IsometricCameraController(
       camera: camera,
-      minBounds: Vector2(-1200, -900),
-      maxBounds: Vector2(1200, 900),
-      zoomLevel: 1.0,
+      minBounds: Vector2(-850, -380),
+      maxBounds: Vector2(750, 780),
+      zoomLevel: 1.15,
     );
   }
 

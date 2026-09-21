@@ -20,8 +20,9 @@ class AlexComponent extends PositionComponent with HasGameRef {
     required this.controller,
     required this.animationController,
   }) {
-    // Initial size of Alex on screen (scaled down to fit isometric tile perspective)
-    size = Vector2(72, 144);
+    // Calibrated human scale: 28px width, 56px height
+    // Matches door heights (~50px), well rim (~30px), and church scale
+    size = Vector2(28, 56);
     anchor = Anchor.bottomCenter;
   }
 
@@ -52,9 +53,9 @@ class AlexComponent extends PositionComponent with HasGameRef {
     // 1. Render contact ground shadow
     canvas.drawOval(
       Rect.fromCenter(
-        center: Offset(size.x / 2, size.y - 4),
-        width: size.x * 0.55,
-        height: 14.0,
+        center: Offset(size.x / 2, size.y - 2),
+        width: size.x * 0.75,
+        height: 6.0,
       ),
       _shadowPaint,
     );

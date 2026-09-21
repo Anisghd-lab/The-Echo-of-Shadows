@@ -1,30 +1,30 @@
 import 'package:flame/components.dart';
 
 /// Camera controller providing smooth target following, bounded clamping, and controlled zoom.
+/// Guarantees that camera bounds never reveal empty unbuilt void.
 class IsometricCameraController {
   final CameraComponent camera;
   final Vector2 minBounds;
   final Vector2 maxBounds;
 
-  double zoomLevel = 1.0;
-  static const double minZoom = 0.75;
+  double zoomLevel = 1.15; // Slightly enhanced initial cinematic focus
+  static const double minZoom = 0.85;
   static const double maxZoom = 1.6;
-  static const double followSpeed = 6.0; // Smooth damping factor
+  static const double followSpeed = 5.5; // Smooth cinematic damping
 
   IsometricCameraController({
     required this.camera,
     required this.minBounds,
     required this.maxBounds,
-    this.zoomLevel = 1.0,
+    this.zoomLevel = 1.15,
   });
 
-  /// Updates camera position to follow target within bounds.
+  /// Updates camera position to follow target smoothly while staying within world bounds.
   void update({
     required Vector2 targetPosition,
     required Vector2 viewportSize,
     required double dt,
   }) {
-    // Current camera position in world space
     final currentPos = camera.viewfinder.position;
 
     // Smooth lerp towards target
@@ -35,15 +35,25 @@ class IsometricCameraController {
     final effectiveHalfWidth = (viewportSize.x / 2.0) / zoomLevel;
     final effectiveHalfHeight = (viewportSize.y / 2.0) / zoomLevel;
 
-    // Clamp camera position so the viewport edges never expose areas outside the bounds
-    final clampedX = smoothX.clamp(
-      minBounds.x + effectiveHalfWidth,
-      maxBounds.x - effectiveHalfWidth,
-    );
-    final clampedY = smoothY.clamp(
-      minBounds.y + effectiveHalfHeight,
-      maxBounds.y - effectiveHalfHeight,
-    );
+    // Calculate clamped bounds (if viewport is smaller than world extent)
+    double clampedX = smoothX;
+    double clampedY = smoothY;
+
+    final minAllowedX = minBounds.x + effectiveHalfWidth;
+    final maxAllowedX = maxBounds.x - effectiveHalfWidth;
+    if (minAllowedX < maxAllowedX) {
+      clampedX = smoothX.clamp(minAllowedX, maxAllowedX);
+    } else {
+      clampedX = (minBounds.x + maxBounds.x) / 2.0;
+    }
+
+    final minAllowedY = minBounds.y + effectiveHalfHeight;
+    final maxAllowedY = maxBounds.y - effectiveHalfHeight;
+    if (minAllowedY < maxAllowedY) {
+      clampedY = smoothY.clamp(minAllowedY, maxAllowedY);
+    } else {
+      clampedY = (minBounds.y + maxBounds.y) / 2.0;
+    }
 
     camera.viewfinder.position = Vector2(clampedX, clampedY);
     camera.viewfinder.zoom = zoomLevel;

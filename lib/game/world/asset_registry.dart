@@ -127,8 +127,15 @@ class GameAssetRegistry {
   static const String villageHouse04 = 'village_abandonne_environment_sprite_sheet04';
   static const String villageIronGate = 'village_abandonne_environment_sprite_sheet15';
   static const String villageStoneSlab = 'village_abandonne_environment_sprite_sheet25';
+  static const String villageStoneSlabVar = 'village_abandonne_environment_sprite_sheet26';
+  static const String villageSnowSlab = 'village_abandonne_environment_sprite_sheet31';
+  static const String villageIceSlab = 'village_abandonne_environment_sprite_sheet32';
   static const String villageWell = 'village_abandonne_route_decor_exterieur01';
   static const String villageBridge = 'village_abandonne_route_decor_exterieur05';
+  static const String villagePineTree = 'village_abandonne_environment_sprite_sheet37';
+  static const String villageDeadTree = 'village_abandonne_environment_sprite_sheet34';
+  static const String villageStreetLamp = 'village_abandonne_environment_sprite_sheet20';
+  static const String villageCliff = 'village_abandonne_route_decor_exterieur52';
   static const String villageMasterMap = 'map_village';
 
   // Family House Exterior & Interior
@@ -281,6 +288,88 @@ class GameAssetRegistry {
         height: 101,
         pivotX: 0.5,
         pivotY: 0.5,
+      ),
+      const AssetEntry(
+        assetId: villageStoneSlabVar,
+        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet26.png',
+        type: AssetType.tile,
+        category: 'village',
+        width: 151,
+        height: 101,
+        pivotX: 0.5,
+        pivotY: 0.5,
+      ),
+      const AssetEntry(
+        assetId: villageSnowSlab,
+        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet31.png',
+        type: AssetType.tile,
+        category: 'village',
+        width: 146,
+        height: 99,
+        pivotX: 0.5,
+        pivotY: 0.5,
+      ),
+      const AssetEntry(
+        assetId: villageIceSlab,
+        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet32.png',
+        type: AssetType.tile,
+        category: 'village',
+        width: 164,
+        height: 107,
+        pivotX: 0.5,
+        pivotY: 0.5,
+      ),
+      const AssetEntry(
+        assetId: villagePineTree,
+        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet37.png',
+        type: AssetType.prop,
+        category: 'village',
+        width: 107,
+        height: 102,
+        pivotX: 0.5,
+        pivotY: 0.90,
+        hasCollision: true,
+        collisionWidth: 40,
+        collisionHeight: 25,
+      ),
+      const AssetEntry(
+        assetId: villageDeadTree,
+        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet34.png',
+        type: AssetType.prop,
+        category: 'village',
+        width: 97,
+        height: 160,
+        pivotX: 0.5,
+        pivotY: 0.90,
+        hasCollision: true,
+        collisionWidth: 35,
+        collisionHeight: 20,
+      ),
+      const AssetEntry(
+        assetId: villageStreetLamp,
+        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet20.png',
+        type: AssetType.prop,
+        category: 'village',
+        width: 57,
+        height: 144,
+        pivotX: 0.5,
+        pivotY: 0.95,
+        hasCollision: true,
+        collisionWidth: 20,
+        collisionHeight: 15,
+      ),
+      const AssetEntry(
+        assetId: villageCliff,
+        path: 'assets/images/environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur52.png',
+        type: AssetType.building,
+        category: 'village',
+        width: 250,
+        height: 301,
+        pivotX: 0.5,
+        pivotY: 0.90,
+        hasCollision: true,
+        collisionWidth: 180,
+        collisionHeight: 120,
       ),
       const AssetEntry(
         assetId: villageWell,

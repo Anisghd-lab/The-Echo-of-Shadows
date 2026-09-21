@@ -4,6 +4,7 @@ import '../lib/game/player/player_controller.dart';
 import '../lib/game/world/asset_registry.dart';
 import '../lib/game/world/collision_box.dart';
 import '../lib/game/world/isometric_coordinates.dart';
+import '../lib/game/world/point_of_interest.dart';
 import '../lib/save/local_save_repository.dart';
 import '../lib/save/save_manager.dart';
 import 'dart:io';
@@ -193,4 +194,39 @@ void main() {
       expect(registry.has(GameAssetRegistry.ethanDesk), isTrue);
     });
   });
+
+  group('7. Phase 3 POI & Spatial Composition Tests', () {
+    test('Canonical POIs registered with dual English/French titles', () {
+      expect(VillagePOIRegistry.allPOIs.length, equals(7));
+
+      final entrance = VillagePOIRegistry.allPOIs.firstWhere((p) => p.id == VillagePOIRegistry.villageEntrance);
+      expect(entrance.nameEn, contains('Village Entrance'));
+      expect(entrance.nameFr, contains('Entrée du village'));
+
+      final church = VillagePOIRegistry.allPOIs.firstWhere((p) => p.id == VillagePOIRegistry.abandonedChurch);
+      expect(church.nameEn, contains('Church'));
+      expect(church.nameFr, contains('Église'));
+
+      final familyHouse = VillagePOIRegistry.allPOIs.firstWhere((p) => p.id == VillagePOIRegistry.familyHouse);
+      expect(familyHouse.nameEn, contains('Family House'));
+      expect(familyHouse.nameFr, contains('Maison familiale'));
+    });
+
+    test('findActivePOI returns correct POI when player is in proximity', () {
+      // Near entrance (0.0, 0.0)
+      final atEntrance = VillagePOIRegistry.findActivePOI(0.2, 0.1);
+      expect(atEntrance, isNotNull);
+      expect(atEntrance!.id, equals(VillagePOIRegistry.villageEntrance));
+
+      // Near Old Well (0.0, 6.0)
+      final atWell = VillagePOIRegistry.findActivePOI(0.1, 5.9);
+      expect(atWell, isNotNull);
+      expect(atWell!.id, equals(VillagePOIRegistry.oldWell));
+
+      // Far away in deep forest (12.0, 12.0)
+      final inDeepForest = VillagePOIRegistry.findActivePOI(12.0, 12.0);
+      expect(inDeepForest, isNull);
+    });
+  });
 }
+

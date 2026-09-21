@@ -9,6 +9,7 @@ import 'layers/ground_layer.dart';
 import 'layers/prop_layer.dart';
 import 'layers/road_layer.dart';
 import 'layers/weather_effects_layer.dart';
+import 'point_of_interest.dart';
 
 /// The root Flame World component for the Abandoned Village scene.
 class VillageWorld extends World with HasGameRef {
@@ -17,15 +18,18 @@ class VillageWorld extends World with HasGameRef {
   late final PlayerAnimationController playerAnimationController;
   late final AlexComponent alex;
 
-  // World boundaries in continuous isometric units
-  final double minWorldX = -12.0;
-  final double maxWorldX = 12.0;
-  final double minWorldY = -12.0;
-  final double maxWorldY = 12.0;
+  // Calibrated world boundaries enclosing the village composition
+  final double minWorldX = -9.0;
+  final double maxWorldX = 10.0;
+  final double minWorldY = -2.5;
+  final double maxWorldY = 13.5;
 
   final double initialPlayerX;
   final double initialPlayerY;
   final String initialOrientation;
+
+  // Active Point of Interest
+  PointOfInterest? activePOI;
 
   VillageWorld({
     this.initialPlayerX = 0.0,
@@ -55,67 +59,77 @@ class VillageWorld extends World with HasGameRef {
     _addPerimeterCollisions();
 
     // 3. Mount Layers in strict isometric order
-    // Ground
-    add(GroundLayer());
+    // Ground (Multi-zone: River, Cobblestones, Plaza, Snow, Yards)
+    add(GroundLayer(gridRadius: 15));
 
     // Roads & Pathways
     add(RoadLayer());
 
-    // Buildings (with collision registration)
+    // Buildings (Church, Family House, Cottages)
     add(BuildingLayer(collisionManager: collisionManager));
 
-    // Props (with collision registration)
+    // Props (Well, Gates, Street Lamps, Pine & Dead Trees, Cliffs)
     add(PropLayer(collisionManager: collisionManager));
 
-    // Characters (dynamically sorted)
+    // Characters (Alex with calibrated human scale and dynamic Z-ordering)
     add(CharactersLayer(alex: alex));
 
-    // Weather Effects
+    // Atmospheric Weather (Wind-driven snow, freezing sleet, fog mist)
     add(WeatherEffectsLayer());
   }
 
+  @override
+  void update(double dt) {
+    super.update(dt);
+    // Check nearest Point of Interest
+    activePOI = VillagePOIRegistry.findActivePOI(
+      playerController.worldX,
+      playerController.worldY,
+    );
+  }
+
   void _addPerimeterCollisions() {
-    // Left boundary
+    // West forest boundary
     collisionManager.addObstacle(
       IsometricCollisionBox(
-        id: 'boundary_left',
-        worldX: minWorldX - 1.0,
-        worldY: 0.0,
-        halfWidth: 1.0,
-        halfHeight: maxWorldY,
+        id: 'boundary_west',
+        worldX: minWorldX - 0.5,
+        worldY: (minWorldY + maxWorldY) / 2,
+        halfWidth: 0.5,
+        halfHeight: (maxWorldY - minWorldY) / 2,
         label: 'boundary',
       ),
     );
-    // Right boundary
+    // East cliff boundary
     collisionManager.addObstacle(
       IsometricCollisionBox(
-        id: 'boundary_right',
-        worldX: maxWorldX + 1.0,
-        worldY: 0.0,
-        halfWidth: 1.0,
-        halfHeight: maxWorldY,
+        id: 'boundary_east',
+        worldX: maxWorldX + 0.5,
+        worldY: (minWorldY + maxWorldY) / 2,
+        halfWidth: 0.5,
+        halfHeight: (maxWorldY - minWorldY) / 2,
         label: 'boundary',
       ),
     );
-    // Top boundary
+    // South frozen river boundary
     collisionManager.addObstacle(
       IsometricCollisionBox(
-        id: 'boundary_top',
-        worldX: 0.0,
-        worldY: minWorldY - 1.0,
-        halfWidth: maxWorldX,
-        halfHeight: 1.0,
+        id: 'boundary_south',
+        worldX: (minWorldX + maxWorldX) / 2,
+        worldY: minWorldY - 0.5,
+        halfWidth: (maxWorldX - minWorldX) / 2,
+        halfHeight: 0.5,
         label: 'boundary',
       ),
     );
-    // Bottom boundary
+    // North mountain boundary
     collisionManager.addObstacle(
       IsometricCollisionBox(
-        id: 'boundary_bottom',
-        worldX: 0.0,
-        worldY: maxWorldY + 1.0,
-        halfWidth: maxWorldX,
-        halfHeight: 1.0,
+        id: 'boundary_north',
+        worldX: (minWorldX + maxWorldX) / 2,
+        worldY: maxWorldY + 0.5,
+        halfWidth: (maxWorldX - minWorldX) / 2,
+        halfHeight: 0.5,
         label: 'boundary',
       ),
     );
