@@ -11,15 +11,13 @@ import 'dart:math' as math;
 /// - Screen coordinates (screenX, screenY): 2D pixel coordinates rendered on canvas.
 /// - Grid coordinates (gridX, gridY): integer tile indices.
 class IsometricCoordinates {
-  // Canonical isometric tile dimensions (Phase 3.3 Fine Cobblestones & High Density Paving)
-  // Default: 80x40 px (strict 2:1 dimetric ratio, 2.56x tile density)
-  static double tileWidth = 80.0;
-  static double tileHeight = 40.0;
+  // Canonical isometric tile dimensions (Phase 3 128x64 dimetric ratio 2:1)
+  static double tileWidth = 128.0;
+  static double tileHeight = 64.0;
   static double get halfTileWidth => tileWidth / 2.0;
   static double get halfTileHeight => tileHeight / 2.0;
 
-  /// Ratio relative to baseline 128x64 grid.
-  /// Preserves world physical layout and pixel alignment while scaling tile density.
+  /// Ratio relative to baseline 128x64 grid (1.0).
   static double get worldScale => 128.0 / tileWidth;
 
   /// Sets tile dimensions while strictly maintaining dimetric 2:1 aspect ratio.
@@ -31,10 +29,10 @@ class IsometricCoordinates {
     tileHeight = height;
   }
 
-  /// Resets to Phase 3.3 canonical default (80x40).
+  /// Resets to canonical baseline default (128x64).
   static void resetToDefault() {
-    tileWidth = 80.0;
-    tileHeight = 40.0;
+    tileWidth = 128.0;
+    tileHeight = 64.0;
   }
 
   // Layer base offsets for Z-ordering

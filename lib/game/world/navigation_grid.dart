@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'collision_box.dart';
 import 'isometric_coordinates.dart';
 import 'village_map.dart';
+import 'village_terrain_map.dart';
 
 /// Navigation Grid and spatial zone locator for the reconstructed village.
 class NavigationGrid {
@@ -30,7 +31,15 @@ class NavigationGrid {
       return false;
     }
 
-    // 3. Water Hazard Check (River gorge at south, except when on bridge or docks)
+    // 3. Terrain Tile Walkability Check
+    final tile = VillageTerrainMap.getTile((wx / scale).round(), (wy / scale).round());
+    if (!tile.isWalkable) {
+      if (!isOnBridge(wx, wy) && !isOnDock(wx, wy)) {
+        return false;
+      }
+    }
+
+    // 4. Water Hazard Check (River gorge at south, except when on bridge or docks)
     if (isRiverWater(wx, wy)) {
       if (!isOnBridge(wx, wy) && !isOnDock(wx, wy)) {
         return false;

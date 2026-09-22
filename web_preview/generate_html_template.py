@@ -176,9 +176,9 @@ def get_html_content(**assets):
     <!-- Tile Switcher Toolbar -->
     <div id="tile-size-selector">
       <span style="font-size: 11px; font-weight: 700; color: #94A3B8; margin-right: 4px;">📐 TILES :</span>
-      <button class="tile-btn" id="btn-tile-128" onclick="setTileSize(128, 64)">128x64</button>
+      <button class="tile-btn active" id="btn-tile-128" onclick="setTileSize(128, 64)">128x64 (Standard)</button>
       <button class="tile-btn" id="btn-tile-96" onclick="setTileSize(96, 48)">96x48</button>
-      <button class="tile-btn active" id="btn-tile-80" onclick="setTileSize(80, 40)">80x40 (Validé)</button>
+      <button class="tile-btn" id="btn-tile-80" onclick="setTileSize(80, 40)">80x40</button>
       <button class="tile-btn" id="btn-tile-60" onclick="setTileSize(60, 30)">60x30</button>
     </div>
 
@@ -326,12 +326,12 @@ def get_html_content(**assets):
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
-    // 1. Terrain Metrics (Phase 9 & 17 Standard: 80x40, strict 2:1 dimetric ratio)
-    let TILE_W = 80.0;
-    let TILE_H = 40.0;
-    let HALF_W = 40.0;
-    let HALF_H = 20.0;
-    let worldScale = 1.6;
+    // 1. Terrain Metrics (Canonical Dimetric Isometric: 128x64, strict 2:1 ratio)
+    let TILE_W = 128.0;
+    let TILE_H = 64.0;
+    let HALF_W = 64.0;
+    let HALF_H = 32.0;
+    let worldScale = 1.0;
     let isDebug = false;
 
     function setTileSize(w, h) {{
@@ -408,10 +408,23 @@ def get_html_content(**assets):
 
       pine_tree: new Image(),
       dead_tree: new Image(),
-      stone_slab: new Image(),
-      stone_slab_var: new Image(),
-      snow_slab: new Image(),
-      ice_slab: new Image(),
+      snow_a: new Image(),
+      snow_b: new Image(),
+      snow_c: new Image(),
+      road_a: new Image(),
+      road_b: new Image(),
+      plaza_a: new Image(),
+      plaza_b: new Image(),
+      path_a: new Image(),
+      path_b: new Image(),
+      bridge_planks: new Image(),
+      dock_planks: new Image(),
+      ice_a: new Image(),
+      ice_b: new Image(),
+      water_a: new Image(),
+      water_b: new Image(),
+      shore_a: new Image(),
+      shore_b: new Image(),
       cliff: new Image(),
     }};
 
@@ -488,10 +501,23 @@ def get_html_content(**assets):
 
     images.pine_tree.src = "{assets['pine_tree']}";
     images.dead_tree.src = "{assets['dead_tree']}";
-    images.stone_slab.src = "{assets['stone_slab']}";
-    images.stone_slab_var.src = "{assets['stone_slab_var']}";
-    images.snow_slab.src = "{assets['snow_slab']}";
-    images.ice_slab.src = "{assets['ice_slab']}";
+    images.snow_a.src = "{assets['snow_a']}";
+    images.snow_b.src = "{assets['snow_b']}";
+    images.snow_c.src = "{assets['snow_c']}";
+    images.road_a.src = "{assets['road_a']}";
+    images.road_b.src = "{assets['road_b']}";
+    images.plaza_a.src = "{assets['plaza_a']}";
+    images.plaza_b.src = "{assets['plaza_b']}";
+    images.path_a.src = "{assets['path_a']}";
+    images.path_b.src = "{assets['path_b']}";
+    images.bridge_planks.src = "{assets['bridge_planks']}";
+    images.dock_planks.src = "{assets['dock_planks']}";
+    images.ice_a.src = "{assets['ice_a']}";
+    images.ice_b.src = "{assets['ice_b']}";
+    images.water_a.src = "{assets['water_a']}";
+    images.water_b.src = "{assets['water_b']}";
+    images.shore_a.src = "{assets['shore_a']}";
+    images.shore_b.src = "{assets['shore_b']}";
     images.cliff.src = "{assets['cliff']}";
 
     // 3. Coordinate Projections
@@ -670,6 +696,13 @@ def get_html_content(**assets):
         if (x < minX || x > maxX || y < minY || y > maxY) return true;
         return false;
       }}
+
+      // 1. World Bounds Check
+      if (x < -12.0 * worldScale || x > 12.0 * worldScale || y < -12.0 * worldScale || y > 12.0 * worldScale) {{
+        return true;
+      }}
+
+      // 2. Obstacles Check
       for (const obs of obstacles) {{
         const ox = obs.baseWx * worldScale;
         const oy = obs.baseWy * worldScale;
@@ -681,6 +714,19 @@ def get_html_content(**assets):
         const dy = y - cy;
         if ((dx * dx + dy * dy) < (radius * radius)) return true;
       }}
+
+      // 3. Water Hazard Check (River gorge at south, except when on bridge or docks)
+      const sumXy = (x + y) / worldScale;
+      const diffXy = Math.abs(x - y) / worldScale;
+      if (sumXy >= 10.0) {{
+        const isBridge = diffXy <= 1.2 && sumXy >= 8.0 && sumXy <= 15.5;
+        const isLeftDock = Math.hypot(x / worldScale - 2.0, y / worldScale - 8.5) <= 1.8;
+        const isRightDock = Math.hypot(x / worldScale - 6.0, y / worldScale - 6.0) <= 1.8;
+        if (!isBridge && !isLeftDock && !isRightDock) {{
+          return true;
+        }}
+      }}
+
       return false;
     }}
 
@@ -1086,67 +1132,84 @@ def get_html_content(**assets):
         // Reconstructed from canonical blueprint map du village.png
         // -----------------------------------------------------------------------
         function getGroundTile(gx, gy) {{
-          const scale = worldScale;
+          // Deterministic hash for natural environmental variation
+          const hVal = Math.abs(((gx * 73856093) ^ (gy * 19349663))) % 100;
+          const sumXy = gx + gy;
+          const diffXy = Math.abs(gx - gy);
 
-          // 1. Wooden Bridge across the river gorge
-          const isBridge = Math.abs(gx - gy) <= (1.2 * scale) &&
-              (gx + gy) >= (8.0 * scale) &&
-              (gx + gy) <= (16.0 * scale);
-          if (isBridge) {{
-            return images.stone_slab;
+          // 1. Wooden Bridge across River Gorge
+          if (diffXy <= 1 && sumXy >= 8 && sumXy <= 15) {{
+            return images.bridge_planks;
           }}
 
-          // 2. River Docks & Piers
-          const isLeftDock = Math.hypot(gx - 2.0 * scale, gy - 8.5 * scale) <= (1.8 * scale);
-          const isRightDock = Math.hypot(gx - 6.0 * scale, gy - 6.0 * scale) <= (1.8 * scale);
-          if (isLeftDock || isRightDock) {{
-            return images.stone_slab;
+          // 2. River Docks & Cargo Piers
+          const distLeftDock = Math.hypot(gx - 2.0, gy - 8.0);
+          const distRightDock = Math.hypot(gx - 6.0, gy - 6.0);
+          if (distLeftDock <= 1.5 || distRightDock <= 1.5) {{
+            return images.dock_planks;
           }}
 
-          // 3. Frozen River (South Sector)
-          if ((gx + gy) >= 10.0 * scale) {{
-            return images.ice_slab;
+          // 3. Frozen River Gorge & Water Hierarchy (South Sector)
+          if (sumXy >= 12) {{
+            return (hVal < 65) ? images.water_a : images.water_b;
+          }}
+          if (sumXy >= 10) {{
+            return (hVal < 70) ? images.ice_a : images.ice_b;
+          }}
+          if (sumXy === 9) {{
+            return (hVal < 60) ? images.shore_a : images.shore_b;
           }}
 
-          // 4. Central Circular Plaza (around (0.0, 0.0))
-          const distToCenter = Math.hypot(gx, gy);
-          if (distToCenter <= 2.8 * scale) {{
-            return ((Math.abs(gx) + Math.abs(gy)) % 2 === 0) ? images.stone_slab_var : images.stone_slab;
+          // 4. Central Circular Civic Plaza
+          const distCenter = Math.hypot(gx, gy);
+          if (distCenter <= 2.8) {{
+            return (hVal < 70) ? images.plaza_a : images.plaza_b;
           }}
 
-          // 5. Main South Avenue (Connecting Bridge to Plaza)
-          if (Math.abs(gx - gy) <= 1.2 * scale && (gx + gy) >= 0.0 && (gx + gy) <= 9.5 * scale) {{
-            return ((Math.abs(gx + gy) % 3 === 0) ? images.stone_slab_var : images.stone_slab);
+          // 5. Main South Avenue (Connecting Bridge to Central Plaza)
+          if (diffXy <= 1 && sumXy >= 2 && sumXy <= 8) {{
+            return (hVal < 75) ? images.road_a : images.road_b;
           }}
 
           // 6. Church Hill Ascent (Northeast Branch)
-          if (gx >= 0.0 && gx <= 5.5 * scale && gy <= 0.0 && gy >= -8.5 * scale) {{
-            const lineDist = Math.abs(gy - (-1.8 * gx)) / Math.sqrt(1 + 1.8 * 1.8);
-            if (lineDist <= 1.4 * scale) return images.stone_slab;
+          if (gx >= 0 && gx <= 5 && gy <= 0 && gy >= -8) {{
+            const lineDist = Math.abs(gy - (-1.6 * gx)) / Math.sqrt(1 + 1.6 * 1.6);
+            if (lineDist <= 1.2) {{
+              return (hVal < 75) ? images.road_a : images.road_b;
+            }}
           }}
 
           // 7. Marketplace & Sawmill Street (Southeast Branch)
-          if (gx >= 0.0 && gx <= 9.5 * scale && gy >= -2.5 * scale && gy <= 1.8 * scale) {{
-            return images.stone_slab;
+          if (gx >= 0 && gx <= 9 && gy >= -2 && gy <= 2 && Math.abs(gy) <= 1.2) {{
+            return (hVal < 65) ? images.path_a : images.path_b;
           }}
 
-          // 8. West Residential & Farm Road (Northwest Branch)
-          if (gx <= 0.0 && gx >= -9.0 * scale && gy >= -4.5 * scale && gy <= 2.5 * scale) {{
-            return images.stone_slab;
+          // 8. West Residential & Farm Trail (Northwest Branch)
+          if (gx <= 0 && gx >= -8 && gy >= -4 && gy <= 2) {{
+            const lineDist = Math.abs(gy - (-0.4 * gx)) / Math.sqrt(1 + 0.16);
+            if (lineDist <= 1.2) {{
+              return (hVal < 65) ? images.path_a : images.path_b;
+            }}
           }}
 
           // 9. Watermill Trail (Southwest Branch)
-          if (gy >= 2.0 * scale && gy <= 9.5 * scale && gx <= 4.5 * scale && gx >= -3.5 * scale) {{
-            return images.stone_slab;
+          if (gy >= 2 && gy <= 9 && gx >= -3 && gx <= 4 && Math.abs(gx - (-1.0)) <= 1.2) {{
+            return (hVal < 65) ? images.path_a : images.path_b;
           }}
 
-          // 10. Perimeter Mountain Ridges & Cliffs
-          if (gx <= -10.0 * scale || gy <= -11.5 * scale || (gx >= 10.5 * scale && gy <= -3.0 * scale)) {{
-            return images.cliff;
+          // 10. Family House Yard & Enclosure
+          if (gx >= -3 && gx <= -1 && gy >= -6 && gy <= -4) {{
+            return images.shore_a;
           }}
 
-          // 11. General Deep Winter Snow
-          return images.snow_slab;
+          // 11. Perimeter Mountain Ridges & Cliffs
+          if (gx <= -11 || gy <= -12 || (gx >= 11 && gy <= -3)) {{
+            return (hVal < 50) ? images.road_b : images.snow_c;
+          }}
+
+          // 12. General Winter Snow Blanket (3 Natural Variants)
+          if (hVal >= 90) return images.snow_c;
+          return (hVal < 60) ? images.snow_a : images.snow_b;
         }}
 
         // Render Ground Paving Grid with Viewport Culling

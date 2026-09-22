@@ -191,13 +191,26 @@ class GameAssetRegistry {
   static const String woodenWardrobe = 'narrative_props_furniture08';
   static const String woodenBed = 'maison_familliale07';
 
-  // Nature & Ground Tiles
+  // Nature & Ground Diamond Tiles
   static const String villagePineTree = 'nature_gameplay_structures02';
   static const String villageDeadTree = 'nature_gameplay_structures06';
-  static const String villageStoneSlab = 'nature_gameplay_structures04';
-  static const String villageStoneSlabVar = 'nature_gameplay_structures07';
-  static const String villageSnowSlab = 'nature_gameplay_structures08';
-  static const String villageIceSlab = 'nature_gameplay_structures10';
+  static const String villageStoneSlab = 'nature_gameplay_structures55';
+  static const String villageStoneSlabVar = 'nature_gameplay_structures69';
+  static const String villageSnowSlab = 'nature_gameplay_structures54';
+  static const String villageSnowVar = 'nature_gameplay_structures61';
+  static const String villageDeepSnow = 'nature_gameplay_structures187';
+  static const String villagePlazaTile = 'nature_gameplay_structures57';
+  static const String villagePlazaTileVar = 'nature_gameplay_structures2181';
+  static const String villageDirtTrail = 'nature_gameplay_structures58';
+  static const String villageDirtTrailVar = 'nature_gameplay_structures60';
+  static const String villageBridgePlank = 'nature_gameplay_structures68';
+  static const String villageDockPlank = 'nature_gameplay_structures100';
+  static const String villageIceSlab = 'nature_gameplay_structures62';
+  static const String villageIceSlush = 'nature_gameplay_structures67';
+  static const String villageRiverWater = 'nature_gameplay_structures65';
+  static const String villageRiverWaterDeep = 'nature_gameplay_structures66';
+  static const String villageFrostedShore = 'nature_gameplay_structures56';
+  static const String villageRiverBank = 'nature_gameplay_structures63';
   static const String villageCliff = 'nature_gameplay_structures09';
 
   void initDefaults() {
@@ -577,35 +590,147 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageStoneSlab,
-        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES04.png',
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES55.png',
         type: AssetType.tile,
         category: 'nature',
-        width: 103,
-        height: 95,
+        width: 106,
+        height: 70,
       ),
       const AssetEntry(
         assetId: villageStoneSlabVar,
-        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES07.png',
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES69.png',
         type: AssetType.tile,
         category: 'nature',
-        width: 92,
-        height: 79,
+        width: 105,
+        height: 66,
       ),
       const AssetEntry(
         assetId: villageSnowSlab,
-        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES08.png',
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES54.png',
         type: AssetType.tile,
         category: 'nature',
-        width: 66,
-        height: 65,
+        width: 105,
+        height: 69,
       ),
       const AssetEntry(
-        assetId: villageIceSlab,
-        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES10.png',
+        assetId: villageSnowVar,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES61.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 103,
+        height: 70,
+      ),
+      const AssetEntry(
+        assetId: villageDeepSnow,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES187.png',
         type: AssetType.tile,
         category: 'nature',
         width: 93,
-        height: 102,
+        height: 81,
+      ),
+      const AssetEntry(
+        assetId: villagePlazaTile,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES57.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 103,
+        height: 70,
+      ),
+      const AssetEntry(
+        assetId: villagePlazaTileVar,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES2181.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 94,
+        height: 87,
+      ),
+      const AssetEntry(
+        assetId: villageDirtTrail,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES58.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 99,
+        height: 67,
+      ),
+      const AssetEntry(
+        assetId: villageDirtTrailVar,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES60.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 105,
+        height: 70,
+      ),
+      const AssetEntry(
+        assetId: villageBridgePlank,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES68.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 110,
+        height: 77,
+      ),
+      const AssetEntry(
+        assetId: villageDockPlank,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES100.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 108,
+        height: 70,
+      ),
+      const AssetEntry(
+        assetId: villageIceSlab,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES62.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 103,
+        height: 73,
+      ),
+      const AssetEntry(
+        assetId: villageIceSlush,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES67.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 101,
+        height: 72,
+      ),
+      const AssetEntry(
+        assetId: villageRiverWater,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES65.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 102,
+        height: 73,
+      ),
+      const AssetEntry(
+        assetId: villageRiverWaterDeep,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES66.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 99,
+        height: 71,
+      ),
+      const AssetEntry(
+        assetId: villageFrostedShore,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES56.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 102,
+        height: 70,
+      ),
+      const AssetEntry(
+        assetId: villageRiverBank,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES63.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 103,
+        height: 71,
+      ),
+      const AssetEntry(
+        assetId: villageCliff,
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES09.png',
+        type: AssetType.prop,
+        category: 'nature',
+        width: 80,
+        height: 141,
       ),
     ];
 

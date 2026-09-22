@@ -171,14 +171,27 @@ def build():
     prop_board = to_base64("props/narrative/NARRATIVE-PROPS-FURNITURE08.png")
     prop_countdown = to_base64("props/narrative/NARRATIVE-PROPS-FURNITURE09.png")
 
-    # 9. Nature & Terrain Tiles
+    # 9. Authentic Diamond Ground Tiles & Foliage (Dimetric 2:1)
+    snow_a = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES54.png")
+    snow_b = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES61.png")
+    snow_c = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES187.png")
+    road_a = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES55.png")
+    road_b = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES69.png")
+    plaza_a = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES57.png")
+    plaza_b = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES2181.png")
+    path_a = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES58.png")
+    path_b = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES60.png")
+    bridge_planks = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES68.png")
+    dock_planks = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES100.png")
+    ice_a = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES62.png")
+    ice_b = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES67.png")
+    water_a = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES65.png")
+    water_b = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES66.png")
+    shore_a = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES56.png")
+    shore_b = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES63.png")
+    cliff = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES09.png")
     pine_tree = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES02.png")
     dead_tree = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES06.png")
-    stone_slab = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES04.png")
-    stone_slab_var = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES07.png")
-    snow_slab = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES08.png")
-    ice_slab = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES10.png")
-    cliff = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES09.png")
 
     print(f"Generating standalone web preview at {OUT_FILE}...")
 
@@ -207,8 +220,15 @@ def build():
         prop_key=prop_key, prop_notebook=prop_notebook, prop_photos=prop_photos,
         prop_documents=prop_documents, prop_board=prop_board, prop_countdown=prop_countdown,
         pine_tree=pine_tree, dead_tree=dead_tree,
-        stone_slab=stone_slab, stone_slab_var=stone_slab_var,
-        snow_slab=snow_slab, ice_slab=ice_slab, cliff=cliff
+        snow_a=snow_a, snow_b=snow_b, snow_c=snow_c,
+        road_a=road_a, road_b=road_b,
+        plaza_a=plaza_a, plaza_b=plaza_b,
+        path_a=path_a, path_b=path_b,
+        bridge_planks=bridge_planks, dock_planks=dock_planks,
+        ice_a=ice_a, ice_b=ice_b,
+        water_a=water_a, water_b=water_b,
+        shore_a=shore_a, shore_b=shore_b,
+        cliff=cliff
     )
 
     with open(OUT_FILE, "w", encoding="utf-8") as f:
