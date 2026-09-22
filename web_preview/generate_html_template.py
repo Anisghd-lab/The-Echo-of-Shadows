@@ -341,15 +341,10 @@ def get_html_content(**assets):
       alex_w: new Image(),
       alex_nw: new Image(),
 
-      walk_n_0: new Image(), walk_n_1: new Image(), walk_n_2: new Image(),
-      walk_ne_0: new Image(), walk_ne_1: new Image(), walk_ne_2: new Image(), walk_ne_3: new Image(),
-      walk_nw_0: new Image(), walk_nw_1: new Image(), walk_nw_2: new Image(), walk_nw_3: new Image(),
-      walk_s_0: new Image(), walk_s_1: new Image(), walk_s_2: new Image(), walk_s_3: new Image(),
-
-      run_ne_0: new Image(), run_ne_1: new Image(), run_ne_2: new Image(), run_ne_3: new Image(),
-      run_sw_0: new Image(), run_sw_1: new Image(), run_sw_2: new Image(), run_sw_3: new Image(),
-      run_se_0: new Image(), run_se_1: new Image(), run_se_2: new Image(), run_se_3: new Image(),
-      run_nw_0: new Image(), run_nw_1: new Image(), run_nw_2: new Image(), run_nw_3: new Image(),
+      alex_01: new Image(), alex_02: new Image(), alex_03: new Image(), alex_04: new Image(),
+      alex_05: new Image(), alex_06: new Image(), alex_07: new Image(), alex_08: new Image(),
+      alex_09: new Image(), alex_10: new Image(), alex_11: new Image(), alex_12: new Image(),
+      alex_13: new Image(), alex_14: new Image(), alex_15: new Image(), alex_16: new Image(),
 
       emma: new Image(),
       ethan: new Image(),
@@ -414,38 +409,22 @@ def get_html_content(**assets):
     images.alex_w.src = "{assets['alex_w']}";
     images.alex_nw.src = "{assets['alex_nw']}";
 
-    images.walk_n_0.src = "{assets.get('walk_n_0', '')}";
-    images.walk_n_1.src = "{assets.get('walk_n_1', '')}";
-    images.walk_n_2.src = "{assets.get('walk_n_2', '')}";
-    images.walk_ne_0.src = "{assets.get('walk_ne_0', '')}";
-    images.walk_ne_1.src = "{assets.get('walk_ne_1', '')}";
-    images.walk_ne_2.src = "{assets.get('walk_ne_2', '')}";
-    images.walk_ne_3.src = "{assets.get('walk_ne_3', '')}";
-    images.walk_nw_0.src = "{assets.get('walk_nw_0', '')}";
-    images.walk_nw_1.src = "{assets.get('walk_nw_1', '')}";
-    images.walk_nw_2.src = "{assets.get('walk_nw_2', '')}";
-    images.walk_nw_3.src = "{assets.get('walk_nw_3', '')}";
-    images.walk_s_0.src = "{assets.get('walk_s_0', '')}";
-    images.walk_s_1.src = "{assets.get('walk_s_1', '')}";
-    images.walk_s_2.src = "{assets.get('walk_s_2', '')}";
-    images.walk_s_3.src = "{assets.get('walk_s_3', '')}";
-
-    images.run_ne_0.src = "{assets.get('run_ne_0', '')}";
-    images.run_ne_1.src = "{assets.get('run_ne_1', '')}";
-    images.run_ne_2.src = "{assets.get('run_ne_2', '')}";
-    images.run_ne_3.src = "{assets.get('run_ne_3', '')}";
-    images.run_sw_0.src = "{assets.get('run_sw_0', '')}";
-    images.run_sw_1.src = "{assets.get('run_sw_1', '')}";
-    images.run_sw_2.src = "{assets.get('run_sw_2', '')}";
-    images.run_sw_3.src = "{assets.get('run_sw_3', '')}";
-    images.run_se_0.src = "{assets.get('run_se_0', '')}";
-    images.run_se_1.src = "{assets.get('run_se_1', '')}";
-    images.run_se_2.src = "{assets.get('run_se_2', '')}";
-    images.run_se_3.src = "{assets.get('run_se_3', '')}";
-    images.run_nw_0.src = "{assets.get('run_nw_0', '')}";
-    images.run_nw_1.src = "{assets.get('run_nw_1', '')}";
-    images.run_nw_2.src = "{assets.get('run_nw_2', '')}";
-    images.run_nw_3.src = "{assets.get('run_nw_3', '')}";
+    images.alex_01.src = "{assets.get('alex_01', assets['alex_n'])}";
+    images.alex_02.src = "{assets.get('alex_02', assets['alex_n'])}";
+    images.alex_03.src = "{assets.get('alex_03', assets['alex_ne'])}";
+    images.alex_04.src = "{assets.get('alex_04', assets['alex_ne'])}";
+    images.alex_05.src = "{assets.get('alex_05', assets['alex_e'])}";
+    images.alex_06.src = "{assets.get('alex_06', assets['alex_e'])}";
+    images.alex_07.src = "{assets.get('alex_07', assets['alex_se'])}";
+    images.alex_08.src = "{assets.get('alex_08', assets['alex_se'])}";
+    images.alex_09.src = "{assets.get('alex_09', assets['alex_s'])}";
+    images.alex_10.src = "{assets.get('alex_10', assets['alex_s'])}";
+    images.alex_11.src = "{assets.get('alex_11', assets['alex_sw'])}";
+    images.alex_12.src = "{assets.get('alex_12', assets['alex_sw'])}";
+    images.alex_13.src = "{assets.get('alex_13', assets['alex_w'])}";
+    images.alex_14.src = "{assets.get('alex_14', assets['alex_w'])}";
+    images.alex_15.src = "{assets.get('alex_15', assets['alex_nw'])}";
+    images.alex_16.src = "{assets.get('alex_16', assets['alex_nw'])}";
 
     images.emma.src = "{assets['npc_emma']}";
     images.ethan.src = "{assets['npc_ethan']}";
@@ -582,32 +561,24 @@ def get_html_content(**assets):
     }}
 
     // 4b. Locomotion Movement Animations (Walk & Run cycles from official assets)
+    // 4b. Locomotion Movement Animations strictly from authentic new Alex character model
     const walkCycles = {{
-      N: [images.walk_n_0, images.walk_n_1, images.walk_n_2, images.walk_n_1],
-      NE: [images.walk_ne_0, images.walk_ne_1, images.walk_ne_2, images.walk_ne_3],
-      E: [images.walk_ne_0, images.walk_ne_1, images.walk_ne_2, images.walk_ne_3],
-      NW: [images.walk_nw_0, images.walk_nw_1, images.walk_nw_2, images.walk_nw_3],
-      W: [images.walk_nw_0, images.walk_nw_1, images.walk_nw_2, images.walk_nw_3],
-      S: [images.walk_s_0, images.walk_s_1, images.walk_s_2, images.walk_s_3],
-      SE: [images.walk_s_0, images.walk_s_1, images.walk_s_2, images.walk_s_3],
-      SW: [images.walk_nw_0, images.walk_nw_1, images.walk_nw_2, images.walk_nw_3],
+      N: [images.alex_01, images.alex_16, images.alex_01, images.alex_02],
+      NE: [images.alex_03, images.alex_02, images.alex_03, images.alex_04],
+      E: [images.alex_05, images.alex_04, images.alex_05, images.alex_06],
+      SE: [images.alex_07, images.alex_06, images.alex_07, images.alex_08],
+      S: [images.alex_09, images.alex_08, images.alex_09, images.alex_10],
+      SW: [images.alex_11, images.alex_10, images.alex_11, images.alex_12],
+      W: [images.alex_13, images.alex_12, images.alex_13, images.alex_14],
+      NW: [images.alex_15, images.alex_14, images.alex_15, images.alex_16],
     }};
 
-    const runCycles = {{
-      N: [images.run_nw_0, images.run_nw_1, images.run_nw_2, images.run_nw_3],
-      NE: [images.run_ne_0, images.run_ne_1, images.run_ne_2, images.run_ne_3],
-      E: [images.run_ne_0, images.run_ne_1, images.run_ne_2, images.run_ne_3],
-      NW: [images.run_nw_0, images.run_nw_1, images.run_nw_2, images.run_nw_3],
-      W: [images.run_sw_0, images.run_sw_1, images.run_sw_2, images.run_sw_3],
-      SW: [images.run_sw_0, images.run_sw_1, images.run_sw_2, images.run_sw_3],
-      SE: [images.run_se_0, images.run_se_1, images.run_se_2, images.run_se_3],
-      S: [images.run_sw_0, images.run_sw_1, images.run_sw_2, images.run_sw_3],
-    }};
+    const runCycles = walkCycles;
 
     function getAlexSprite(now) {{
       if (alex.state === 'WALK') {{
         const cycle = walkCycles[alex.orientation] || walkCycles['SE'];
-        const frameIdx = Math.floor(now / 130) % cycle.length;
+        const frameIdx = Math.floor(now / 140) % cycle.length;
         const frame = cycle[frameIdx];
         if (frame && frame.complete && frame.naturalWidth > 0) return frame;
       }} else if (alex.state === 'RUN') {{
@@ -617,16 +588,16 @@ def get_html_content(**assets):
         if (frame && frame.complete && frame.naturalWidth > 0) return frame;
       }}
       // Idle standing pose from canonical directional set
-      let alexImg = images.alex_s;
-      if (alex.orientation === 'N') alexImg = images.alex_n;
-      else if (alex.orientation === 'NE') alexImg = images.alex_ne;
-      else if (alex.orientation === 'E') alexImg = images.alex_e;
-      else if (alex.orientation === 'SE') alexImg = images.alex_se;
-      else if (alex.orientation === 'S') alexImg = images.alex_s;
-      else if (alex.orientation === 'SW') alexImg = images.alex_sw;
-      else if (alex.orientation === 'W') alexImg = images.alex_w;
-      else if (alex.orientation === 'NW') alexImg = images.alex_nw;
-      return alexImg;
+      let alexImg = images.alex_09;
+      if (alex.orientation === 'N') alexImg = images.alex_01;
+      else if (alex.orientation === 'NE') alexImg = images.alex_03;
+      else if (alex.orientation === 'E') alexImg = images.alex_05;
+      else if (alex.orientation === 'SE') alexImg = images.alex_07;
+      else if (alex.orientation === 'S') alexImg = images.alex_09;
+      else if (alex.orientation === 'SW') alexImg = images.alex_11;
+      else if (alex.orientation === 'W') alexImg = images.alex_13;
+      else if (alex.orientation === 'NW') alexImg = images.alex_15;
+      return (alexImg && alexImg.complete && alexImg.naturalWidth > 0) ? alexImg : images.alex_09;
     }}
 
     // 5. Points of Interest & Narrative Props

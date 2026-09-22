@@ -25,50 +25,19 @@ def to_base64(rel_path, mirror=False):
 def build():
     print("Embedding Official New Assets into Web Preview...")
     
-    # 1. Alex 360° & Cardinal Sprites (from official new assets library)
-    alex_n = to_base64("characters/alex/Alex-—-Personnage-principal01.png")
-    alex_ne = to_base64("characters/alex/Alex-—-Personnage-principal03.png")
-    alex_e = to_base64("characters/alex/Alex-—-Personnage-principal05.png")
-    alex_se = to_base64("characters/alex/Alex-—-Personnage-principal07.png")
-    alex_s = to_base64("characters/alex/Alex-—-Personnage-principal09.png")
-    alex_sw = to_base64("characters/alex/Alex-—-Personnage-principal11.png")
-    alex_w = to_base64("characters/alex/Alex-—-Personnage-principal13.png")
-    alex_nw = to_base64("characters/alex/Alex-—-Personnage-principal15.png")
-
-    # 1b. Alex Walk Animation Cycles (official new assets/Alex walk)
-    walk_n_0 = to_base64("Alex walk/Alex-—-Marche26.png")
-    walk_n_1 = to_base64("Alex walk/Alex-—-Marche29.png")
-    walk_n_2 = to_base64("Alex walk/Alex-—-Marche31.png")
-    walk_ne_0 = to_base64("Alex walk/Alex-—-Marche03.png")
-    walk_ne_1 = to_base64("Alex walk/Alex-—-Marche04.png")
-    walk_ne_2 = to_base64("Alex walk/Alex-—-Marche05.png")
-    walk_ne_3 = to_base64("Alex walk/Alex-—-Marche06.png")
-    walk_nw_0 = to_base64("Alex walk/Alex-—-Marche10.png")
-    walk_nw_1 = to_base64("Alex walk/Alex-—-Marche12.png")
-    walk_nw_2 = to_base64("Alex walk/Alex-—-Marche15.png")
-    walk_nw_3 = to_base64("Alex walk/Alex-—-Marche18.png")
-    walk_s_0 = to_base64("Alex walk/Alex-—-Marche36.png")
-    walk_s_1 = to_base64("Alex walk/Alex-—-Marche37.png")
-    walk_s_2 = to_base64("Alex walk/Alex-—-Marche38.png")
-    walk_s_3 = to_base64("Alex walk/Alex-—-Marche39.png")
-
-    # 1c. Alex Run Animation Cycles (official new assets/Alex run)
-    run_ne_0 = to_base64("Alex run/Alex-—-Course05.png")
-    run_ne_1 = to_base64("Alex run/Alex-—-Course06.png")
-    run_ne_2 = to_base64("Alex run/Alex-—-Course08.png")
-    run_ne_3 = to_base64("Alex run/Alex-—-Course11.png")
-    run_sw_0 = to_base64("Alex run/Alex-—-Course10.png")
-    run_sw_1 = to_base64("Alex run/Alex-—-Course13.png")
-    run_sw_2 = to_base64("Alex run/Alex-—-Course15.png")
-    run_sw_3 = to_base64("Alex run/Alex-—-Course18.png")
-    run_se_0 = to_base64("Alex run/Alex-—-Course35.png")
-    run_se_1 = to_base64("Alex run/Alex-—-Course36.png")
-    run_se_2 = to_base64("Alex run/Alex-—-Course37.png")
-    run_se_3 = to_base64("Alex run/Alex-—-Course38.png")
-    run_nw_0 = to_base64("Alex run/Alex-—-Course14.png")
-    run_nw_1 = to_base64("Alex run/Alex-—-Course16.png")
-    run_nw_2 = to_base64("Alex run/Alex-—-Course19.png")
-    run_nw_3 = to_base64("Alex run/Alex-—-Course22.png")
+    # 1. Alex 360° & Cardinal Sprites strictly from official new assets library
+    alex_frames = {
+        f"alex_{i:02d}": to_base64(f"characters/alex/Alex-—-Personnage-principal{i:02d}.png")
+        for i in range(1, 17)
+    }
+    alex_n = alex_frames["alex_01"]
+    alex_ne = alex_frames["alex_03"]
+    alex_e = alex_frames["alex_05"]
+    alex_se = alex_frames["alex_07"]
+    alex_s = alex_frames["alex_09"]
+    alex_sw = alex_frames["alex_11"]
+    alex_w = alex_frames["alex_13"]
+    alex_nw = alex_frames["alex_15"]
     
     # 2. NPCs
     npc_emma = to_base64("characters/emma/Emma01.png")
@@ -133,14 +102,7 @@ def build():
     html = get_html_content(
         alex_n=alex_n, alex_ne=alex_ne, alex_e=alex_e, alex_se=alex_se,
         alex_s=alex_s, alex_sw=alex_sw, alex_w=alex_w, alex_nw=alex_nw,
-        walk_n_0=walk_n_0, walk_n_1=walk_n_1, walk_n_2=walk_n_2,
-        walk_ne_0=walk_ne_0, walk_ne_1=walk_ne_1, walk_ne_2=walk_ne_2, walk_ne_3=walk_ne_3,
-        walk_nw_0=walk_nw_0, walk_nw_1=walk_nw_1, walk_nw_2=walk_nw_2, walk_nw_3=walk_nw_3,
-        walk_s_0=walk_s_0, walk_s_1=walk_s_1, walk_s_2=walk_s_2, walk_s_3=walk_s_3,
-        run_ne_0=run_ne_0, run_ne_1=run_ne_1, run_ne_2=run_ne_2, run_ne_3=run_ne_3,
-        run_sw_0=run_sw_0, run_sw_1=run_sw_1, run_sw_2=run_sw_2, run_sw_3=run_sw_3,
-        run_se_0=run_se_0, run_se_1=run_se_1, run_se_2=run_se_2, run_se_3=run_se_3,
-        run_nw_0=run_nw_0, run_nw_1=run_nw_1, run_nw_2=run_nw_2, run_nw_3=run_nw_3,
+        **alex_frames,
         npc_emma=npc_emma, npc_ethan=npc_ethan, npc_james=npc_james, npc_michael=npc_michael,
         map_village_master=map_village_master,
         family_house=family_house, family_house_int=family_house_int, alex_bedroom_int=alex_bedroom_int,
