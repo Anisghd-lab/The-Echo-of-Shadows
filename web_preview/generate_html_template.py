@@ -341,6 +341,16 @@ def get_html_content(**assets):
       alex_w: new Image(),
       alex_nw: new Image(),
 
+      walk_n_0: new Image(), walk_n_1: new Image(), walk_n_2: new Image(),
+      walk_ne_0: new Image(), walk_ne_1: new Image(), walk_ne_2: new Image(), walk_ne_3: new Image(),
+      walk_nw_0: new Image(), walk_nw_1: new Image(), walk_nw_2: new Image(), walk_nw_3: new Image(),
+      walk_s_0: new Image(), walk_s_1: new Image(), walk_s_2: new Image(), walk_s_3: new Image(),
+
+      run_ne_0: new Image(), run_ne_1: new Image(), run_ne_2: new Image(), run_ne_3: new Image(),
+      run_sw_0: new Image(), run_sw_1: new Image(), run_sw_2: new Image(), run_sw_3: new Image(),
+      run_se_0: new Image(), run_se_1: new Image(), run_se_2: new Image(), run_se_3: new Image(),
+      run_nw_0: new Image(), run_nw_1: new Image(), run_nw_2: new Image(), run_nw_3: new Image(),
+
       emma: new Image(),
       ethan: new Image(),
       james: new Image(),
@@ -403,6 +413,39 @@ def get_html_content(**assets):
     images.alex_sw.src = "{assets['alex_sw']}";
     images.alex_w.src = "{assets['alex_w']}";
     images.alex_nw.src = "{assets['alex_nw']}";
+
+    images.walk_n_0.src = "{assets.get('walk_n_0', '')}";
+    images.walk_n_1.src = "{assets.get('walk_n_1', '')}";
+    images.walk_n_2.src = "{assets.get('walk_n_2', '')}";
+    images.walk_ne_0.src = "{assets.get('walk_ne_0', '')}";
+    images.walk_ne_1.src = "{assets.get('walk_ne_1', '')}";
+    images.walk_ne_2.src = "{assets.get('walk_ne_2', '')}";
+    images.walk_ne_3.src = "{assets.get('walk_ne_3', '')}";
+    images.walk_nw_0.src = "{assets.get('walk_nw_0', '')}";
+    images.walk_nw_1.src = "{assets.get('walk_nw_1', '')}";
+    images.walk_nw_2.src = "{assets.get('walk_nw_2', '')}";
+    images.walk_nw_3.src = "{assets.get('walk_nw_3', '')}";
+    images.walk_s_0.src = "{assets.get('walk_s_0', '')}";
+    images.walk_s_1.src = "{assets.get('walk_s_1', '')}";
+    images.walk_s_2.src = "{assets.get('walk_s_2', '')}";
+    images.walk_s_3.src = "{assets.get('walk_s_3', '')}";
+
+    images.run_ne_0.src = "{assets.get('run_ne_0', '')}";
+    images.run_ne_1.src = "{assets.get('run_ne_1', '')}";
+    images.run_ne_2.src = "{assets.get('run_ne_2', '')}";
+    images.run_ne_3.src = "{assets.get('run_ne_3', '')}";
+    images.run_sw_0.src = "{assets.get('run_sw_0', '')}";
+    images.run_sw_1.src = "{assets.get('run_sw_1', '')}";
+    images.run_sw_2.src = "{assets.get('run_sw_2', '')}";
+    images.run_sw_3.src = "{assets.get('run_sw_3', '')}";
+    images.run_se_0.src = "{assets.get('run_se_0', '')}";
+    images.run_se_1.src = "{assets.get('run_se_1', '')}";
+    images.run_se_2.src = "{assets.get('run_se_2', '')}";
+    images.run_se_3.src = "{assets.get('run_se_3', '')}";
+    images.run_nw_0.src = "{assets.get('run_nw_0', '')}";
+    images.run_nw_1.src = "{assets.get('run_nw_1', '')}";
+    images.run_nw_2.src = "{assets.get('run_nw_2', '')}";
+    images.run_nw_3.src = "{assets.get('run_nw_3', '')}";
 
     images.emma.src = "{assets['npc_emma']}";
     images.ethan.src = "{assets['npc_ethan']}";
@@ -536,6 +579,54 @@ def get_html_content(**assets):
         alex.orientation = 'NW';
       }}
       document.getElementById('hud-orient').textContent = alex.orientation;
+    }}
+
+    // 4b. Locomotion Movement Animations (Walk & Run cycles from official assets)
+    const walkCycles = {{
+      N: [images.walk_n_0, images.walk_n_1, images.walk_n_2, images.walk_n_1],
+      NE: [images.walk_ne_0, images.walk_ne_1, images.walk_ne_2, images.walk_ne_3],
+      E: [images.walk_ne_0, images.walk_ne_1, images.walk_ne_2, images.walk_ne_3],
+      NW: [images.walk_nw_0, images.walk_nw_1, images.walk_nw_2, images.walk_nw_3],
+      W: [images.walk_nw_0, images.walk_nw_1, images.walk_nw_2, images.walk_nw_3],
+      S: [images.walk_s_0, images.walk_s_1, images.walk_s_2, images.walk_s_3],
+      SE: [images.walk_s_0, images.walk_s_1, images.walk_s_2, images.walk_s_3],
+      SW: [images.walk_nw_0, images.walk_nw_1, images.walk_nw_2, images.walk_nw_3],
+    }};
+
+    const runCycles = {{
+      N: [images.run_nw_0, images.run_nw_1, images.run_nw_2, images.run_nw_3],
+      NE: [images.run_ne_0, images.run_ne_1, images.run_ne_2, images.run_ne_3],
+      E: [images.run_ne_0, images.run_ne_1, images.run_ne_2, images.run_ne_3],
+      NW: [images.run_nw_0, images.run_nw_1, images.run_nw_2, images.run_nw_3],
+      W: [images.run_sw_0, images.run_sw_1, images.run_sw_2, images.run_sw_3],
+      SW: [images.run_sw_0, images.run_sw_1, images.run_sw_2, images.run_sw_3],
+      SE: [images.run_se_0, images.run_se_1, images.run_se_2, images.run_se_3],
+      S: [images.run_sw_0, images.run_sw_1, images.run_sw_2, images.run_sw_3],
+    }};
+
+    function getAlexSprite(now) {{
+      if (alex.state === 'WALK') {{
+        const cycle = walkCycles[alex.orientation] || walkCycles['SE'];
+        const frameIdx = Math.floor(now / 130) % cycle.length;
+        const frame = cycle[frameIdx];
+        if (frame && frame.complete && frame.naturalWidth > 0) return frame;
+      }} else if (alex.state === 'RUN') {{
+        const cycle = runCycles[alex.orientation] || runCycles['SE'];
+        const frameIdx = Math.floor(now / 85) % cycle.length;
+        const frame = cycle[frameIdx];
+        if (frame && frame.complete && frame.naturalWidth > 0) return frame;
+      }}
+      // Idle standing pose from canonical directional set
+      let alexImg = images.alex_s;
+      if (alex.orientation === 'N') alexImg = images.alex_n;
+      else if (alex.orientation === 'NE') alexImg = images.alex_ne;
+      else if (alex.orientation === 'E') alexImg = images.alex_e;
+      else if (alex.orientation === 'SE') alexImg = images.alex_se;
+      else if (alex.orientation === 'S') alexImg = images.alex_s;
+      else if (alex.orientation === 'SW') alexImg = images.alex_sw;
+      else if (alex.orientation === 'W') alexImg = images.alex_w;
+      else if (alex.orientation === 'NW') alexImg = images.alex_nw;
+      return alexImg;
     }}
 
     // 5. Points of Interest & Narrative Props
@@ -984,15 +1075,7 @@ def get_html_content(**assets):
 
         // Draw Alex inside family house
         const alexPos = worldToScreen(alex.wx, alex.wy);
-        let alexImg = images.alex_s;
-        if (alex.orientation === 'N') alexImg = images.alex_n;
-        else if (alex.orientation === 'NE') alexImg = images.alex_ne;
-        else if (alex.orientation === 'E') alexImg = images.alex_e;
-        else if (alex.orientation === 'SE') alexImg = images.alex_se;
-        else if (alex.orientation === 'S') alexImg = images.alex_s;
-        else if (alex.orientation === 'SW') alexImg = images.alex_sw;
-        else if (alex.orientation === 'W') alexImg = images.alex_w;
-        else if (alex.orientation === 'NW') alexImg = images.alex_nw;
+        const alexImg = getAlexSprite(now);
 
         const bob = alex.state === 'WALK' ? Math.sin(now * 0.012) * 2 : (alex.state === 'RUN' ? Math.sin(now * 0.02) * 3 : 0);
 
@@ -1219,15 +1302,7 @@ def get_html_content(**assets):
           if (ent.isPlayer) {{
             // Render Alex with invariant feet anchor and ground shadow
             const alexPos = worldToScreen(alex.wx, alex.wy);
-            let alexImg = images.alex_s;
-            if (alex.orientation === 'N') alexImg = images.alex_n;
-            else if (alex.orientation === 'NE') alexImg = images.alex_ne;
-            else if (alex.orientation === 'E') alexImg = images.alex_e;
-            else if (alex.orientation === 'SE') alexImg = images.alex_se;
-            else if (alex.orientation === 'S') alexImg = images.alex_s;
-            else if (alex.orientation === 'SW') alexImg = images.alex_sw;
-            else if (alex.orientation === 'W') alexImg = images.alex_w;
-            else if (alex.orientation === 'NW') alexImg = images.alex_nw;
+            const alexImg = getAlexSprite(now);
 
             const bob = alex.state === 'WALK' ? Math.sin(now * 0.012) * 2 : (alex.state === 'RUN' ? Math.sin(now * 0.02) * 3 : 0);
 

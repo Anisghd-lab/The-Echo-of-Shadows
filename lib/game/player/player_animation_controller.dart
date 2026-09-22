@@ -88,64 +88,118 @@ class PlayerAnimationController {
     final defaultSprite = _idleSprites[PlayerOrientationController.south] ??
         _idleSprites[PlayerOrientationController.southEast];
 
-    // Build Walk and Run animations for each orientation
+    // Build Walk and Run animations from official walk and run asset libraries
     final walkCycles = {
       PlayerOrientationController.north: [
-        'new assets/characters/alex/Alex-—-Personnage-principal01.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal02.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal01.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal17.png',
-      ],
-      PlayerOrientationController.east: [
-        'new assets/characters/alex/Alex-—-Personnage-principal05.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal04.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal05.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal06.png',
-      ],
-      PlayerOrientationController.south: [
-        'new assets/characters/alex/Alex-—-Personnage-principal09.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal08.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal09.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal10.png',
-      ],
-      PlayerOrientationController.west: [
-        'new assets/characters/alex/Alex-—-Personnage-principal13.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal12.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal13.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal14.png',
-      ],
-      PlayerOrientationController.southEast: [
-        'new assets/characters/alex/Alex-—-Personnage-principal07.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal06.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal07.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal08.png',
-      ],
-      PlayerOrientationController.southWest: [
-        'new assets/characters/alex/Alex-—-Personnage-principal11.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal10.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal11.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal12.png',
-      ],
-      PlayerOrientationController.northWest: [
-        'new assets/characters/alex/Alex-—-Personnage-principal15.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal14.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal15.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal16.png',
+        'new assets/Alex walk/Alex-—-Marche26.png',
+        'new assets/Alex walk/Alex-—-Marche29.png',
+        'new assets/Alex walk/Alex-—-Marche31.png',
+        'new assets/Alex walk/Alex-—-Marche29.png',
       ],
       PlayerOrientationController.northEast: [
-        'new assets/characters/alex/Alex-—-Personnage-principal03.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal02.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal03.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal04.png',
+        'new assets/Alex walk/Alex-—-Marche03.png',
+        'new assets/Alex walk/Alex-—-Marche04.png',
+        'new assets/Alex walk/Alex-—-Marche05.png',
+        'new assets/Alex walk/Alex-—-Marche06.png',
+      ],
+      PlayerOrientationController.east: [
+        'new assets/Alex walk/Alex-—-Marche03.png',
+        'new assets/Alex walk/Alex-—-Marche04.png',
+        'new assets/Alex walk/Alex-—-Marche05.png',
+        'new assets/Alex walk/Alex-—-Marche06.png',
+      ],
+      PlayerOrientationController.northWest: [
+        'new assets/Alex walk/Alex-—-Marche10.png',
+        'new assets/Alex walk/Alex-—-Marche12.png',
+        'new assets/Alex walk/Alex-—-Marche15.png',
+        'new assets/Alex walk/Alex-—-Marche18.png',
+      ],
+      PlayerOrientationController.west: [
+        'new assets/Alex walk/Alex-—-Marche10.png',
+        'new assets/Alex walk/Alex-—-Marche12.png',
+        'new assets/Alex walk/Alex-—-Marche15.png',
+        'new assets/Alex walk/Alex-—-Marche18.png',
+      ],
+      PlayerOrientationController.south: [
+        'new assets/Alex walk/Alex-—-Marche36.png',
+        'new assets/Alex walk/Alex-—-Marche37.png',
+        'new assets/Alex walk/Alex-—-Marche38.png',
+        'new assets/Alex walk/Alex-—-Marche39.png',
+      ],
+      PlayerOrientationController.southEast: [
+        'new assets/Alex walk/Alex-—-Marche36.png',
+        'new assets/Alex walk/Alex-—-Marche37.png',
+        'new assets/Alex walk/Alex-—-Marche38.png',
+        'new assets/Alex walk/Alex-—-Marche39.png',
+      ],
+      PlayerOrientationController.southWest: [
+        'new assets/Alex walk/Alex-—-Marche10.png',
+        'new assets/Alex walk/Alex-—-Marche12.png',
+        'new assets/Alex walk/Alex-—-Marche15.png',
+        'new assets/Alex walk/Alex-—-Marche18.png',
+      ],
+    };
+
+    final runCycles = {
+      PlayerOrientationController.north: [
+        'new assets/Alex run/Alex-—-Course14.png',
+        'new assets/Alex run/Alex-—-Course16.png',
+        'new assets/Alex run/Alex-—-Course19.png',
+        'new assets/Alex run/Alex-—-Course22.png',
+      ],
+      PlayerOrientationController.northEast: [
+        'new assets/Alex run/Alex-—-Course05.png',
+        'new assets/Alex run/Alex-—-Course06.png',
+        'new assets/Alex run/Alex-—-Course08.png',
+        'new assets/Alex run/Alex-—-Course11.png',
+      ],
+      PlayerOrientationController.east: [
+        'new assets/Alex run/Alex-—-Course05.png',
+        'new assets/Alex run/Alex-—-Course06.png',
+        'new assets/Alex run/Alex-—-Course08.png',
+        'new assets/Alex run/Alex-—-Course11.png',
+      ],
+      PlayerOrientationController.northWest: [
+        'new assets/Alex run/Alex-—-Course14.png',
+        'new assets/Alex run/Alex-—-Course16.png',
+        'new assets/Alex run/Alex-—-Course19.png',
+        'new assets/Alex run/Alex-—-Course22.png',
+      ],
+      PlayerOrientationController.west: [
+        'new assets/Alex run/Alex-—-Course10.png',
+        'new assets/Alex run/Alex-—-Course13.png',
+        'new assets/Alex run/Alex-—-Course15.png',
+        'new assets/Alex run/Alex-—-Course18.png',
+      ],
+      PlayerOrientationController.southWest: [
+        'new assets/Alex run/Alex-—-Course10.png',
+        'new assets/Alex run/Alex-—-Course13.png',
+        'new assets/Alex run/Alex-—-Course15.png',
+        'new assets/Alex run/Alex-—-Course18.png',
+      ],
+      PlayerOrientationController.southEast: [
+        'new assets/Alex run/Alex-—-Course35.png',
+        'new assets/Alex run/Alex-—-Course36.png',
+        'new assets/Alex run/Alex-—-Course37.png',
+        'new assets/Alex run/Alex-—-Course38.png',
+      ],
+      PlayerOrientationController.south: [
+        'new assets/Alex run/Alex-—-Course10.png',
+        'new assets/Alex run/Alex-—-Course13.png',
+        'new assets/Alex run/Alex-—-Course15.png',
+        'new assets/Alex run/Alex-—-Course18.png',
       ],
     };
 
     for (final entry in walkCycles.entries) {
-      final walkAnim = await _loadFrameSequence(gameRef, entry.value, 0.15);
+      final walkAnim = await _loadFrameSequence(gameRef, entry.value, 0.13);
       if (walkAnim != null) {
         _walkAnimations[entry.key] = walkAnim;
       }
-      final runAnim = await _loadFrameSequence(gameRef, entry.value, 0.09);
+    }
+
+    for (final entry in runCycles.entries) {
+      final runAnim = await _loadFrameSequence(gameRef, entry.value, 0.08);
       if (runAnim != null) {
         _runAnimations[entry.key] = runAnim;
       }
