@@ -1,0 +1,952 @@
+{
+  "map_id": "village_abandonne",
+  "title_en": "The Abandoned Village",
+  "title_fr": "Le Village Abandonné",
+  "reference_blueprint": "new assets/map du village.png",
+  "engine_version": "Flame 1.18.0 / Phase 3.3 Reconstruction",
+  "coordinate_system": {
+    "projection": "dimetric_isometric_2_1",
+    "tile_width": 80.0,
+    "tile_height": 40.0,
+    "world_scale": 1.6,
+    "bounds": {
+      "min_world_x": -11.0,
+      "max_world_x": 11.0,
+      "min_world_y": -12.0,
+      "max_world_y": 12.0
+    }
+  },
+  "player_spawn": {
+    "world_x": 7.0,
+    "world_y": 8.0,
+    "orientation": "NW",
+    "location_name_fr": "Pont d'entrée du village",
+    "location_name_en": "Village Entrance Bridge"
+  },
+  "zones": [
+    {
+      "id": "ZONE_FROZEN_RIVER",
+      "name_fr": "Rivière gelée & Cascade",
+      "name_en": "Frozen River & Waterfall",
+      "type": "water_ice",
+      "navigable": false,
+      "bounds": {
+        "min_y_sum": 10.0
+      }
+    },
+    {
+      "id": "ZONE_RIVER_DOCKS",
+      "name_fr": "Embarcadère et Quais",
+      "name_en": "River Docks & Piers",
+      "type": "wooden_planks",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_BRIDGE_APPROACH",
+      "name_fr": "Pont de bois & Entrée Sud",
+      "name_en": "Wooden Bridge & South Approach",
+      "type": "wooden_bridge",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_MAIN_AVENUE",
+      "name_fr": "Avenue principale",
+      "name_en": "Main South Avenue",
+      "type": "cobblestone_road",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_CENTRAL_PLAZA",
+      "name_fr": "Place centrale du Monument",
+      "name_en": "Central Monument Plaza",
+      "type": "paved_circular_plaza",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_CHURCH_HILL",
+      "name_fr": "Colline de l'Église St-Jude",
+      "name_en": "St. Jude Church Hill",
+      "type": "stone_path_elevation",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_CEMETERY",
+      "name_fr": "Cimetière paroissial",
+      "name_en": "Parish Cemetery",
+      "type": "hallowed_ground",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_MARKETPLACE",
+      "name_fr": "Place du Marché",
+      "name_en": "Abandoned Marketplace",
+      "type": "cobblestone_market",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_LUMBER_YARD",
+      "name_fr": "Scierie et parc à grumes",
+      "name_en": "Sawmill & Lumber Yard",
+      "type": "timber_yard",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_RESIDENTIAL_WEST",
+      "name_fr": "Quartier résidentiel ouest",
+      "name_en": "West Residential District",
+      "type": "snow_path",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_FARM_FIELD",
+      "name_fr": "Champs de culture clôturés",
+      "name_en": "Fenced Farm Crops",
+      "type": "frozen_farmland",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_WINDMILL_RIDGE",
+      "name_fr": "Crête du Moulin à vent",
+      "name_en": "Windmill Ridge",
+      "type": "rocky_ridge",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_WATERMILL_SHORE",
+      "name_fr": "Rive du Moulin à eau",
+      "name_en": "Watermill Shoreline",
+      "type": "rocky_shore",
+      "navigable": true
+    },
+    {
+      "id": "ZONE_MINE_PASS",
+      "name_fr": "Défilé de la Mine & Falaise nord",
+      "name_en": "Mine Pass & North Cliffs",
+      "type": "mountain_pass",
+      "navigable": true
+    }
+  ],
+  "buildings": [
+    {
+      "id": "BUILDING_CHURCH",
+      "name_fr": "Église abandonnée St-Jude",
+      "name_en": "St. Jude Abandoned Church",
+      "asset_id": "village_environment_104",
+      "blueprint_feature": "CHURCH_ST_JUDE",
+      "world_x": 3.5,
+      "world_y": -7.5,
+      "display_width": 280,
+      "display_height": 370,
+      "collision": {
+        "half_width": 1.6,
+        "half_height": 1.4,
+        "offset_y": -0.2
+      },
+      "poi_id": "POI_CHURCH",
+      "narrative_act": 2
+    },
+    {
+      "id": "BUILDING_FAMILY_HOUSE",
+      "name_fr": "Maison familiale des Miller (Cottage Nord)",
+      "name_en": "Miller Family House (North Cottage)",
+      "asset_id": "maison_familliale02",
+      "blueprint_feature": "COTTAGE_NORTH",
+      "world_x": -1.5,
+      "world_y": -5.0,
+      "display_width": 320,
+      "display_height": 298,
+      "collision": {
+        "half_width": 1.6,
+        "half_height": 1.2,
+        "offset_y": -0.2
+      },
+      "poi_id": "POI_FAMILY_HOUSE",
+      "narrative_act": 1
+    },
+    {
+      "id": "BUILDING_WATERMILL",
+      "name_fr": "Vieux Moulin à eau de la falaise",
+      "name_en": "Cliffside Watermill & Wheel",
+      "asset_id": "village_environment_103",
+      "blueprint_feature": "WATERMILL",
+      "world_x": -2.5,
+      "world_y": 8.5,
+      "display_width": 260,
+      "display_height": 244,
+      "collision": {
+        "half_width": 1.4,
+        "half_height": 1.2,
+        "offset_y": 0.0
+      },
+      "poi_id": "POI_WATERMILL",
+      "narrative_act": 3
+    },
+    {
+      "id": "BUILDING_WINDMILL",
+      "name_fr": "Moulin à vent de la crête ouest",
+      "name_en": "West Ridge Windmill",
+      "asset_id": "village_environment_102",
+      "blueprint_feature": "WINDMILL",
+      "world_x": -8.5,
+      "world_y": -2.0,
+      "display_width": 240,
+      "display_height": 270,
+      "collision": {
+        "half_width": 1.2,
+        "half_height": 1.2,
+        "offset_y": 0.0
+      },
+      "poi_id": "POI_WINDMILL",
+      "narrative_act": 2
+    },
+    {
+      "id": "BUILDING_COTTAGE_WEST",
+      "name_fr": "Maison du Forgeron (Ouest de la place)",
+      "name_en": "Blacksmith Cottage (West of Plaza)",
+      "asset_id": "village_environment_101",
+      "blueprint_feature": "COTTAGE_WEST",
+      "world_x": -4.0,
+      "world_y": -0.5,
+      "display_width": 220,
+      "display_height": 205,
+      "collision": {
+        "half_width": 1.2,
+        "half_height": 1.1,
+        "offset_y": 0.0
+      },
+      "poi_id": "POI_COTTAGE_WEST",
+      "narrative_act": 2
+    },
+    {
+      "id": "BUILDING_COTTAGE_SOUTH",
+      "name_fr": "Maisonnette du Pêcheur (Sud-ouest)",
+      "name_en": "Fisherman Cottage (South-West)",
+      "asset_id": "village_environment_106",
+      "blueprint_feature": "COTTAGE_SOUTH",
+      "world_x": -2.2,
+      "world_y": 1.8,
+      "display_width": 230,
+      "display_height": 180,
+      "collision": {
+        "half_width": 1.2,
+        "half_height": 1.1,
+        "offset_y": 0.0
+      },
+      "poi_id": "POI_COTTAGE_SOUTH",
+      "narrative_act": 1
+    },
+    {
+      "id": "BUILDING_COTTAGE_FAR_WEST",
+      "name_fr": "Chalet forestier de l'ouest",
+      "name_en": "Far West Forester Cottage",
+      "asset_id": "village_environment_101",
+      "blueprint_feature": "COTTAGE_FAR_WEST",
+      "world_x": -5.5,
+      "world_y": 2.0,
+      "display_width": 210,
+      "display_height": 188,
+      "collision": {
+        "half_width": 1.1,
+        "half_height": 1.0,
+        "offset_y": 0.0
+      },
+      "poi_id": "POI_COTTAGE_FAR_WEST",
+      "narrative_act": 2
+    },
+    {
+      "id": "BUILDING_RIVERSIDE_COTTAGE",
+      "name_fr": "Poste de garde de la rivière (Sud-est)",
+      "name_en": "Riverside Guard Cottage (South-East)",
+      "asset_id": "village_environment_101",
+      "blueprint_feature": "RIVERSIDE_COTTAGE",
+      "world_x": 5.5,
+      "world_y": 3.0,
+      "display_width": 215,
+      "display_height": 190,
+      "collision": {
+        "half_width": 1.2,
+        "half_height": 1.1,
+        "offset_y": 0.0
+      },
+      "poi_id": "POI_RIVERSIDE_COTTAGE",
+      "narrative_act": 1
+    },
+    {
+      "id": "BUILDING_EAST_WORKSHOP",
+      "name_fr": "Atelier d'artisan du marché",
+      "name_en": "Market Craftsman Workshop",
+      "asset_id": "village_environment_105",
+      "blueprint_feature": "EAST_COTTAGES",
+      "world_x": 6.0,
+      "world_y": -1.5,
+      "display_width": 200,
+      "display_height": 180,
+      "collision": {
+        "half_width": 1.1,
+        "half_height": 1.0,
+        "offset_y": 0.0
+      },
+      "poi_id": "POI_CRAFTSMAN_HOUSE",
+      "narrative_act": 2
+    },
+    {
+      "id": "BUILDING_SAWMILL_SHED",
+      "name_fr": "Hangar de la scierie",
+      "name_en": "Sawmill Timber Shed",
+      "asset_id": "village_environment_105",
+      "blueprint_feature": "SAWMILL_LUMBER",
+      "world_x": 8.5,
+      "world_y": -1.0,
+      "display_width": 210,
+      "display_height": 195,
+      "collision": {
+        "half_width": 1.3,
+        "half_height": 1.2,
+        "offset_y": 0.0
+      },
+      "poi_id": "POI_SAWMILL",
+      "narrative_act": 2
+    },
+    {
+      "id": "BUILDING_MINE_ARCHWAY",
+      "name_fr": "Porche de l'ancienne mine de roche",
+      "name_en": "Rock Mine Mountain Entrance",
+      "asset_id": "village_environment_108",
+      "blueprint_feature": "MINE_ENTRANCE",
+      "world_x": -7.5,
+      "world_y": -7.5,
+      "display_width": 170,
+      "display_height": 190,
+      "collision": {
+        "half_width": 1.2,
+        "half_height": 1.0,
+        "offset_y": 0.0
+      },
+      "poi_id": "POI_MINE_ENTRANCE",
+      "narrative_act": 3
+    }
+  ],
+  "props": [
+    {
+      "id": "PROP_STATUE_MONUMENT",
+      "name_fr": "Statue du Fondateur de la place",
+      "name_en": "Founder Statue of the Plaza",
+      "asset_id": "village_abandonné_route_décor_extérieur07",
+      "world_x": 0.0,
+      "world_y": 0.0,
+      "display_width": 90,
+      "display_height": 140,
+      "collision": {
+        "half_width": 0.6,
+        "half_height": 0.6
+      },
+      "poi_id": "POI_PLAZA_MONUMENT"
+    },
+    {
+      "id": "PROP_ANCIENT_WELL",
+      "name_fr": "Puits en pierre avec toiture conique",
+      "name_en": "Stone Well with Conical Roof",
+      "asset_id": "village_abandonné_route_décor_extérieur01",
+      "world_x": 1.2,
+      "world_y": 2.4,
+      "display_width": 100,
+      "display_height": 112,
+      "collision": {
+        "half_width": 0.7,
+        "half_height": 0.7
+      },
+      "poi_id": "POI_ANCIENT_WELL"
+    },
+    {
+      "id": "PROP_PLAZA_SHRINE",
+      "name_fr": "Kiosque et oratoire en bois",
+      "name_en": "Wooden Shrine & Kiosk",
+      "asset_id": "village_abandonné_environment_sprite_sheet14",
+      "world_x": -1.2,
+      "world_y": -1.8,
+      "display_width": 80,
+      "display_height": 95,
+      "collision": {
+        "half_width": 0.5,
+        "half_height": 0.5
+      },
+      "poi_id": "POI_PLAZA_SHRINE"
+    },
+    {
+      "id": "PROP_MARKET_STALL_01",
+      "name_fr": "Étal de marché à auvent rayé",
+      "name_en": "Striped Market Stall 01",
+      "asset_id": "village_environment_116",
+      "world_x": 4.5,
+      "world_y": -0.5,
+      "display_width": 130,
+      "display_height": 115,
+      "collision": {
+        "half_width": 0.9,
+        "half_height": 0.6
+      },
+      "poi_id": "POI_MARKETPLACE"
+    },
+    {
+      "id": "PROP_MARKET_STALL_02",
+      "name_fr": "Étal de marché à auvent rayé 02",
+      "name_en": "Striped Market Stall 02",
+      "asset_id": "village_environment_121",
+      "world_x": 5.2,
+      "world_y": 0.4,
+      "display_width": 115,
+      "display_height": 105,
+      "collision": {
+        "half_width": 0.8,
+        "half_height": 0.5
+      },
+      "poi_id": "POI_MARKETPLACE"
+    },
+    {
+      "id": "PROP_SAWMILL_CRANE",
+      "name_fr": "Grue de levage en bois",
+      "name_en": "Wooden Hoisting Crane",
+      "asset_id": "village_environment_129",
+      "world_x": 9.5,
+      "world_y": -1.8,
+      "display_width": 88,
+      "display_height": 139,
+      "collision": {
+        "half_width": 0.6,
+        "half_height": 0.6
+      },
+      "poi_id": "POI_SAWMILL"
+    },
+    {
+      "id": "PROP_SAWMILL_LOGS",
+      "name_fr": "Piles de troncs coupés",
+      "name_en": "Stacked Timber Logs",
+      "asset_id": "village_abandonné_environment_sprite_sheet24",
+      "world_x": 8.0,
+      "world_y": 0.2,
+      "display_width": 103,
+      "display_height": 93,
+      "collision": {
+        "half_width": 0.8,
+        "half_height": 0.5
+      },
+      "poi_id": "POI_SAWMILL"
+    },
+    {
+      "id": "PROP_CEMETERY_GATE",
+      "name_fr": "Grille d'entrée du cimetière",
+      "name_en": "Cemetery Iron Gate",
+      "asset_id": "village_abandonné_environment_sprite_sheet15",
+      "world_x": 1.8,
+      "world_y": -3.2,
+      "display_width": 130,
+      "display_height": 85,
+      "collision": {
+        "half_width": 0.3,
+        "half_height": 0.8
+      },
+      "poi_id": "POI_CEMETERY"
+    },
+    {
+      "id": "PROP_FARM_FENCE",
+      "name_fr": "Clôture de bois du champ agricole",
+      "name_en": "Wooden Farm Fence Perimeter",
+      "asset_id": "village_abandonné_environment_sprite_sheet15",
+      "world_x": -5.5,
+      "world_y": -3.5,
+      "display_width": 180,
+      "display_height": 70,
+      "collision": {
+        "half_width": 1.8,
+        "half_height": 0.3
+      },
+      "poi_id": "POI_FARM"
+    },
+    {
+      "id": "PROP_BOAT_ROWBOAT",
+      "name_fr": "Barque amarrée au ponton",
+      "name_en": "Moored Rowboat",
+      "asset_id": "village_abandonné_route_décor_extérieur18",
+      "world_x": 2.0,
+      "world_y": 8.5,
+      "display_width": 90,
+      "display_height": 60,
+      "collision": {
+        "half_width": 0.6,
+        "half_height": 0.4
+      },
+      "poi_id": "POI_BOAT_DOCK"
+    },
+    {
+      "id": "PROP_DOCK_CRANE",
+      "name_fr": "Potence de quai et tonneaux",
+      "name_en": "Dock Hoist & Barrels",
+      "asset_id": "village_environment_137",
+      "world_x": 6.0,
+      "world_y": 6.0,
+      "display_width": 80,
+      "display_height": 135,
+      "collision": {
+        "half_width": 0.5,
+        "half_height": 0.5
+      },
+      "poi_id": "POI_CARGO_DOCK"
+    }
+  ],
+  "street_lamps": [
+    {
+      "id": "LAMP_BRIDGE_TOP_L",
+      "world_x": 4.2,
+      "world_y": 4.8
+    },
+    {
+      "id": "LAMP_BRIDGE_TOP_R",
+      "world_x": 4.8,
+      "world_y": 4.2
+    },
+    {
+      "id": "LAMP_BRIDGE_BOT_L",
+      "world_x": 7.2,
+      "world_y": 7.8
+    },
+    {
+      "id": "LAMP_BRIDGE_BOT_R",
+      "world_x": 7.8,
+      "world_y": 7.2
+    },
+    {
+      "id": "LAMP_PLAZA_NW",
+      "world_x": -1.5,
+      "world_y": -0.8
+    },
+    {
+      "id": "LAMP_PLAZA_NE",
+      "world_x": 0.8,
+      "world_y": -1.5
+    },
+    {
+      "id": "LAMP_PLAZA_SW",
+      "world_x": -0.8,
+      "world_y": 1.5
+    },
+    {
+      "id": "LAMP_PLAZA_SE",
+      "world_x": 1.5,
+      "world_y": 0.8
+    },
+    {
+      "id": "LAMP_WELL",
+      "world_x": 1.8,
+      "world_y": 2.2
+    },
+    {
+      "id": "LAMP_CHURCH_STEPS",
+      "world_x": 2.5,
+      "world_y": -4.2
+    },
+    {
+      "id": "LAMP_MARKET_ENTRY",
+      "world_x": 3.8,
+      "world_y": -0.4
+    },
+    {
+      "id": "LAMP_WEST_FORK",
+      "world_x": -1.8,
+      "world_y": 0.6
+    },
+    {
+      "id": "LAMP_RIVERSIDE_HOUSE",
+      "world_x": 5.0,
+      "world_y": 2.6
+    },
+    {
+      "id": "LAMP_FARM_ENTRY",
+      "world_x": -4.2,
+      "world_y": -2.2
+    }
+  ],
+  "pois": [
+    {
+      "id": "POI_BRIDGE",
+      "name_en": "Snowy Wooden Bridge (Village Entrance)",
+      "name_fr": "Pont de bois enneigé (Entrée du village)",
+      "world_x": 6.5,
+      "world_y": 6.5,
+      "trigger_radius": 2.0,
+      "interaction_prompt_en": "[E] Cross the frozen river bridge",
+      "interaction_prompt_fr": "[E] Traverser le pont de la rivière gelée",
+      "narrative_act": 1,
+      "story_flag": "BRIDGE_CROSSED"
+    },
+    {
+      "id": "POI_PLAZA_MONUMENT",
+      "name_en": "Founders Monument (Central Square)",
+      "name_fr": "Monument aux Fondateurs (Place centrale)",
+      "world_x": 0.0,
+      "world_y": 0.0,
+      "trigger_radius": 2.2,
+      "interaction_prompt_en": "[E] Examine the engraved stone statue",
+      "interaction_prompt_fr": "[E] Examiner la statue de pierre gravée",
+      "narrative_act": 1,
+      "story_flag": "PLAZA_DISCOVERED"
+    },
+    {
+      "id": "POI_ANCIENT_WELL",
+      "name_en": "Ancient Stone Well",
+      "name_fr": "Puits en pierre gelé",
+      "world_x": 1.2,
+      "world_y": 2.4,
+      "trigger_radius": 1.6,
+      "interaction_prompt_en": "[E] Look into the dark frozen well",
+      "interaction_prompt_fr": "[E] Regarder dans le puits gelé et obscur",
+      "narrative_act": 1,
+      "story_flag": "WELL_INSPECTED"
+    },
+    {
+      "id": "POI_PLAZA_SHRINE",
+      "name_en": "Village Wooden Shrine",
+      "name_fr": "Oratoire en bois de la place",
+      "world_x": -1.2,
+      "world_y": -1.8,
+      "trigger_radius": 1.5,
+      "interaction_prompt_en": "[E] Inspect wooden votive plaque",
+      "interaction_prompt_fr": "[E] Inspecter la plaque votive en bois",
+      "narrative_act": 1,
+      "story_flag": "SHRINE_INSPECTED"
+    },
+    {
+      "id": "POI_FAMILY_HOUSE",
+      "name_en": "Miller Family House (Childhood Home)",
+      "name_fr": "Maison familiale des Miller (Demeure d'enfance)",
+      "world_x": -1.5,
+      "world_y": -5.0,
+      "trigger_radius": 2.2,
+      "interaction_prompt_en": "[E] Try front door of family house",
+      "interaction_prompt_fr": "[E] Essayer la porte d'entrée de la maison",
+      "narrative_act": 1,
+      "story_flag": "FAMILY_HOUSE_REACHED"
+    },
+    {
+      "id": "POI_CHURCH",
+      "name_en": "St. Jude Abandoned Church",
+      "name_fr": "Église abandonnée St-Jude",
+      "world_x": 3.5,
+      "world_y": -7.5,
+      "trigger_radius": 2.5,
+      "interaction_prompt_en": "[E] Examine heavy oak church doors",
+      "interaction_prompt_fr": "[E] Examiner les lourdes portes de chêne",
+      "narrative_act": 2,
+      "story_flag": "CHURCH_REACHED"
+    },
+    {
+      "id": "POI_CEMETERY",
+      "name_en": "Parish Cemetery & Graves",
+      "name_fr": "Cimetière paroissial & Sépultures",
+      "world_x": 1.2,
+      "world_y": -4.5,
+      "trigger_radius": 2.0,
+      "interaction_prompt_en": "[E] Search snow-covered tombstones",
+      "interaction_prompt_fr": "[E] Fouiller les tombes sous la neige",
+      "narrative_act": 2,
+      "story_flag": "CEMETERY_SEARCHED"
+    },
+    {
+      "id": "POI_MARKETPLACE",
+      "name_en": "Abandoned Marketplace",
+      "name_fr": "Place du marché abandonnée",
+      "world_x": 4.5,
+      "world_y": -0.5,
+      "trigger_radius": 2.0,
+      "interaction_prompt_en": "[E] Search abandoned vendor stalls",
+      "interaction_prompt_fr": "[E] Fouiller les étals abandonnés",
+      "narrative_act": 2,
+      "story_flag": "MARKET_INSPECTED"
+    },
+    {
+      "id": "POI_SAWMILL",
+      "name_en": "Timber Sawmill & Hoist",
+      "name_fr": "Scierie et grue de levage",
+      "world_x": 8.5,
+      "world_y": -1.0,
+      "trigger_radius": 2.2,
+      "interaction_prompt_en": "[E] Inspect timber logs & sawmill logbook",
+      "interaction_prompt_fr": "[E] Examiner les grumes et le registre de coupe",
+      "narrative_act": 2,
+      "story_flag": "SAWMILL_INSPECTED"
+    },
+    {
+      "id": "POI_WATERMILL",
+      "name_en": "Old Cliffside Watermill",
+      "name_fr": "Vieux Moulin à eau de la falaise",
+      "world_x": -2.5,
+      "world_y": 8.5,
+      "trigger_radius": 2.2,
+      "interaction_prompt_en": "[E] Inspect frozen mill wheel & lower door",
+      "interaction_prompt_fr": "[E] Inspecter la roue gelée et la trappe basse",
+      "narrative_act": 3,
+      "story_flag": "WATERMILL_INSPECTED"
+    },
+    {
+      "id": "POI_WINDMILL",
+      "name_en": "West Ridge Windmill",
+      "name_fr": "Moulin à vent de la crête ouest",
+      "world_x": -8.5,
+      "world_y": -2.0,
+      "trigger_radius": 2.2,
+      "interaction_prompt_en": "[E] Examine locked mechanism & viewpoint",
+      "interaction_prompt_fr": "[E] Examiner le mécanisme et le point de vue",
+      "narrative_act": 2,
+      "story_flag": "WINDMILL_INSPECTED"
+    },
+    {
+      "id": "POI_FARM",
+      "name_en": "Frozen Farm Crops",
+      "name_fr": "Champs gelés de la ferme",
+      "world_x": -5.5,
+      "world_y": -3.5,
+      "trigger_radius": 2.0,
+      "interaction_prompt_en": "[E] Inspect buried tool shed",
+      "interaction_prompt_fr": "[E] Inspecter la remise à outils enneigée",
+      "narrative_act": 2,
+      "story_flag": "FARM_INSPECTED"
+    },
+    {
+      "id": "POI_MINE_ENTRANCE",
+      "name_en": "Old Rock Mine Archway (Forest Pass)",
+      "name_fr": "Porche de l'ancienne mine (Passage nord)",
+      "world_x": -7.5,
+      "world_y": -7.5,
+      "trigger_radius": 2.4,
+      "interaction_prompt_en": "[E] Inspect dark tunnel entrance",
+      "interaction_prompt_fr": "[E] Inspecter l'entrée du tunnel obscur",
+      "narrative_act": 3,
+      "story_flag": "MINE_ENTRANCE_FOUND"
+    },
+    {
+      "id": "POI_BOAT_DOCK",
+      "name_en": "Moored Rowboat Pier",
+      "name_fr": "Embarcadère et barque amarrée",
+      "world_x": 2.0,
+      "world_y": 8.5,
+      "trigger_radius": 1.8,
+      "interaction_prompt_en": "[E] Examine the frozen rowboat",
+      "interaction_prompt_fr": "[E] Examiner la barque prise dans les glaces",
+      "narrative_act": 1,
+      "story_flag": "BOAT_INSPECTED"
+    },
+    {
+      "id": "POI_CARGO_DOCK",
+      "name_en": "River Cargo Pier",
+      "name_fr": "Quai de déchargement de la rivière",
+      "world_x": 6.0,
+      "world_y": 6.0,
+      "trigger_radius": 1.8,
+      "interaction_prompt_en": "[E] Search abandoned cargo crates",
+      "interaction_prompt_fr": "[E] Fouiller les caisses de ravitaillement",
+      "narrative_act": 1,
+      "story_flag": "DOCK_CRATES_INSPECTED"
+    },
+    {
+      "id": "POI_RIVERSIDE_COTTAGE",
+      "name_en": "River Guard Cottage",
+      "name_fr": "Poste de garde de la rivière",
+      "world_x": 5.5,
+      "world_y": 3.0,
+      "trigger_radius": 2.0,
+      "interaction_prompt_en": "[E] Look through lit shuttered window",
+      "interaction_prompt_fr": "[E] Regarder à travers la fenêtre éclairée",
+      "narrative_act": 1,
+      "story_flag": "RIVERSIDE_HOUSE_CHECKED"
+    },
+    {
+      "id": "POI_COTTAGE_WEST",
+      "name_en": "Blacksmith House",
+      "name_fr": "Maison du forgeron",
+      "world_x": -4.0,
+      "world_y": -0.5,
+      "trigger_radius": 2.0,
+      "interaction_prompt_en": "[E] Check the cold forge entrance",
+      "interaction_prompt_fr": "[E] Vérifier l'entrée de la forge éteinte",
+      "narrative_act": 2,
+      "story_flag": "FORGE_CHECKED"
+    },
+    {
+      "id": "POI_COTTAGE_SOUTH",
+      "name_en": "Fisherman Cottage",
+      "name_fr": "Maisonnette du pêcheur",
+      "world_x": -2.2,
+      "world_y": 1.8,
+      "trigger_radius": 2.0,
+      "interaction_prompt_en": "[E] Examine nets hanging on porch",
+      "interaction_prompt_fr": "[E] Examiner les filets suspendus au porche",
+      "narrative_act": 1,
+      "story_flag": "FISHERMAN_CHECKED"
+    },
+    {
+      "id": "POI_COTTAGE_FAR_WEST",
+      "name_en": "Forester Cottage",
+      "name_fr": "Chalet forestier de l'ouest",
+      "world_x": -5.5,
+      "world_y": 2.0,
+      "trigger_radius": 2.0,
+      "interaction_prompt_en": "[E] Inspect wooden door carvings",
+      "interaction_prompt_fr": "[E] Inspecter les gravures sur la porte",
+      "narrative_act": 2,
+      "story_flag": "FORESTER_CHECKED"
+    },
+    {
+      "id": "POI_CRAFTSMAN_HOUSE",
+      "name_en": "Market Craftsman Workshop",
+      "name_fr": "Atelier d'artisan du marché",
+      "world_x": 6.0,
+      "world_y": -1.5,
+      "trigger_radius": 2.0,
+      "interaction_prompt_en": "[E] Knock on workshop shutter",
+      "interaction_prompt_fr": "[E] Frapper au volet de l'atelier",
+      "narrative_act": 2,
+      "story_flag": "WORKSHOP_CHECKED"
+    }
+  ],
+  "npcs": [
+    {
+      "id": "NPC_ALEX",
+      "name": "Alex Miller",
+      "role": "Protagonist (Playable)",
+      "is_playable": true,
+      "initial_world_x": 6.5,
+      "initial_world_y": 6.5,
+      "initial_orientation": "NW",
+      "speed_walk": 2.4,
+      "speed_run": 4.8
+    },
+    {
+      "id": "NPC_EMMA",
+      "name": "Emma",
+      "role": "Alex's Friend & Village Resident",
+      "initial_world_x": -1.0,
+      "initial_world_y": -2.5,
+      "initial_orientation": "SE",
+      "active_acts": [
+        1,
+        2
+      ],
+      "patrol_radius": 1.5,
+      "dialogue_key": "DLG_EMMA_ACT1",
+      "narrative_condition": "PLAZA_DISCOVERED"
+    },
+    {
+      "id": "NPC_JAMES",
+      "name": "James",
+      "role": "Village Forester & Sawmill Overseer",
+      "initial_world_x": 7.0,
+      "initial_world_y": -0.5,
+      "initial_orientation": "SW",
+      "active_acts": [
+        2
+      ],
+      "patrol_radius": 2.0,
+      "dialogue_key": "DLG_JAMES_ACT2",
+      "narrative_condition": "SAWMILL_INSPECTED"
+    },
+    {
+      "id": "NPC_MICHAEL",
+      "name": "Michael",
+      "role": "Village Elder & Church Caretaker",
+      "initial_world_x": 2.5,
+      "initial_world_y": -4.5,
+      "initial_orientation": "SE",
+      "active_acts": [
+        2
+      ],
+      "patrol_radius": 1.0,
+      "dialogue_key": "DLG_MICHAEL_ACT2",
+      "narrative_condition": "CHURCH_REACHED"
+    },
+    {
+      "id": "NPC_DAVID",
+      "name": "David",
+      "role": "Market Merchant",
+      "initial_world_x": 4.0,
+      "initial_world_y": -0.2,
+      "initial_orientation": "SW",
+      "active_acts": [
+        1,
+        2
+      ],
+      "patrol_radius": 1.2,
+      "dialogue_key": "DLG_DAVID_ACT1",
+      "narrative_condition": "MARKET_INSPECTED"
+    },
+    {
+      "id": "NPC_SARAH",
+      "name": "Sarah",
+      "role": "West District Resident",
+      "initial_world_x": -3.5,
+      "initial_world_y": 0.8,
+      "initial_orientation": "NE",
+      "active_acts": [
+        2
+      ],
+      "patrol_radius": 1.5,
+      "dialogue_key": "DLG_SARAH_ACT2",
+      "narrative_condition": "WELL_INSPECTED"
+    },
+    {
+      "id": "NPC_ETHAN",
+      "name": "Ethan Miller",
+      "role": "Alex's Missing Brother (Echo / Apparition)",
+      "initial_world_x": 1.2,
+      "initial_world_y": 2.4,
+      "initial_orientation": "NW",
+      "active_acts": [
+        1,
+        3
+      ],
+      "patrol_radius": 0.0,
+      "is_echo_apparition": true,
+      "dialogue_key": "DLG_ETHAN_ECHO_WELL",
+      "narrative_condition": "WELL_INSPECTED"
+    }
+  ],
+  "narrative_acts": [
+    {
+      "act": 1,
+      "title_en": "Act I — The Return",
+      "title_fr": "Acte I — Le Retour",
+      "primary_objective_fr": "Retrouver la maison familiale et découvrir ce qui est arrivé au village.",
+      "primary_objective_en": "Reach the family house and discover what happened to the village.",
+      "milestones": [
+        "POI_BRIDGE",
+        "POI_PLAZA_MONUMENT",
+        "POI_ANCIENT_WELL",
+        "POI_FAMILY_HOUSE"
+      ]
+    },
+    {
+      "act": 2,
+      "title_en": "Act II — The Witnesses",
+      "title_fr": "Acte II — Les Témoins",
+      "primary_objective_fr": "Interroger les témoins restants et explorer les archives de l'église et du cimetière.",
+      "primary_objective_en": "Interrogate remaining witnesses and investigate the church & cemetery records.",
+      "milestones": [
+        "POI_CHURCH",
+        "POI_CEMETERY",
+        "POI_MARKETPLACE",
+        "POI_SAWMILL",
+        "POI_WINDMILL",
+        "POI_FARM"
+      ]
+    },
+    {
+      "act": 3,
+      "title_en": "Act III — The Traces",
+      "title_fr": "Acte III — Les Traces",
+      "primary_objective_fr": "Suivre la piste d'Ethan vers le moulin à eau et l'ancienne mine de montagne.",
+      "primary_objective_en": "Follow Ethan's trail into the old watermill and the mountain mine entrance.",
+      "milestones": [
+        "POI_WATERMILL",
+        "POI_MINE_ENTRANCE"
+      ]
+    }
+  ]
+}

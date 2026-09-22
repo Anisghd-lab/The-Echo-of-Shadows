@@ -207,7 +207,7 @@ class GameAssetRegistry {
       // Alex Orientations
       const AssetEntry(
         assetId: alexNorth,
-        path: 'assets/images/characters/alex/Alex-—-Personnage-principal01.png',
+        path: 'new assets/characters/alex/Alex-—-Personnage-principal01.png',
         type: AssetType.character,
         category: 'alex',
         width: 77,
@@ -218,7 +218,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexEast,
-        path: 'assets/images/characters/alex/Alex-—-Personnage-principal05.png',
+        path: 'new assets/characters/alex/Alex-—-Personnage-principal05.png',
         type: AssetType.character,
         category: 'alex',
         width: 65,
@@ -229,7 +229,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexSouth,
-        path: 'assets/images/characters/alex/Alex-—-Personnage-principal09.png',
+        path: 'new assets/characters/alex/Alex-—-Personnage-principal09.png',
         type: AssetType.character,
         category: 'alex',
         width: 79,
@@ -240,7 +240,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexWest,
-        path: 'assets/images/characters/alex/Alex-—-Personnage-principal13.png',
+        path: 'new assets/characters/alex/Alex-—-Personnage-principal13.png',
         type: AssetType.character,
         category: 'alex',
         width: 67,
@@ -251,7 +251,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexSouthEast,
-        path: 'assets/images/characters/alex/Alex-—-Personnage-principal07.png',
+        path: 'new assets/characters/alex/Alex-—-Personnage-principal07.png',
         type: AssetType.character,
         category: 'alex',
         width: 66,
@@ -262,7 +262,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexSouthWest,
-        path: 'assets/images/characters/alex/Alex-—-Personnage-principal11.png',
+        path: 'new assets/characters/alex/Alex-—-Personnage-principal11.png',
         type: AssetType.character,
         category: 'alex',
         width: 66,
@@ -273,7 +273,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexNorthWest,
-        path: 'assets/images/characters/alex/Alex-—-Personnage-principal15.png',
+        path: 'new assets/characters/alex/Alex-—-Personnage-principal15.png',
         type: AssetType.character,
         category: 'alex',
         width: 67,
@@ -284,7 +284,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexNorthEast,
-        path: 'assets/images/characters/alex/Alex-—-Personnage-principal03.png',
+        path: 'new assets/characters/alex/Alex-—-Personnage-principal03.png',
         type: AssetType.character,
         category: 'alex',
         width: 69,
@@ -297,7 +297,7 @@ class GameAssetRegistry {
       // NPCs
       const AssetEntry(
         assetId: npcEmma,
-        path: 'assets/images/characters/emma/Emma01.png',
+        path: 'new assets/characters/emma/Emma01.png',
         type: AssetType.character,
         category: 'emma',
         width: 79,
@@ -307,7 +307,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: npcEthan,
-        path: 'assets/images/characters/ethan/Ethan-—-Frère-d’Alex01.png',
+        path: 'new assets/characters/ethan/Ethan-—-Frère-d’Alex01.png',
         type: AssetType.character,
         category: 'ethan',
         width: 77,
@@ -317,7 +317,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: npcJames,
-        path: 'assets/images/characters/officer_james/Officer-James01.png',
+        path: 'new assets/characters/officer_james/Officer-James01.png',
         type: AssetType.character,
         category: 'james',
         width: 82,
@@ -327,7 +327,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: npcMichael,
-        path: 'assets/images/characters/old_michael/Old-Michael01.png',
+        path: 'new assets/characters/old_michael/Old-Michael01.png',
         type: AssetType.character,
         category: 'michael',
         width: 78,
@@ -339,7 +339,7 @@ class GameAssetRegistry {
       // Village Buildings & Key Environment
       const AssetEntry(
         assetId: villageChurch,
-        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-104.png',
+        path: 'new assets/environments/village/VILLAGE-ENVIRONMENT-104.png',
         type: AssetType.building,
         category: 'village',
         width: 265,
@@ -352,7 +352,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageHouse01,
-        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-101.png',
+        path: 'new assets/environments/village/VILLAGE-ENVIRONMENT-101.png',
         type: AssetType.building,
         category: 'village',
         width: 275,
@@ -363,7 +363,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageHouse02,
-        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-105.png',
+        path: 'new assets/environments/village/VILLAGE-ENVIRONMENT-105.png',
         type: AssetType.building,
         category: 'village',
         width: 345,
@@ -374,7 +374,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageWatermill,
-        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-103.png',
+        path: 'new assets/environments/village/VILLAGE-ENVIRONMENT-103.png',
         type: AssetType.building,
         category: 'village',
         width: 348,
@@ -385,7 +385,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageWindmill,
-        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-102.png',
+        path: 'new assets/environments/village/VILLAGE-ENVIRONMENT-102.png',
         type: AssetType.building,
         category: 'village',
         width: 289,
@@ -396,7 +396,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageBridge,
-        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-108.png',
+        path: 'new assets/environments/village/VILLAGE-ENVIRONMENT-108.png',
         type: AssetType.prop,
         category: 'village',
         width: 208,
@@ -404,7 +404,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageWell,
-        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-111.png',
+        path: 'new assets/environments/village/VILLAGE-ENVIRONMENT-111.png',
         type: AssetType.prop,
         category: 'village',
         width: 227,
@@ -413,7 +413,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageStreetLamp,
-        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-110.png',
+        path: 'new assets/environments/village/VILLAGE-ENVIRONMENT-110.png',
         type: AssetType.prop,
         category: 'village',
         width: 89,
@@ -421,7 +421,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageMasterMap,
-        path: 'assets/images/environments/village/map du village.png',
+        path: 'new assets/environments/village/map du village.png',
         type: AssetType.map,
         category: 'village',
         width: 1536,
@@ -431,7 +431,7 @@ class GameAssetRegistry {
       // Family House
       const AssetEntry(
         assetId: familyHouseExterior,
-        path: 'assets/images/environments/family_house/MAISON-FAMILLIALE02.png',
+        path: 'new assets/environments/family_house/MAISON-FAMILLIALE02.png',
         type: AssetType.building,
         category: 'family_house',
         width: 359,
@@ -441,7 +441,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: familyHouseInterior,
-        path: 'assets/images/environments/family_house/MAISON-FAMILLIALE03.png',
+        path: 'new assets/environments/family_house/MAISON-FAMILLIALE03.png',
         type: AssetType.interior,
         category: 'family_house',
         width: 282,
@@ -449,7 +449,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: alexBedroomCutaway,
-        path: 'assets/images/environments/family_house/MAISON-FAMILLIALE04.png',
+        path: 'new assets/environments/family_house/MAISON-FAMILLIALE04.png',
         type: AssetType.interior,
         category: 'family_house',
         width: 295,
@@ -459,7 +459,7 @@ class GameAssetRegistry {
       // Bunker
       const AssetEntry(
         assetId: bunkerExterior,
-        path: 'assets/images/environments/bunker/INTERIORS-BUNKER02.png',
+        path: 'new assets/environments/bunker/INTERIORS-BUNKER02.png',
         type: AssetType.building,
         category: 'bunker',
         width: 351,
@@ -468,7 +468,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: bunkerInterior,
-        path: 'assets/images/environments/bunker/INTERIORS-BUNKER03.png',
+        path: 'new assets/environments/bunker/INTERIORS-BUNKER03.png',
         type: AssetType.interior,
         category: 'bunker',
         width: 376,
@@ -478,7 +478,7 @@ class GameAssetRegistry {
       // Interactive & Narrative Items
       const AssetEntry(
         assetId: itemAlexPhone,
-        path: 'assets/images/props/interactive/TELEPHONE-PRPOS01.png',
+        path: 'new assets/props/interactive/TELEPHONE-PRPOS01.png',
         type: AssetType.item,
         category: 'props',
         width: 289,
@@ -487,7 +487,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: itemEthanCassette,
-        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE01.png',
+        path: 'new assets/props/narrative/NARRATIVE-PROPS-FURNITURE01.png',
         type: AssetType.item,
         category: 'props',
         width: 103,
@@ -496,7 +496,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: itemAudioRecorder,
-        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE03.png',
+        path: 'new assets/props/narrative/NARRATIVE-PROPS-FURNITURE03.png',
         type: AssetType.item,
         category: 'props',
         width: 123,
@@ -505,7 +505,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: itemOldKey,
-        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE04.png',
+        path: 'new assets/props/narrative/NARRATIVE-PROPS-FURNITURE04.png',
         type: AssetType.item,
         category: 'props',
         width: 107,
@@ -514,7 +514,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: itemEthanNotebook,
-        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE05.png',
+        path: 'new assets/props/narrative/NARRATIVE-PROPS-FURNITURE05.png',
         type: AssetType.item,
         category: 'props',
         width: 120,
@@ -523,7 +523,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: itemPhotographs,
-        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE06.png',
+        path: 'new assets/props/narrative/NARRATIVE-PROPS-FURNITURE06.png',
         type: AssetType.item,
         category: 'props',
         width: 110,
@@ -532,7 +532,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: itemInvestigationDocuments,
-        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE07.png',
+        path: 'new assets/props/narrative/NARRATIVE-PROPS-FURNITURE07.png',
         type: AssetType.item,
         category: 'props',
         width: 94,
@@ -541,7 +541,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: itemInvestigationBoard,
-        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE08.png',
+        path: 'new assets/props/narrative/NARRATIVE-PROPS-FURNITURE08.png',
         type: AssetType.prop,
         category: 'props',
         width: 120,
@@ -550,7 +550,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: itemCountdownDevice,
-        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE09.png',
+        path: 'new assets/props/narrative/NARRATIVE-PROPS-FURNITURE09.png',
         type: AssetType.item,
         category: 'props',
         width: 140,
@@ -561,7 +561,7 @@ class GameAssetRegistry {
       // Nature
       const AssetEntry(
         assetId: villagePineTree,
-        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES02.png',
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES02.png',
         type: AssetType.prop,
         category: 'nature',
         width: 106,
@@ -569,7 +569,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageDeadTree,
-        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES06.png',
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES06.png',
         type: AssetType.prop,
         category: 'nature',
         width: 96,
@@ -577,7 +577,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageStoneSlab,
-        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES04.png',
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES04.png',
         type: AssetType.tile,
         category: 'nature',
         width: 103,
@@ -585,7 +585,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageStoneSlabVar,
-        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES07.png',
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES07.png',
         type: AssetType.tile,
         category: 'nature',
         width: 92,
@@ -593,7 +593,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageSnowSlab,
-        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES08.png',
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES08.png',
         type: AssetType.tile,
         category: 'nature',
         width: 66,
@@ -601,7 +601,7 @@ class GameAssetRegistry {
       ),
       const AssetEntry(
         assetId: villageIceSlab,
-        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES10.png',
+        path: 'new assets/nature/NATURE-GAMEPLAY-STRUCTURES10.png',
         type: AssetType.tile,
         category: 'nature',
         width: 93,
@@ -619,7 +619,7 @@ class GameAssetRegistry {
   Future<void> loadFullRegistry() async {
     initDefaults();
     try {
-      final jsonStr = await rootBundle.loadString('assets/data/asset_registry.json');
+      final jsonStr = await rootBundle.loadString('new assets/data/asset_registry.json');
       final data = jsonDecode(jsonStr) as Map<String, dynamic>;
       final assetsMap = data['assets'] as Map<String, dynamic>? ?? {};
 

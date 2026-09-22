@@ -62,16 +62,16 @@ class PlayerAnimationController {
 
     final frameFiles = {
       // Cardinal (Phase 13)
-      PlayerOrientationController.north: 'assets/images/characters/alex/Alex-—-Personnage-principal01.png',
-      PlayerOrientationController.east: 'assets/images/characters/alex/Alex-—-Personnage-principal05.png',
-      PlayerOrientationController.south: 'assets/images/characters/alex/Alex-—-Personnage-principal09.png',
-      PlayerOrientationController.west: 'assets/images/characters/alex/Alex-—-Personnage-principal13.png',
+      PlayerOrientationController.north: 'new assets/characters/alex/Alex-—-Personnage-principal01.png',
+      PlayerOrientationController.east: 'new assets/characters/alex/Alex-—-Personnage-principal05.png',
+      PlayerOrientationController.south: 'new assets/characters/alex/Alex-—-Personnage-principal09.png',
+      PlayerOrientationController.west: 'new assets/characters/alex/Alex-—-Personnage-principal13.png',
 
       // Isometric
-      PlayerOrientationController.southEast: 'assets/images/characters/alex/Alex-—-Personnage-principal07.png',
-      PlayerOrientationController.southWest: 'assets/images/characters/alex/Alex-—-Personnage-principal11.png',
-      PlayerOrientationController.northWest: 'assets/images/characters/alex/Alex-—-Personnage-principal15.png',
-      PlayerOrientationController.northEast: 'assets/images/characters/alex/Alex-—-Personnage-principal03.png',
+      PlayerOrientationController.southEast: 'new assets/characters/alex/Alex-—-Personnage-principal07.png',
+      PlayerOrientationController.southWest: 'new assets/characters/alex/Alex-—-Personnage-principal11.png',
+      PlayerOrientationController.northWest: 'new assets/characters/alex/Alex-—-Personnage-principal15.png',
+      PlayerOrientationController.northEast: 'new assets/characters/alex/Alex-—-Personnage-principal03.png',
     };
 
     // Load Idle and Interact sprites
@@ -91,52 +91,52 @@ class PlayerAnimationController {
     // Build Walk and Run animations for each orientation
     final walkCycles = {
       PlayerOrientationController.north: [
-        'assets/images/characters/alex/Alex-—-Personnage-principal01.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal02.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal01.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal17.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal01.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal02.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal01.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal17.png',
       ],
       PlayerOrientationController.east: [
-        'assets/images/characters/alex/Alex-—-Personnage-principal05.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal04.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal05.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal06.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal05.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal04.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal05.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal06.png',
       ],
       PlayerOrientationController.south: [
-        'assets/images/characters/alex/Alex-—-Personnage-principal09.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal08.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal09.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal10.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal09.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal08.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal09.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal10.png',
       ],
       PlayerOrientationController.west: [
-        'assets/images/characters/alex/Alex-—-Personnage-principal13.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal12.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal13.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal14.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal13.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal12.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal13.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal14.png',
       ],
       PlayerOrientationController.southEast: [
-        'assets/images/characters/alex/Alex-—-Personnage-principal07.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal06.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal07.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal08.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal07.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal06.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal07.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal08.png',
       ],
       PlayerOrientationController.southWest: [
-        'assets/images/characters/alex/Alex-—-Personnage-principal11.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal10.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal11.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal12.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal11.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal10.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal11.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal12.png',
       ],
       PlayerOrientationController.northWest: [
-        'assets/images/characters/alex/Alex-—-Personnage-principal15.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal14.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal15.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal16.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal15.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal14.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal15.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal16.png',
       ],
       PlayerOrientationController.northEast: [
-        'assets/images/characters/alex/Alex-—-Personnage-principal03.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal02.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal03.png',
-        'assets/images/characters/alex/Alex-—-Personnage-principal04.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal03.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal02.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal03.png',
+        'new assets/characters/alex/Alex-—-Personnage-principal04.png',
       ],
     };
 

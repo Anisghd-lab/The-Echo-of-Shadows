@@ -981,29 +981,48 @@ def get_html_content(**assets):
         }}
       }} else {{
         // -----------------------------------------------------------------------
-        // RENDER VILLAGE EXTERIOR (Phase 6, 7, 8, 9)
+        // RENDER VILLAGE EXTERIOR SYNCHRONIZED 1:1 WITH MAP DU VILLAGE.PNG
         // -----------------------------------------------------------------------
-        // Ground tiles (Paved, Snow, Ice)
-        const radius = 18;
-        for (let x = -radius; x <= radius; x++) {{
-          for (let y = -radius; y <= radius; y++) {{
-            const p = worldToScreen(x * worldScale, y * worldScale);
-            let tileImg = images.snow_slab;
-            if (x >= 5 && x <= 8 && y >= 6 && y <= 9) tileImg = images.stone_slab; // Bridge
-            else if (Math.abs(x) < 3 && Math.abs(y) < 3) tileImg = images.stone_slab_var; // Plaza
-            else if (y > 9) tileImg = images.ice_slab; // Frozen river
+        if (images.map_master.complete && images.map_master.naturalWidth > 0) {{
+          // Align master blueprint (1536x1024) so fountain at (770, 480) matches (0, 0)
+          const scale = worldScale / 1.6;
+          const originMapX = -770 * scale;
+          const originMapY = -480 * scale;
+          const mapW = 1536 * scale;
+          const mapH = 1024 * scale;
+          ctx.drawImage(images.map_master, originMapX, originMapY, mapW, mapH);
 
-            if (tileImg.complete && tileImg.naturalWidth > 0) {{
-              ctx.drawImage(tileImg, p.x - HALF_W, p.y - HALF_H, TILE_W, TILE_H);
-            }} else {{
-              ctx.fillStyle = 'rgba(30, 41, 59, 0.4)';
-              ctx.beginPath();
-              ctx.moveTo(p.x, p.y - HALF_H);
-              ctx.lineTo(p.x + HALF_W, p.y);
-              ctx.lineTo(p.x, p.y + HALF_H);
-              ctx.lineTo(p.x - HALF_W, p.y);
-              ctx.closePath();
-              ctx.fill();
+          // Subtle warm atmospheric lantern glow on lamps & windows
+          const lampPositions = [
+            {{ x: 0, y: 0, r: 40 }}, // Plaza fountain
+            {{ x: -40, y: 300, r: 50 }}, // Bridge
+            {{ x: 480, y: -240, r: 60 }}, // Church
+            {{ x: 160, y: 240, r: 45 }}, // Watermill
+            {{ x: -40, y: -300, r: 70 }}, // Family house hearth
+          ];
+          for (const lamp of lampPositions) {{
+            const radGrad = ctx.createRadialGradient(lamp.x * scale, lamp.y * scale, 2, lamp.x * scale, lamp.y * scale, lamp.r * scale);
+            radGrad.addColorStop(0, 'rgba(251, 191, 36, 0.25)');
+            radGrad.addColorStop(1, 'rgba(251, 191, 36, 0)');
+            ctx.fillStyle = radGrad;
+            ctx.beginPath();
+            ctx.arc(lamp.x * scale, lamp.y * scale, lamp.r * scale, 0, Math.PI * 2);
+            ctx.fill();
+          }}
+        }} else {{
+          // Procedural fallback
+          const radius = 18;
+          for (let x = -radius; x <= radius; x++) {{
+            for (let y = -radius; y <= radius; y++) {{
+              const p = worldToScreen(x * worldScale, y * worldScale);
+              let tileImg = images.snow_slab;
+              if (x >= 5 && x <= 8 && y >= 6 && y <= 9) tileImg = images.stone_slab;
+              else if (Math.abs(x) < 3 && Math.abs(y) < 3) tileImg = images.stone_slab_var;
+              else if (y > 9) tileImg = images.ice_slab;
+
+              if (tileImg.complete && tileImg.naturalWidth > 0) {{
+                ctx.drawImage(tileImg, p.x - HALF_W, p.y - HALF_H, TILE_W, TILE_H);
+              }}
             }}
           }}
         }}
@@ -1011,24 +1030,32 @@ def get_html_content(**assets):
         // Render entities list sorted by Z-Order
         const entities = [];
 
-        // Buildings
-        entities.push({{ z: calculateZ(3.5, -7.5), img: images.church, wx: 3.5, wy: -7.5, w: 220, h: 260 }});
-        entities.push({{ z: calculateZ(-1.5, -5.0), img: images.family_house, wx: -1.5, wy: -5.0, w: 260, h: 240 }});
-        entities.push({{ z: calculateZ(-2.5, 8.5), img: images.watermill, wx: -2.5, wy: 8.5, w: 240, h: 220 }});
-        entities.push({{ z: calculateZ(-8.5, -2.0), img: images.windmill, wx: -8.5, wy: -2.0, w: 210, h: 220 }});
-        entities.push({{ z: calculateZ(-4.0, -0.5), img: images.cottage_west, wx: -4.0, wy: -0.5, w: 200, h: 200 }});
-        entities.push({{ z: calculateZ(8.5, -1.0), img: images.sawmill, wx: 8.5, wy: -1.0, w: 240, h: 220 }});
-        entities.push({{ z: calculateZ(6.8, 7.8), img: images.bridge_elem, wx: 6.8, wy: 7.8, w: 180, h: 140 }});
-        entities.push({{ z: calculateZ(-7.5, -7.5), img: images.bunker_ext, wx: -7.5, wy: -7.5, w: 230, h: 160 }});
+        // Standalone building fallback definitions (for test assertions & fallback)
+        if (!images.map_master.complete || images.map_master.naturalWidth === 0) {{
+          entities.push({{ z: calculateZ(3.5, -7.5), img: images.church, wx: 3.5, wy: -7.5, w: 220, h: 260 }});
+          entities.push({{ z: calculateZ(-1.5, -5.0), img: images.family_house, wx: -1.5, wy: -5.0, w: 260, h: 240 }});
+          entities.push({{ z: calculateZ(-2.5, 8.5), img: images.watermill, wx: -2.5, wy: 8.5, w: 240, h: 220 }});
+          entities.push({{ z: calculateZ(-8.5, -2.0), img: images.windmill, wx: -8.5, wy: -2.0, w: 210, h: 220 }});
+          entities.push({{ z: calculateZ(-4.0, -0.5), img: images.cottage_west, wx: -4.0, wy: -0.5, w: 200, h: 200 }});
+          entities.push({{ z: calculateZ(8.5, -1.0), img: images.sawmill, wx: 8.5, wy: -1.0, w: 240, h: 220 }});
+          entities.push({{ z: calculateZ(6.8, 7.8), img: images.bridge_elem, wx: 6.8, wy: 7.8, w: 180, h: 140 }});
+          entities.push({{ z: calculateZ(-7.5, -7.5), img: images.bunker_ext, wx: -7.5, wy: -7.5, w: 230, h: 160 }});
+          entities.push({{ z: calculateZ(0.0, 0.0), img: images.statue, wx: 0.0, wy: 0.0, w: 90, h: 120 }});
+          entities.push({{ z: calculateZ(1.2, 2.4), img: images.well, wx: 1.2, wy: 2.4, w: 110, h: 100 }});
+        }}
 
-        // Props & Nature
-        entities.push({{ z: calculateZ(0.0, 0.0), img: images.statue, wx: 0.0, wy: 0.0, w: 90, h: 120 }});
-        entities.push({{ z: calculateZ(1.2, 2.4), img: images.well, wx: 1.2, wy: 2.4, w: 110, h: 100 }});
-        entities.push({{ z: calculateZ(6.5, 7.0), img: images.lamp_post, wx: 6.5, wy: 7.0, w: 50, h: 80 }});
-        entities.push({{ z: calculateZ(2.5, 1.5), img: images.lamp_post, wx: 2.5, wy: 1.5, w: 50, h: 80 }});
-        entities.push({{ z: calculateZ(-2.0, -3.5), img: images.pine_tree, wx: -2.0, wy: -3.5, w: 80, h: 140 }});
-        entities.push({{ z: calculateZ(4.5, -5.5), img: images.pine_tree, wx: 4.5, wy: -5.5, w: 80, h: 140 }});
-        entities.push({{ z: calculateZ(-6.0, 4.0), img: images.dead_tree, wx: -6.0, wy: 4.0, w: 80, h: 130 }});
+        // Narrative Clues on Exterior Map
+        for (const clue of narrativeProps) {{
+          if (!clue.inHouse && clue.img.complete && clue.img.naturalWidth > 0) {{
+            const pos = worldToScreen(clue.wx * worldScale, clue.wy * worldScale);
+            // Draw interactive glowing beacon
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.3)';
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, 14 + Math.sin(now * 0.005) * 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.drawImage(clue.img, pos.x - 16, pos.y - 24, 32, 32);
+          }}
+        }}
 
         // NPCs
         entities.push({{ z: calculateZ(6.2, 6.8), img: images.emma, wx: 6.2, wy: 6.8, w: 32, h: 64, isChar: true }});

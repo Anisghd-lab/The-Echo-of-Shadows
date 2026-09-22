@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 
-map_path = '/root/the_echo_of_shadows/assets/images/environments/village/map_tiles/Map village .png'
+map_path = '/root/the_echo_of_shadows/new assets/map du village.png'
 out_path = '/root/the_echo_of_shadows/web_preview/map_annotated.png'
 
 im = Image.open(map_path).convert('RGB')

@@ -21,16 +21,35 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/data/
-    - assets/data/maps/
-    - assets/images/characters/alex/
-    - assets/images/characters/emma/
-    - assets/images/characters/ethan/
-    - assets/images/characters/officer_james/
-    - assets/images/characters/old_michael/
-    - assets/images/environments/village/
-    - assets/images/environments/family_house/
-    - assets/images/environments/bunker/
-    - assets/images/props/interactive/
-    - assets/images/props/narrative/
-    - assets/images/nature/
+    - new assets/
+    - new assets/data/
+    - new assets/data/maps/
+    - new assets/Alex walk/
+    - new assets/Alex run/
+    - new assets/Alex inractions/
+    - new assets/Alex interaction/
+    - new assets/Alex idle/
+    - new assets/Alex portraits/
+    - new assets/TELEPHONE PRPOS/
+    - new assets/characters/alex/
+    - new assets/characters/emma/
+    - new assets/characters/ethan/
+    - new assets/characters/officer_james/
+    - new assets/characters/old_michael/
+    - new assets/environments/village/
+    - new assets/environments/family_house/
+    - new assets/environments/bunker/
+    - new assets/props/interactive/
+    - new assets/props/narrative/
+    - new assets/nature/
+    - new assets/PERSONNAGES/
+    - "new assets/PERSONNAGES/Alex — Personnage principal/"
+    - new assets/PERSONNAGES/Emma/
+    - "new assets/PERSONNAGES/Ethan — Frère d’Alex/"
+    - new assets/PERSONNAGES/Officer James/
+    - new assets/PERSONNAGES/Old Michael/
+    - new assets/VILLAGE ENVIRONMENT/
+    - new assets/MAISON FAMILLIALE/
+    - new assets/INTERIORS BUNKER/
+    - new assets/NARRATIVE PROPS FURNITURE/
+    - new assets/NATURE GAMEPLAY STRUCTURES/

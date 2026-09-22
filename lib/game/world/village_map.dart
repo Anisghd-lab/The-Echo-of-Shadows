@@ -375,7 +375,7 @@ class VillageMap {
       mapId: 'village_abandonne',
       titleFr: 'Le Village Abandonné',
       titleEn: 'The Abandoned Village',
-      referenceBlueprint: 'assets/images/environments/village/map du village.png',
+      referenceBlueprint: 'new assets/map du village.png',
       playerSpawn: PlayerSpawnPoint(
         worldX: 7.0,
         worldY: 8.0,
@@ -942,7 +942,7 @@ class VillageMap {
   }
 
   /// Asynchronously loads map configuration from JSON asset bundle.
-  static Future<VillageMap> loadFromAsset([String path = 'assets/data/maps/village.json']) async {
+  static Future<VillageMap> loadFromAsset([String path = 'new assets/data/maps/village.json']) async {
     try {
       final jsonString = await rootBundle.loadString(path);
       final jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;

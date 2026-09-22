@@ -3,7 +3,7 @@ import json
 import base64
 
 ROOT_DIR = "/root/the_echo_of_shadows"
-ASSETS_DIR = os.path.join(ROOT_DIR, "assets", "images")
+ASSETS_DIR = os.path.join(ROOT_DIR, "new assets")
 OUT_FILE = os.path.join(ROOT_DIR, "web_preview", "index.html")
 
 def to_base64(rel_path, mirror=False):
@@ -42,7 +42,7 @@ def build():
     npc_michael = to_base64("characters/old_michael/Old-Michael01.png")
 
     # 3. Master Blueprint Map
-    map_village_master = to_base64("environments/village/map du village.png")
+    map_village_master = to_base64("map du village.png") if os.path.exists(os.path.join(ASSETS_DIR, "map du village.png")) else to_base64("environments/village/map du village.png")
 
     # 4. Village Buildings & Exterior
     family_house = to_base64("environments/family_house/MAISON-FAMILLIALE02.png")
