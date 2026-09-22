@@ -32,9 +32,9 @@ class VillageGame extends FlameGame with KeyboardEvents {
     GameAssetRegistry().initDefaults();
 
     // 2. Load or initialize saved position
-    double startX = 0.0;
-    double startY = 0.0;
-    String startOrientation = 'SE';
+    double? startX;
+    double? startY;
+    String? startOrientation;
 
     final save = saveManager.currentSave;
     if (save != null) {

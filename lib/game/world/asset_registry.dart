@@ -93,7 +93,7 @@ class AssetEntry {
   }
 }
 
-/// Data-Driven Asset Registry holding references to all canonical game graphics.
+/// Official Data-Driven Asset Registry holding references to all canonical game graphics from new assets.
 class GameAssetRegistry {
   static final GameAssetRegistry _instance = GameAssetRegistry._internal();
   factory GameAssetRegistry() => _instance;
@@ -106,449 +106,506 @@ class GameAssetRegistry {
   int get totalAssets => _entries.length;
 
   // ===========================================================================
-  // Canonical Static Asset IDs for Phase 2 Gameplay
+  // Official Canonical Asset IDs (New Assets Library)
   // ===========================================================================
-  
-  // Alex Character & Animations (4-Way 360° Rotations) - Phase 3.3 Verified Canonical Set
-  static const String alexIdleSE = 'alex_animation_idle03';
-  static const String alexIdleSW = 'alex_animation_idle03_fallback';
-  static const String alexIdleNE = 'alex_animation_idle22';
-  static const String alexIdleNW = 'alex_animation_idle22_fallback';
 
-  static const String alexWalkStrip = 'alex_marche01';
-  static const String alexWalkSE = 'alex_marche36';
-  static const String alexWalkSW = 'alex_marche42';
-  static const String alexWalkNE = 'alex_marche18';
-  static const String alexWalkNW = 'alex_marche10';
+  // Alex Character (Cardinal & 360° Rotations)
+  static const String alexNorth = 'alex_personnage_principal01';
+  static const String alexNorthEast = 'alex_personnage_principal03';
+  static const String alexEast = 'alex_personnage_principal05';
+  static const String alexSouthEast = 'alex_personnage_principal07';
+  static const String alexSouth = 'alex_personnage_principal09';
+  static const String alexSouthWest = 'alex_personnage_principal11';
+  static const String alexWest = 'alex_personnage_principal13';
+  static const String alexNorthWest = 'alex_personnage_principal15';
 
-  static const String alexRunStrip = 'alex_course01';
-  static const String alexRunSE = 'alex_course11';
-  static const String alexRunSW = 'alex_course11_fallback';
-  static const String alexRunNE = 'alex_course10';
-  static const String alexRunNW = 'alex_course10_fallback';
+  // Legacy Aliases for seamless compatibility
+  static const String alexIdleSE = 'alex_personnage_principal07';
+  static const String alexIdleSW = 'alex_personnage_principal11';
+  static const String alexIdleNE = 'alex_personnage_principal03';
+  static const String alexIdleNW = 'alex_personnage_principal15';
+  static const String alexWalkStrip = 'alex_personnage_principal07';
+  static const String alexWalkSE = 'alex_personnage_principal07';
+  static const String alexWalkSW = 'alex_personnage_principal11';
+  static const String alexWalkNE = 'alex_personnage_principal03';
+  static const String alexWalkNW = 'alex_personnage_principal15';
+  static const String alexRunStrip = 'alex_personnage_principal07';
+  static const String alexRunSE = 'alex_personnage_principal07';
+  static const String alexRunSW = 'alex_personnage_principal11';
+  static const String alexRunNE = 'alex_personnage_principal03';
+  static const String alexRunNW = 'alex_personnage_principal15';
+  static const String alexInteraction = 'alex_personnage_principal09';
+  static const String alexInteractSE = 'alex_personnage_principal07';
+  static const String alexInteractSW = 'alex_personnage_principal11';
+  static const String alexInteractNE = 'alex_personnage_principal03';
+  static const String alexInteractNW = 'alex_personnage_principal15';
+  static const String alexPortrait = 'alex_personnage_principal09';
 
-  static const String alexInteraction = 'alex_interaction01';
-  static const String alexInteractSE = 'alex_interaction01';
-  static const String alexInteractSW = 'alex_interaction01_fallback';
-  static const String alexInteractNE = 'alex_interaction28';
-  static const String alexInteractNW = 'alex_interaction28_fallback';
-  static const String alexPortrait = 'alex_animation_idle02';
+  // NPCs
+  static const String npcEmma = 'emma01';
+  static const String npcEthan = 'ethan_frere_dalex01';
+  static const String npcJames = 'officer_james01';
+  static const String npcMichael = 'old_michael01';
 
   // Village Buildings & Exterior
-  static const String villageChurch = 'village_abandonne_environment_sprite_sheet05';
-  static const String villageHouse01 = 'village_abandonne_environment_sprite_sheet01';
-  static const String villageHouse02 = 'village_abandonne_environment_sprite_sheet02';
-  static const String villageHouse03 = 'village_abandonne_environment_sprite_sheet03';
-  static const String villageHouse04 = 'village_abandonne_environment_sprite_sheet04';
-  static const String villageIronGate = 'village_abandonne_environment_sprite_sheet15';
-  static const String villageStoneSlab = 'village_abandonne_environment_sprite_sheet25';
-  static const String villageStoneSlabVar = 'village_abandonne_environment_sprite_sheet26';
-  static const String villageSnowSlab = 'village_abandonne_environment_sprite_sheet31';
-  static const String villageIceSlab = 'village_abandonne_environment_sprite_sheet32';
-  static const String villageWell = 'village_abandonne_route_decor_exterieur01';
-  static const String villageBridge = 'village_abandonne_route_decor_exterieur05';
-  static const String villagePineTree = 'village_abandonne_environment_sprite_sheet37';
-  static const String villageDeadTree = 'village_abandonne_environment_sprite_sheet34';
-  static const String villageStreetLamp = 'village_abandonne_environment_sprite_sheet20';
-  static const String villageCliff = 'village_abandonne_route_decor_exterieur52';
-  static const String villageMasterMap = 'map_village';
+  static const String villageChurch = 'village_environment_104';
+  static const String villageHouse01 = 'village_environment_101';
+  static const String villageHouse02 = 'village_environment_105';
+  static const String villageHouse03 = 'village_environment_106';
+  static const String villageHouse04 = 'village_environment_102';
+  static const String villageWatermill = 'village_environment_103';
+  static const String villageWindmill = 'village_environment_102';
+  static const String villageBridge = 'village_environment_108';
+  static const String villageWell = 'village_environment_111';
+  static const String villageStreetLamp = 'village_environment_110';
+  static const String villageIronGate = 'village_environment_113';
+  static const String villageMarketStall01 = 'village_environment_116';
+  static const String villageMarketStall02 = 'village_environment_121';
+  static const String villageCrane = 'village_environment_129';
+  static const String villageBoat = 'village_environment_152';
+  static const String villageMasterMap = 'map_du_village';
 
-  // Family House Exterior & Interior
-  static const String familyHouseExterior = 'maison_familiale_exterieure01';
-  static const String alexBedroomCutaway = 'chambre_d_alex01';
-  static const String ethanDesk = 'bureau_d_ethan_01';
-  static const String woodenWardrobe = 'armoire_en_bois01';
-  static const String woodenBed = 'lit_en_bois01';
+  // Family House
+  static const String familyHouseExterior = 'maison_familliale02';
+  static const String familyHouseInterior = 'maison_familliale03';
+  static const String alexBedroomCutaway = 'maison_familliale04';
+  static const String familyKitchen = 'maison_familliale05';
+  static const String familyHallway = 'maison_familliale06';
 
-  // Key Items & Evidence
-  static const String itemOldKey = 'cle_ancienne01';
-  static const String itemEthanCassette = 'cassette_audio_d_ethan00';
-  static const String itemAlexPhone = 'telephone_d_alex00';
-  static const String itemInvestigationBoard = 'tableau_d_enquete_01';
-  static const String itemEthanNotebook = 'carnet_d_ethan01';
+  // Bunker
+  static const String bunkerExterior = 'interiors_bunker02';
+  static const String bunkerInterior = 'interiors_bunker03';
+  static const String bunkerControlRoom = 'interiors_bunker04';
 
-  /// Pre-populates typed entries so game boots instantly without waiting for JSON parse.
+  // Narrative & Interactive Props
+  static const String itemAlexPhone = 'telephone_prpos01';
+  static const String itemEthanCassette = 'narrative_props_furniture01';
+  static const String itemAudioRecorder = 'narrative_props_furniture03';
+  static const String itemOldKey = 'narrative_props_furniture04';
+  static const String itemEthanNotebook = 'narrative_props_furniture05';
+  static const String itemPhotographs = 'narrative_props_furniture06';
+  static const String itemInvestigationDocuments = 'narrative_props_furniture07';
+  static const String itemInvestigationBoard = 'narrative_props_furniture08';
+  static const String itemCountdownDevice = 'narrative_props_furniture09';
+  static const String ethanDesk = 'narrative_props_furniture05';
+  static const String woodenWardrobe = 'narrative_props_furniture08';
+  static const String woodenBed = 'maison_familliale07';
+
+  // Nature & Ground Tiles
+  static const String villagePineTree = 'nature_gameplay_structures02';
+  static const String villageDeadTree = 'nature_gameplay_structures06';
+  static const String villageStoneSlab = 'nature_gameplay_structures04';
+  static const String villageStoneSlabVar = 'nature_gameplay_structures07';
+  static const String villageSnowSlab = 'nature_gameplay_structures08';
+  static const String villageIceSlab = 'nature_gameplay_structures10';
+  static const String villageCliff = 'nature_gameplay_structures09';
+
   void initDefaults() {
     if (_initialized) return;
 
     final defaultList = [
-      // Alex Idle
+      // Alex Orientations
       const AssetEntry(
-        assetId: alexIdleSE,
-        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle03.png',
-        type: AssetType.characterAnimation,
+        assetId: alexNorth,
+        path: 'assets/images/characters/alex/Alex-—-Personnage-principal01.png',
+        type: AssetType.character,
         category: 'alex',
-        width: 139,
-        height: 296,
+        width: 77,
+        height: 202,
+        pivotX: 0.5,
+        pivotY: 0.95,
+        orientation: 'N',
+      ),
+      const AssetEntry(
+        assetId: alexEast,
+        path: 'assets/images/characters/alex/Alex-—-Personnage-principal05.png',
+        type: AssetType.character,
+        category: 'alex',
+        width: 65,
+        height: 203,
+        pivotX: 0.5,
+        pivotY: 0.95,
+        orientation: 'E',
+      ),
+      const AssetEntry(
+        assetId: alexSouth,
+        path: 'assets/images/characters/alex/Alex-—-Personnage-principal09.png',
+        type: AssetType.character,
+        category: 'alex',
+        width: 79,
+        height: 201,
+        pivotX: 0.5,
+        pivotY: 0.95,
+        orientation: 'S',
+      ),
+      const AssetEntry(
+        assetId: alexWest,
+        path: 'assets/images/characters/alex/Alex-—-Personnage-principal13.png',
+        type: AssetType.character,
+        category: 'alex',
+        width: 67,
+        height: 202,
+        pivotX: 0.5,
+        pivotY: 0.95,
+        orientation: 'W',
+      ),
+      const AssetEntry(
+        assetId: alexSouthEast,
+        path: 'assets/images/characters/alex/Alex-—-Personnage-principal07.png',
+        type: AssetType.character,
+        category: 'alex',
+        width: 66,
+        height: 202,
         pivotX: 0.5,
         pivotY: 0.95,
         orientation: 'SE',
-        hasCollision: true,
-        collisionWidth: 28,
-        collisionHeight: 16,
       ),
       const AssetEntry(
-        assetId: alexIdleSW,
-        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle03.png',
-        type: AssetType.characterAnimation,
+        assetId: alexSouthWest,
+        path: 'assets/images/characters/alex/Alex-—-Personnage-principal11.png',
+        type: AssetType.character,
         category: 'alex',
-        width: 139,
-        height: 296,
+        width: 66,
+        height: 203,
         pivotX: 0.5,
         pivotY: 0.95,
         orientation: 'SW',
-        hasCollision: true,
-        collisionWidth: 28,
-        collisionHeight: 16,
       ),
       const AssetEntry(
-        assetId: alexIdleNE,
-        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle22.png',
-        type: AssetType.characterAnimation,
+        assetId: alexNorthWest,
+        path: 'assets/images/characters/alex/Alex-—-Personnage-principal15.png',
+        type: AssetType.character,
         category: 'alex',
-        width: 131,
-        height: 286,
-        pivotX: 0.5,
-        pivotY: 0.95,
-        orientation: 'NE',
-        hasCollision: true,
-        collisionWidth: 28,
-        collisionHeight: 16,
-      ),
-      const AssetEntry(
-        assetId: alexIdleNW,
-        path: 'assets/images/characters/alex/idle/Alex-—-Animation-Idle22.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 131,
-        height: 286,
+        width: 67,
+        height: 201,
         pivotX: 0.5,
         pivotY: 0.95,
         orientation: 'NW',
-        hasCollision: true,
-        collisionWidth: 28,
-        collisionHeight: 16,
       ),
-
-      // Alex Walk Cycles (4 Directions)
       const AssetEntry(
-        assetId: alexWalkStrip,
-        path: 'assets/images/characters/alex/walk/Alex-—-Marche01.png',
-        type: AssetType.characterAnimation,
+        assetId: alexNorthEast,
+        path: 'assets/images/characters/alex/Alex-—-Personnage-principal03.png',
+        type: AssetType.character,
         category: 'alex',
-        width: 392,
-        height: 182,
+        width: 69,
+        height: 201,
         pivotX: 0.5,
         pivotY: 0.95,
-        orientation: 'SE',
-      ),
-      const AssetEntry(
-        assetId: alexWalkSE,
-        path: 'assets/images/characters/alex/walk/Alex-—-Marche36.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 92,
-        height: 176,
-        orientation: 'SE',
-      ),
-      const AssetEntry(
-        assetId: alexWalkSW,
-        path: 'assets/images/characters/alex/walk/Alex-—-Marche42.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 86,
-        height: 169,
-        orientation: 'SW',
-      ),
-      const AssetEntry(
-        assetId: alexWalkNE,
-        path: 'assets/images/characters/alex/walk/Alex-—-Marche18.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 80,
-        height: 179,
         orientation: 'NE',
       ),
+
+      // NPCs
       const AssetEntry(
-        assetId: alexWalkNW,
-        path: 'assets/images/characters/alex/walk/Alex-—-Marche10.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
+        assetId: npcEmma,
+        path: 'assets/images/characters/emma/Emma01.png',
+        type: AssetType.character,
+        category: 'emma',
+        width: 79,
+        height: 200,
+        pivotX: 0.5,
+        pivotY: 0.95,
+      ),
+      const AssetEntry(
+        assetId: npcEthan,
+        path: 'assets/images/characters/ethan/Ethan-—-Frère-d’Alex01.png',
+        type: AssetType.character,
+        category: 'ethan',
+        width: 77,
+        height: 193,
+        pivotX: 0.5,
+        pivotY: 0.95,
+      ),
+      const AssetEntry(
+        assetId: npcJames,
+        path: 'assets/images/characters/officer_james/Officer-James01.png',
+        type: AssetType.character,
+        category: 'james',
         width: 82,
-        height: 178,
-        orientation: 'NW',
-      ),
-
-      // Alex Run Cycles (4 Directions)
-      const AssetEntry(
-        assetId: alexRunStrip,
-        path: 'assets/images/characters/alex/run/Alex-—-Course01.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 126,
-        height: 169,
+        height: 196,
         pivotX: 0.5,
         pivotY: 0.95,
-        orientation: 'SE',
       ),
       const AssetEntry(
-        assetId: alexRunSE,
-        path: 'assets/images/characters/alex/run/Alex-—-Course11.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 97,
-        height: 174,
-        orientation: 'SE',
-      ),
-      const AssetEntry(
-        assetId: alexRunSW,
-        path: 'assets/images/characters/alex/run/Alex-—-Course11.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 97,
-        height: 174,
-        orientation: 'SW',
-      ),
-      const AssetEntry(
-        assetId: alexRunNE,
-        path: 'assets/images/characters/alex/run/Alex-—-Course10.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 96,
-        height: 183,
-        orientation: 'NE',
-      ),
-      const AssetEntry(
-        assetId: alexRunNW,
-        path: 'assets/images/characters/alex/run/Alex-—-Course10.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 96,
-        height: 183,
-        orientation: 'NW',
+        assetId: npcMichael,
+        path: 'assets/images/characters/old_michael/Old-Michael01.png',
+        type: AssetType.character,
+        category: 'michael',
+        width: 78,
+        height: 188,
+        pivotX: 0.5,
+        pivotY: 0.95,
       ),
 
-      // Alex Interaction (4 Directions)
-      const AssetEntry(
-        assetId: alexInteractSE,
-        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction01.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 108,
-        height: 128,
-        orientation: 'SE',
-      ),
-      const AssetEntry(
-        assetId: alexInteractSW,
-        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction01.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 108,
-        height: 128,
-        orientation: 'SW',
-      ),
-      const AssetEntry(
-        assetId: alexInteractNE,
-        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction28.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 77,
-        height: 141,
-        orientation: 'NE',
-      ),
-      const AssetEntry(
-        assetId: alexInteractNW,
-        path: 'assets/images/characters/alex/interaction/Alex-—-Interaction28.png',
-        type: AssetType.characterAnimation,
-        category: 'alex',
-        width: 77,
-        height: 141,
-        orientation: 'NW',
-      ),
-
-      // Village Environment
+      // Village Buildings & Key Environment
       const AssetEntry(
         assetId: villageChurch,
-        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet05.png',
+        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-104.png',
         type: AssetType.building,
         category: 'village',
-        width: 304,
-        height: 401,
+        width: 265,
+        height: 319,
         pivotX: 0.5,
-        pivotY: 0.90,
+        pivotY: 0.9,
         hasCollision: true,
-        collisionWidth: 220,
-        collisionHeight: 140,
+        collisionWidth: 200,
+        collisionHeight: 180,
       ),
       const AssetEntry(
         assetId: villageHouse01,
-        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet01.png',
+        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-101.png',
         type: AssetType.building,
         category: 'village',
-        width: 334,
-        height: 313,
+        width: 275,
+        height: 289,
         pivotX: 0.5,
-        pivotY: 0.88,
+        pivotY: 0.9,
         hasCollision: true,
-        collisionWidth: 240,
-        collisionHeight: 120,
       ),
       const AssetEntry(
-        assetId: villageIronGate,
-        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet15.png',
-        type: AssetType.prop,
-        category: 'village',
-        width: 229,
-        height: 148,
-        pivotX: 0.5,
-        pivotY: 0.85,
-        hasCollision: true,
-        collisionWidth: 160,
-        collisionHeight: 40,
-      ),
-      const AssetEntry(
-        assetId: villageStoneSlab,
-        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet25.png',
-        type: AssetType.tile,
-        category: 'village',
-        width: 149,
-        height: 101,
-        pivotX: 0.5,
-        pivotY: 0.5,
-      ),
-      const AssetEntry(
-        assetId: villageStoneSlabVar,
-        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet26.png',
-        type: AssetType.tile,
-        category: 'village',
-        width: 151,
-        height: 101,
-        pivotX: 0.5,
-        pivotY: 0.5,
-      ),
-      const AssetEntry(
-        assetId: villageSnowSlab,
-        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet31.png',
-        type: AssetType.tile,
-        category: 'village',
-        width: 146,
-        height: 99,
-        pivotX: 0.5,
-        pivotY: 0.5,
-      ),
-      const AssetEntry(
-        assetId: villageIceSlab,
-        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet32.png',
-        type: AssetType.tile,
-        category: 'village',
-        width: 164,
-        height: 107,
-        pivotX: 0.5,
-        pivotY: 0.5,
-      ),
-      const AssetEntry(
-        assetId: villagePineTree,
-        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet37.png',
-        type: AssetType.prop,
-        category: 'village',
-        width: 107,
-        height: 102,
-        pivotX: 0.5,
-        pivotY: 0.90,
-        hasCollision: true,
-        collisionWidth: 40,
-        collisionHeight: 25,
-      ),
-      const AssetEntry(
-        assetId: villageDeadTree,
-        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet34.png',
-        type: AssetType.prop,
-        category: 'village',
-        width: 97,
-        height: 160,
-        pivotX: 0.5,
-        pivotY: 0.90,
-        hasCollision: true,
-        collisionWidth: 35,
-        collisionHeight: 20,
-      ),
-      const AssetEntry(
-        assetId: villageStreetLamp,
-        path: 'assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet20.png',
-        type: AssetType.prop,
-        category: 'village',
-        width: 57,
-        height: 144,
-        pivotX: 0.5,
-        pivotY: 0.95,
-        hasCollision: true,
-        collisionWidth: 20,
-        collisionHeight: 15,
-      ),
-      const AssetEntry(
-        assetId: villageCliff,
-        path: 'assets/images/environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur52.png',
+        assetId: villageHouse02,
+        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-105.png',
         type: AssetType.building,
         category: 'village',
-        width: 250,
-        height: 301,
+        width: 345,
+        height: 304,
         pivotX: 0.5,
-        pivotY: 0.90,
+        pivotY: 0.9,
         hasCollision: true,
-        collisionWidth: 180,
-        collisionHeight: 120,
+      ),
+      const AssetEntry(
+        assetId: villageWatermill,
+        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-103.png',
+        type: AssetType.building,
+        category: 'village',
+        width: 348,
+        height: 298,
+        pivotX: 0.5,
+        pivotY: 0.9,
+        hasCollision: true,
+      ),
+      const AssetEntry(
+        assetId: villageWindmill,
+        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-102.png',
+        type: AssetType.building,
+        category: 'village',
+        width: 289,
+        height: 299,
+        pivotX: 0.5,
+        pivotY: 0.9,
+        hasCollision: true,
+      ),
+      const AssetEntry(
+        assetId: villageBridge,
+        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-108.png',
+        type: AssetType.prop,
+        category: 'village',
+        width: 208,
+        height: 149,
       ),
       const AssetEntry(
         assetId: villageWell,
-        path: 'assets/images/environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur01.png',
+        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-111.png',
         type: AssetType.prop,
         category: 'village',
-        width: 155,
-        height: 173,
-        pivotX: 0.5,
-        pivotY: 0.85,
-        hasCollision: true,
-        collisionWidth: 80,
-        collisionHeight: 60,
+        width: 227,
+        height: 186,
         isInteractable: true,
       ),
       const AssetEntry(
-        assetId: familyHouseExterior,
-        path: 'assets/images/environments/family_house/exterior/Maison-familiale-extérieure01.png',
-        type: AssetType.building,
-        category: 'family_house',
-        width: 366,
-        height: 341,
-        pivotX: 0.5,
-        pivotY: 0.88,
-        hasCollision: true,
-        collisionWidth: 260,
-        collisionHeight: 140,
-        isInteractable: true,
-      ),
-      const AssetEntry(
-        assetId: ethanDesk,
-        path: 'assets/images/props/furniture/desk/Bureau-d’Ethan-01.png',
+        assetId: villageStreetLamp,
+        path: 'assets/images/environments/village/VILLAGE-ENVIRONMENT-110.png',
         type: AssetType.prop,
-        category: 'family_house',
-        width: 326,
-        height: 329,
-        pivotX: 0.5,
-        pivotY: 0.85,
-        hasCollision: true,
-        collisionWidth: 180,
-        collisionHeight: 100,
-        isInteractable: true,
+        category: 'village',
+        width: 89,
+        height: 113,
       ),
       const AssetEntry(
         assetId: villageMasterMap,
-        path: 'assets/images/environments/village/map_tiles/Map village .png',
+        path: 'assets/images/environments/village/map du village.png',
         type: AssetType.map,
         category: 'village',
         width: 1536,
         height: 1024,
-        pivotX: 0.5,
-        pivotY: 0.5,
+      ),
+
+      // Family House
+      const AssetEntry(
+        assetId: familyHouseExterior,
+        path: 'assets/images/environments/family_house/MAISON-FAMILLIALE02.png',
+        type: AssetType.building,
+        category: 'family_house',
+        width: 359,
+        height: 337,
+        hasCollision: true,
+        isInteractable: true,
+      ),
+      const AssetEntry(
+        assetId: familyHouseInterior,
+        path: 'assets/images/environments/family_house/MAISON-FAMILLIALE03.png',
+        type: AssetType.interior,
+        category: 'family_house',
+        width: 282,
+        height: 246,
+      ),
+      const AssetEntry(
+        assetId: alexBedroomCutaway,
+        path: 'assets/images/environments/family_house/MAISON-FAMILLIALE04.png',
+        type: AssetType.interior,
+        category: 'family_house',
+        width: 295,
+        height: 242,
+      ),
+
+      // Bunker
+      const AssetEntry(
+        assetId: bunkerExterior,
+        path: 'assets/images/environments/bunker/INTERIORS-BUNKER02.png',
+        type: AssetType.building,
+        category: 'bunker',
+        width: 351,
+        height: 224,
+        hasCollision: true,
+      ),
+      const AssetEntry(
+        assetId: bunkerInterior,
+        path: 'assets/images/environments/bunker/INTERIORS-BUNKER03.png',
+        type: AssetType.interior,
+        category: 'bunker',
+        width: 376,
+        height: 223,
+      ),
+
+      // Interactive & Narrative Items
+      const AssetEntry(
+        assetId: itemAlexPhone,
+        path: 'assets/images/props/interactive/TELEPHONE-PRPOS01.png',
+        type: AssetType.item,
+        category: 'props',
+        width: 289,
+        height: 393,
+        isInteractable: true,
+      ),
+      const AssetEntry(
+        assetId: itemEthanCassette,
+        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE01.png',
+        type: AssetType.item,
+        category: 'props',
+        width: 103,
+        height: 154,
+        isInteractable: true,
+      ),
+      const AssetEntry(
+        assetId: itemAudioRecorder,
+        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE03.png',
+        type: AssetType.item,
+        category: 'props',
+        width: 123,
+        height: 97,
+        isInteractable: true,
+      ),
+      const AssetEntry(
+        assetId: itemOldKey,
+        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE04.png',
+        type: AssetType.item,
+        category: 'props',
+        width: 107,
+        height: 115,
+        isInteractable: true,
+      ),
+      const AssetEntry(
+        assetId: itemEthanNotebook,
+        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE05.png',
+        type: AssetType.item,
+        category: 'props',
+        width: 120,
+        height: 116,
+        isInteractable: true,
+      ),
+      const AssetEntry(
+        assetId: itemPhotographs,
+        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE06.png',
+        type: AssetType.item,
+        category: 'props',
+        width: 110,
+        height: 121,
+        isInteractable: true,
+      ),
+      const AssetEntry(
+        assetId: itemInvestigationDocuments,
+        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE07.png',
+        type: AssetType.item,
+        category: 'props',
+        width: 94,
+        height: 143,
+        isInteractable: true,
+      ),
+      const AssetEntry(
+        assetId: itemInvestigationBoard,
+        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE08.png',
+        type: AssetType.prop,
+        category: 'props',
+        width: 120,
+        height: 151,
+        isInteractable: true,
+      ),
+      const AssetEntry(
+        assetId: itemCountdownDevice,
+        path: 'assets/images/props/narrative/NARRATIVE-PROPS-FURNITURE09.png',
+        type: AssetType.item,
+        category: 'props',
+        width: 140,
+        height: 149,
+        isInteractable: true,
+      ),
+
+      // Nature
+      const AssetEntry(
+        assetId: villagePineTree,
+        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES02.png',
+        type: AssetType.prop,
+        category: 'nature',
+        width: 106,
+        height: 180,
+      ),
+      const AssetEntry(
+        assetId: villageDeadTree,
+        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES06.png',
+        type: AssetType.prop,
+        category: 'nature',
+        width: 96,
+        height: 176,
+      ),
+      const AssetEntry(
+        assetId: villageStoneSlab,
+        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES04.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 103,
+        height: 95,
+      ),
+      const AssetEntry(
+        assetId: villageStoneSlabVar,
+        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES07.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 92,
+        height: 79,
+      ),
+      const AssetEntry(
+        assetId: villageSnowSlab,
+        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES08.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 66,
+        height: 65,
+      ),
+      const AssetEntry(
+        assetId: villageIceSlab,
+        path: 'assets/images/nature/NATURE-GAMEPLAY-STRUCTURES10.png',
+        type: AssetType.tile,
+        category: 'nature',
+        width: 93,
+        height: 102,
       ),
     ];
 

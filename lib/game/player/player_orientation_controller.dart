@@ -1,8 +1,12 @@
 import 'dart:math' as math;
 import '../world/isometric_coordinates.dart';
 
-/// The 4 canonical isometric orientations representing 360° rotation.
+/// The canonical orientations representing cardinal and isometric angles.
 enum CanonicalOrientation {
+  north,     // N (-Y in screen space, 0° / back)
+  south,     // S (+Y in screen space, 180° / front)
+  east,      // E (+X in screen space, 90° / right)
+  west,      // W (-X in screen space, 270° / left)
   southEast, // SE (+X, +Y in screen space, ~45°)
   southWest, // SW (-X, +Y in screen space, ~135°)
   northWest, // NW (-X, -Y in screen space, ~225°)
@@ -12,12 +16,27 @@ enum CanonicalOrientation {
 /// Controller governing Alex's 360° orientation, in-place rotation transitions,
 /// and directional interaction targeting.
 class PlayerOrientationController {
+  // Strict Cardinal Directions (Phase 13)
+  static const String north = 'N';
+  static const String south = 'S';
+  static const String east = 'E';
+  static const String west = 'W';
+
+  // Isometric Quadrants
   static const String southEast = 'SE';
   static const String southWest = 'SW';
   static const String northWest = 'NW';
   static const String northEast = 'NE';
 
-  // Clockwise order: SE (0) -> SW (1) -> NW (2) -> NE (3) -> SE (0)
+  // Clockwise cardinal cycle: N (0) -> E (1) -> S (2) -> W (3)
+  static const List<String> cardinalCycle = [
+    north,
+    east,
+    south,
+    west,
+  ];
+
+  // Clockwise isometric cycle: SE (0) -> SW (1) -> NW (2) -> NE (3)
   static const List<String> canonicalCycle = [
     southEast,
     southWest,

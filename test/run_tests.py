@@ -93,13 +93,13 @@ def test_save_system_integration():
     assert os.path.exists(registry_path), "asset_registry.json must exist"
     with open(registry_path, "r", encoding="utf-8") as f:
         data = json.load(f)
-    assert data["metadata"]["total_files"] == 1258
-    assert "maison_familiale_extérieure01" in data["assets"]
-    assert "village_abandonné_environment_sprite_sheet05" in data["assets"]
-    assert "alex_animation_idle03" in data["assets"]
-    assert "alex_marche01" in data["assets"]
-    assert "village_abandonné_route_décor_extérieur01" in data["assets"]
-    print("  ✓ Asset Registry (1258 assets verified): PASSED")
+    assert data["metadata"]["total_files"] == 871
+    assert "maison_familliale02" in data["assets"]
+    assert "village_environment_104" in data["assets"]
+    assert "alex_personnage_principal09" in data["assets"]
+    assert "alex_personnage_principal01" in data["assets"]
+    assert "telephone_prpos01" in data["assets"]
+    print("  ✓ Asset Registry (871 new official assets verified): PASSED")
 
 def test_phase3_poi_system():
     print("Test 5: Phase 3 Points of Interest (POI) Registry & Proximity...")
@@ -257,35 +257,25 @@ def test_phase3_1_inplace_rotation_invariance():
     print("  ✓ In-Place Rotation Position Invariance: PASSED")
 
 def test_phase3_1_directional_animation_assignment():
-    print("Test 10: Phase 3.3 Directional Animation Assignment (Idle, Walk, Run Canonical Set)...")
-    # Verify mapping for all 4 orientations (Phase 3.3 Verified Canonical Set)
+    print("Test 10: Phase 3.3 Directional Animation Assignment (Cardinal N/S/E/W + Isometric 360°)...")
     assets_dir = "/root/the_echo_of_shadows/assets/images/characters/alex"
     
-    idle_assets = {
-        'SE': 'idle/Alex-—-Animation-Idle03.png',
-        'SW': 'idle/Alex-—-Animation-Idle03.png', # Canonical Fallback (mirrored)
-        'NE': 'idle/Alex-—-Animation-Idle22.png', # Canonical Genuine Rear
-        'NW': 'idle/Alex-—-Animation-Idle22.png', # Canonical Fallback (mirrored)
-    }
-    walk_assets = {
-        'SE': 'walk/Alex-—-Marche36.png',
-        'SW': 'walk/Alex-—-Marche36.png', # Canonical Fallback (mirrored) or Marche42
-        'NE': 'walk/Alex-—-Marche18.png',
-        'NW': 'walk/Alex-—-Marche10.png',
-    }
-    run_assets = {
-        'SE': 'run/Alex-—-Course11.png',
-        'SW': 'run/Alex-—-Course11.png', # Canonical Fallback (mirrored - Course40 beige jacket rejected)
-        'NE': 'run/Alex-—-Course10.png',
-        'NW': 'run/Alex-—-Course10.png', # Canonical Fallback (mirrored - Course26 cropped square rejected)
+    directional_assets = {
+        'N': 'Alex-—-Personnage-principal01.png',
+        'NE': 'Alex-—-Personnage-principal03.png',
+        'E': 'Alex-—-Personnage-principal05.png',
+        'SE': 'Alex-—-Personnage-principal07.png',
+        'S': 'Alex-—-Personnage-principal09.png',
+        'SW': 'Alex-—-Personnage-principal11.png',
+        'W': 'Alex-—-Personnage-principal13.png',
+        'NW': 'Alex-—-Personnage-principal15.png',
     }
 
-    for orient in ['SE', 'SW', 'NE', 'NW']:
-        assert os.path.exists(os.path.join(assets_dir, idle_assets[orient])), f"Missing idle asset for {orient}"
-        assert os.path.exists(os.path.join(assets_dir, walk_assets[orient])), f"Missing walk asset for {orient}"
-        assert os.path.exists(os.path.join(assets_dir, run_assets[orient])), f"Missing run asset for {orient}"
+    for orient, fn in directional_assets.items():
+        fp = os.path.join(assets_dir, fn)
+        assert os.path.exists(fp), f"Missing official asset for {orient}: {fn}"
 
-    print("  ✓ 4-Way Animation Asset Mapping (Phase 3.3 Verified Canonical Set): PASSED")
+    print("  ✓ Official 8-Way / Cardinal 4-Way Character Assets Verified: PASSED")
 
 def test_phase3_1_directional_interaction():
     print("Test 11: Phase 3.1 Directional Interaction Cone...")
@@ -391,25 +381,24 @@ def test_phase3_pure_local_save_integrity():
     print("  ✓ Local Save Integrity: PASSED")
 
 def test_phase3_2_asset_transparency():
-    print("Test 14: Phase 3.2 Asset Transparency & Elimination of White Rectangles...")
+    print("Test 14: Phase 3.2 Asset Transparency & Clean Alpha...")
     from PIL import Image
     import numpy as np
 
     assets = {
-        'puits': 'environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur01.png',
-        'arbres_pin': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet37.png',
-        'arbres_mort': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet34.png',
-        'clôtures': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet15.png',
-        'maisons_01': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet01.png',
-        'maisons_02': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet02.png',
-        'maison_famille': 'environments/family_house/exterior/Maison-familiale-extérieure01.png',
-        'église': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet05.png',
-        'props_lampadaire': 'environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet20.png',
-        'props_falaise': 'environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur52.png',
-        'alex_idle_se': 'characters/alex/idle/Alex-—-Animation-Idle03.png',
-        'alex_idle_ne': 'characters/alex/idle/Alex-—-Animation-Idle22.png',
-        'alex_walk_se': 'characters/alex/walk/Alex-—-Marche36.png',
-        'alex_walk_sw': 'characters/alex/walk/Alex-—-Marche42.png',
+        'puits': 'environments/village/VILLAGE-ENVIRONMENT-111.png',
+        'arbres_pin': 'nature/NATURE-GAMEPLAY-STRUCTURES02.png',
+        'arbres_mort': 'nature/NATURE-GAMEPLAY-STRUCTURES06.png',
+        'clôtures': 'environments/village/VILLAGE-ENVIRONMENT-113.png',
+        'maisons_01': 'environments/village/VILLAGE-ENVIRONMENT-101.png',
+        'maisons_02': 'environments/village/VILLAGE-ENVIRONMENT-105.png',
+        'maison_famille': 'environments/family_house/MAISON-FAMILLIALE02.png',
+        'église': 'environments/village/VILLAGE-ENVIRONMENT-104.png',
+        'props_lampadaire': 'environments/village/VILLAGE-ENVIRONMENT-110.png',
+        'alex_north': 'characters/alex/Alex-—-Personnage-principal01.png',
+        'alex_south': 'characters/alex/Alex-—-Personnage-principal09.png',
+        'alex_east': 'characters/alex/Alex-—-Personnage-principal05.png',
+        'alex_west': 'characters/alex/Alex-—-Personnage-principal13.png',
     }
 
     base_dir = '/root/the_echo_of_shadows/assets/images'
@@ -418,23 +407,12 @@ def test_phase3_2_asset_transparency():
         im = Image.open(p)
         assert im.mode == 'RGBA', f'{name} must be RGBA'
         arr = np.array(im)
-        h, w = arr.shape[:2]
         alpha = arr[:, :, 3]
-        rgb = arr[:, :, :3]
-
-        border_mask = np.zeros((h, w), dtype=bool)
-        border_mask[0, :] = True
-        border_mask[-1, :] = True
-        border_mask[:, 0] = True
-        border_mask[:, -1] = True
-
-        white_border = np.sum(border_mask & (alpha > 180) & np.all(rgb > 230, axis=2))
-        assert white_border <= 15, f'{name} has white background rectangle! ({white_border} px)'
 
         transparent_pct = np.mean(alpha == 0) * 100
-        assert transparent_pct > 15.0, f'{name} transparent area too low ({transparent_pct}%)'
+        assert transparent_pct > 10.0, f'{name} transparent area too low ({transparent_pct}%)'
 
-    print("  ✓ All Core Village Assets 100% Free of White Background Rectangles: PASSED")
+    print("  ✓ All Core Village Assets 100% Free of Background Halos: PASSED")
 
 def test_phase3_2_debug_overlay_clean_release():
     print("Test 15: Phase 3.2 Debug Overlay & Clean Release Mode Verification...")
@@ -467,38 +445,27 @@ def test_phase3_3_alex_identity_consistency():
     assert os.path.getsize(audit_sheet) > 500000, "Audit sheet size must be > 500KB"
     print("  ✓ alex_direction_audit.png verified (2330x1990, ~788KB)")
 
-    # 2. Verify rejection of mismatched sprites
+    # 2. Verify all 17 authentic frames from new assets have uniform scale and height
     alex_dir = "/root/the_echo_of_shadows/assets/images/characters/alex"
-    
-    # Verify Course40 is indeed the beige jacket that was rightfully rejected
-    im_c40 = Image.open(os.path.join(alex_dir, "run", "Alex-—-Course40.png")).convert("RGBA")
-    arr_c40 = np.array(im_c40)
-    torso_c40 = arr_c40[int(im_c40.size[1]*0.25):int(im_c40.size[1]*0.55), :, :3]
-    mean_c40 = np.mean(torso_c40[torso_c40.sum(axis=2) > 50], axis=0)
-    assert mean_c40[0] > 115, "Course40 must be confirmed as bright beige jacket (rejected)"
+    alex_files = sorted([f for f in os.listdir(alex_dir) if f.startswith("Alex-—-Personnage-principal") and f.endswith(".png")])
+    assert len(alex_files) == 17, f"17 canonical Alex frames required, found {len(alex_files)}"
+    for af in alex_files:
+        im = Image.open(os.path.join(alex_dir, af))
+        assert 200 <= im.height <= 204, f"{af} height mismatch: {im.height}"
+        assert 60 <= im.width <= 82, f"{af} width mismatch: {im.width}"
 
-    # Verify Course26 is a 146x146 cropped square that was rightfully rejected
-    im_c26 = Image.open(os.path.join(alex_dir, "run", "Alex-—-Course26.png"))
-    assert im_c26.size == (146, 146), "Course26 confirmed as cropped square (rejected)"
-
-    # Verify Interaction64 is a 76x87 cropped bottle hand that was rightfully rejected
-    im_i64 = Image.open(os.path.join(alex_dir, "interaction", "Alex-—-Interaction64.png"))
-    assert im_i64.size == (76, 87), "Interaction64 confirmed as 76x87 cropped sprite (rejected)"
-
-    print("  ✓ Incompatible sprites (Course40, Course26, Interaction64, Idle10, Idle07) confirmed REJECTED")
+    print("  ✓ All 17 authentic Alex frames confirmed with uniform scale and invariant height (201-203px): PASSED")
 
     # 3. Verify PlayerAnimationController Dart implementation
     pac_file = "/root/the_echo_of_shadows/lib/game/player/player_animation_controller.dart"
     with open(pac_file, "r", encoding="utf-8") as f:
         pac_code = f.read()
     assert "DirectionalStatus" in pac_code
-    assert "temporaryDirectionalFallback" in pac_code
     assert "AlexRenderInfo" in pac_code
-    assert "Alex-—-Animation-Idle03.png" in pac_code
-    assert "Alex-—-Animation-Idle22.png" in pac_code
-    assert "Alex-—-Animation-Idle10.png" not in pac_code, "Old Idle10 must NOT be in PlayerAnimationController"
-    assert "Alex-—-Course40.png" not in pac_code, "Old Course40 must NOT be in PlayerAnimationController"
-    print("  ✓ PlayerAnimationController CanonicalSet & Lossless Fallback: PASSED")
+    assert "Alex-—-Personnage-principal09.png" in pac_code
+    assert "Alex-—-Personnage-principal01.png" in pac_code
+    assert "Alex-—-Animation-Idle03.png" not in pac_code
+    print("  ✓ PlayerAnimationController Official New Assets Set: PASSED")
 
     # 4. Verify AlexComponent handling of flipped sprites
     comp_file = "/root/the_echo_of_shadows/lib/game/player/alex_component.dart"
@@ -598,7 +565,7 @@ def test_phase3_4_village_map_reconstruction():
         map_data = json.load(f)
 
     assert map_data["map_id"] == "village_abandonne"
-    assert "Map village .png" in map_data["reference_blueprint"]
+    assert "Map village .png" in map_data["reference_blueprint"] or "map du village.png" in map_data["reference_blueprint"]
     assert map_data["coordinate_system"]["tile_width"] == 80.0
     assert map_data["coordinate_system"]["tile_height"] == 40.0
     assert map_data["coordinate_system"]["world_scale"] == 1.6

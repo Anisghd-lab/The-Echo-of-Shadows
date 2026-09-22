@@ -1,4 +1,6 @@
 import os
+
+code = r'''import os
 import json
 import base64
 
@@ -122,3 +124,9 @@ def build():
 
 if __name__ == "__main__":
     build()
+'''
+
+with open('/root/the_echo_of_shadows/web_preview/build_preview.py', 'w') as f:
+    f.write(code)
+
+print('Updated web_preview/build_preview.py wrapper.')
