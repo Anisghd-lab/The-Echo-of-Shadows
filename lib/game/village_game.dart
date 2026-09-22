@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import '../save/save_manager.dart';
 import 'camera/isometric_camera.dart';
 import 'controls/touch_controller.dart';
+import 'dialogue/dialogue_manager.dart';
 import 'world/asset_registry.dart';
 import 'world/isometric_coordinates.dart';
 import 'world/village_world.dart';
@@ -84,13 +85,22 @@ class VillageGame extends FlameGame with KeyboardEvents {
 
     // Keyboard overrides or supplements touch
     if (_pressedKeys.isNotEmpty) {
-      // In-place rotation keys: Q (Counter-Clockwise) and E (Clockwise)
+      // In-place rotation / interaction keys: Q (Counter-Clockwise) and E (Interact / Clockwise)
       if (_pressedKeys.contains(LogicalKeyboardKey.keyQ)) {
         villageWorld.playerController.rotateCounterClockwise();
         _pressedKeys.remove(LogicalKeyboardKey.keyQ);
       }
       if (_pressedKeys.contains(LogicalKeyboardKey.keyE)) {
-        villageWorld.playerController.rotateClockwise();
+        final interactableNpc = villageWorld.charactersLayer.getInteractableNpc();
+        if (interactableNpc != null) {
+          DialogueManager.instance.startDialogue(
+            npcId: interactableNpc.id,
+            alex: villageWorld.alex,
+            npc: interactableNpc,
+          );
+        } else {
+          villageWorld.playerController.rotateClockwise();
+        }
         _pressedKeys.remove(LogicalKeyboardKey.keyE);
       }
 

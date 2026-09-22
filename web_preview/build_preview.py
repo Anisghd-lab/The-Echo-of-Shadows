@@ -22,6 +22,23 @@ def to_base64(rel_path, mirror=False):
                 return "data:image/png;base64," + base64.b64encode(f.read()).decode("utf-8")
     return ""
 
+def crop_strip_to_base64(rel_path, col, total_cols, mirror=False):
+    full_path = os.path.join(ASSETS_DIR, rel_path)
+    if os.path.exists(full_path):
+        from PIL import Image
+        import io
+        im = Image.open(full_path).convert("RGBA")
+        fw = im.width / total_cols
+        fh = im.height
+        box = (int(col * fw), 0, int((col + 1) * fw), fh)
+        frame = im.crop(box)
+        if mirror:
+            frame = frame.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+        buf = io.BytesIO()
+        frame.save(buf, format="PNG")
+        return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("utf-8")
+    return ""
+
 def build():
     print("Embedding Official New Assets into Web Preview...")
     
@@ -39,16 +56,84 @@ def build():
     alex_w = alex_frames["alex_13"]
     alex_nw = alex_frames["alex_15"]
     
-    # 2. NPCs
-    npc_emma = to_base64("characters/emma/Emma01.png")
-    npc_ethan = to_base64("characters/ethan/Ethan-—-Frère-d’Alex01.png")
-    npc_james = to_base64("characters/officer_james/Officer-James01.png")
-    npc_michael = to_base64("characters/old_michael/Old-Michael01.png")
+    # 2. Authentic Walk Animation Frames (Phases 4 & 5)
+    walk_frames = {
+        "walk_w1": crop_strip_to_base64("Alex walk/Alex-—-Marche01.png", 0, 4),
+        "walk_w2": crop_strip_to_base64("Alex walk/Alex-—-Marche01.png", 1, 4),
+        "walk_w3": crop_strip_to_base64("Alex walk/Alex-—-Marche01.png", 2, 4),
+        "walk_w4": crop_strip_to_base64("Alex walk/Alex-—-Marche01.png", 3, 4),
+        "walk_ne1": to_base64("Alex walk/Alex-—-Marche03.png"),
+        "walk_ne2": to_base64("Alex walk/Alex-—-Marche04.png"),
+        "walk_ne3": to_base64("Alex walk/Alex-—-Marche05.png"),
+        "walk_ne4": to_base64("Alex walk/Alex-—-Marche06.png"),
+        "walk_n1": to_base64("Alex walk/Alex-—-Marche17.png"),
+        "walk_n2": to_base64("Alex walk/Alex-—-Marche38.png"),
+        "walk_n3": to_base64("Alex walk/Alex-—-Marche20.png"),
+        "walk_n4": to_base64("Alex walk/Alex-—-Marche39.png"),
+        "walk_s1": to_base64("Alex walk/Alex-—-Marche54.png"),
+        "walk_s2": to_base64("Alex walk/Alex-—-Marche55.png"),
+        "walk_s3": to_base64("Alex walk/Alex-—-Marche56.png"),
+        "walk_s4": to_base64("Alex walk/Alex-—-Marche57.png"),
+        "walk_nw1": to_base64("Alex walk/Alex-—-Marche09.png"),
+        "walk_nw2": to_base64("Alex walk/Alex-—-Marche11.png"),
+        "walk_nw3": to_base64("Alex walk/Alex-—-Marche14.png"),
+        "walk_nw4": to_base64("Alex walk/Alex-—-Marche18.png"),
+    }
 
-    # 3. Master Blueprint Map
+    # 3. Authentic Run Animation Frames (Phase 7)
+    run_frames = {
+        f"run_w{i+1}": crop_strip_to_base64("Alex run/Alex-—-Course02.png", i, 7)
+        for i in range(7)
+    }
+    run_frames.update({
+        "run_ne1": crop_strip_to_base64("Alex run/Alex-—-Course07.png", 0, 2),
+        "run_ne2": crop_strip_to_base64("Alex run/Alex-—-Course07.png", 1, 2),
+        "run_ne3": to_base64("Alex run/Alex-—-Course10.png"),
+        "run_ne4": to_base64("Alex run/Alex-—-Course16.png"),
+        "run_sw1": crop_strip_to_base64("Alex run/Alex-—-Course20.png", 0, 2),
+        "run_sw2": crop_strip_to_base64("Alex run/Alex-—-Course20.png", 1, 2),
+        "run_sw3": to_base64("Alex run/Alex-—-Course24.png"),
+        "run_sw4": to_base64("Alex run/Alex-—-Course28.png"),
+        "run_nw1": to_base64("Alex run/Alex-—-Course01.png"),
+        "run_nw2": to_base64("Alex run/Alex-—-Course04.png"),
+        "run_nw3": to_base64("Alex run/Alex-—-Course05.png"),
+        "run_nw4": to_base64("Alex run/Alex-—-Course06.png"),
+        "run_n1": crop_strip_to_base64("Alex run/Alex-—-Course12.png", 0, 2),
+        "run_n2": crop_strip_to_base64("Alex run/Alex-—-Course12.png", 1, 2),
+        "run_n3": to_base64("Alex run/Alex-—-Course13.png"),
+        "run_n4": to_base64("Alex run/Alex-—-Course15.png"),
+        "run_s1": to_base64("Alex run/Alex-—-Course34.png"),
+        "run_s2": to_base64("Alex run/Alex-—-Course35.png"),
+        "run_s3": to_base64("Alex run/Alex-—-Course36.png"),
+        "run_s4": to_base64("Alex run/Alex-—-Course37.png"),
+    })
+
+    # 4. NPC 360° Frames (Emma, Ethan, James, Michael)
+    npc_emma_frames = {
+        f"emma_{i:02d}": to_base64(f"characters/emma/Emma{i:02d}.png")
+        for i in range(1, 19)
+    }
+    npc_james_frames = {
+        f"james_{i:02d}": to_base64(f"characters/officer_james/Officer-James{i:02d}.png")
+        for i in range(1, 19)
+    }
+    npc_michael_frames = {
+        f"michael_{i:02d}": to_base64(f"characters/old_michael/Old-Michael{i:02d}.png")
+        for i in range(1, 19)
+    }
+    npc_ethan_frames = {
+        f"ethan_{i:02d}": to_base64(f"characters/ethan/Ethan-frère-de-Alex{i:02d}.png")
+        for i in range(1, 13)
+    }
+    npc_emma = npc_emma_frames["emma_07"]
+    npc_ethan = npc_ethan_frames.get("ethan_11", npc_ethan_frames.get("ethan_01", ""))
+    npc_james = npc_james_frames["james_11"]
+    npc_michael = npc_michael_frames["michael_07"]
+
+    # 5. Master Blueprint Map
     map_village_master = to_base64("map du village.png") if os.path.exists(os.path.join(ASSETS_DIR, "map du village.png")) else to_base64("environments/village/map du village.png")
 
-    # 4. Village Buildings & Exterior
+    # 6. Village Buildings & Exterior
     family_house = to_base64("environments/family_house/MAISON-FAMILLIALE02.png")
     family_house_int = to_base64("environments/family_house/MAISON-FAMILLIALE03.png")
     alex_bedroom_int = to_base64("environments/family_house/MAISON-FAMILLIALE04.png")
@@ -61,7 +146,7 @@ def build():
     sawmill = to_base64("environments/village/VILLAGE-ENVIRONMENT-105.png")
     bridge_elem = to_base64("environments/village/VILLAGE-ENVIRONMENT-108.png")
 
-    # 5. Props & Decor
+    # 7. Props & Decor
     well = to_base64("environments/village/VILLAGE-ENVIRONMENT-111.png")
     statue = to_base64("environments/village/VILLAGE-ENVIRONMENT-106.png")
     lamp_post = to_base64("environments/village/VILLAGE-ENVIRONMENT-110.png")
@@ -75,7 +160,7 @@ def build():
     bunker_ext = to_base64("environments/bunker/INTERIORS-BUNKER02.png")
     bunker_int = to_base64("environments/bunker/INTERIORS-BUNKER03.png")
 
-    # 6. Interactive & Narrative Props
+    # 8. Interactive & Narrative Props
     prop_phone = to_base64("props/interactive/TELEPHONE-PRPOS01.png")
     prop_cassette = to_base64("props/narrative/NARRATIVE-PROPS-FURNITURE01.png")
     prop_recorder = to_base64("props/narrative/NARRATIVE-PROPS-FURNITURE03.png")
@@ -86,7 +171,7 @@ def build():
     prop_board = to_base64("props/narrative/NARRATIVE-PROPS-FURNITURE08.png")
     prop_countdown = to_base64("props/narrative/NARRATIVE-PROPS-FURNITURE09.png")
 
-    # 7. Nature & Terrain Tiles
+    # 9. Nature & Terrain Tiles
     pine_tree = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES02.png")
     dead_tree = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES06.png")
     stone_slab = to_base64("nature/NATURE-GAMEPLAY-STRUCTURES04.png")
@@ -97,12 +182,17 @@ def build():
 
     print(f"Generating standalone web preview at {OUT_FILE}...")
 
-    # We will write the full HTML
     from generate_html_template import get_html_content
     html = get_html_content(
         alex_n=alex_n, alex_ne=alex_ne, alex_e=alex_e, alex_se=alex_se,
         alex_s=alex_s, alex_sw=alex_sw, alex_w=alex_w, alex_nw=alex_nw,
         **alex_frames,
+        **walk_frames,
+        **run_frames,
+        **npc_emma_frames,
+        **npc_james_frames,
+        **npc_michael_frames,
+        **npc_ethan_frames,
         npc_emma=npc_emma, npc_ethan=npc_ethan, npc_james=npc_james, npc_michael=npc_michael,
         map_village_master=map_village_master,
         family_house=family_house, family_house_int=family_house_int, alex_bedroom_int=alex_bedroom_int,

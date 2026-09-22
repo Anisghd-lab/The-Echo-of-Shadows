@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../game/controls/touch_controller.dart';
+import '../game/dialogue/dialogue_manager.dart';
+import '../game/dialogue/dialogue_models.dart';
 import '../game/player/player_controller.dart';
 import '../game/village_game.dart';
 
@@ -386,6 +388,180 @@ class _GameHUDOverlayState extends State<GameHUDOverlay> {
                 ),
               ],
             ),
+          ),
+
+          // ===================================================================
+          // 4. NPC DIALOGUE & PROXIMITY INTERACTION OVERLAY (Phase 17 & 18)
+          // ===================================================================
+          ValueListenableBuilder<DialogueNode?>(
+            valueListenable: DialogueManager.instance.activeDialogueNotifier,
+            builder: (context, dialogueNode, _) {
+              if (dialogueNode == null) {
+                // If not in dialogue, check for nearby interactable NPC
+                final nearbyNpc = widget.game.villageWorld.charactersLayer.getInteractableNpc();
+                if (nearbyNpc != null) {
+                  return Positioned(
+                    bottom: 110,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          DialogueManager.instance.startDialogue(
+                            npcId: nearbyNpc.id,
+                            alex: widget.game.villageWorld.alex,
+                            npc: nearbyNpc,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xEE0F172A),
+                            borderRadius: BorderRadius.circular(24),
+                            border: Border.all(color: const Color(0xFF38BDF8), width: 1.5),
+                            boxShadow: const [
+                              BoxShadow(color: Color(0x99000000), blurRadius: 12),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF38BDF8),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: const Text(
+                                  'E',
+                                  style: TextStyle(
+                                    color: Color(0xFF0F172A),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                "Parler à ${nearbyNpc.name}",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              }
+
+              // Active Dialogue Window (non-blocking, narrative choices)
+              return Positioned(
+                bottom: 24,
+                left: 20,
+                right: 20,
+                child: Center(
+                  child: Container(
+                    constraints: const BoxConstraints(maxWidth: 650),
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      color: const Color(0xF50F172A),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFF38BDF8), width: 1.5),
+                      boxShadow: const [
+                        BoxShadow(color: Color(0xCC000000), blurRadius: 20),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Header: Speaker Name & Role
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  dialogueNode.speakerName,
+                                  style: const TextStyle(
+                                    color: Color(0xFF38BDF8),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                                Text(
+                                  dialogueNode.speakerRole,
+                                  style: const TextStyle(
+                                    color: Color(0xFF94A3B8),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.close, color: Color(0xFF94A3B8), size: 18),
+                              onPressed: () => DialogueManager.instance.closeDialogue(),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                          ],
+                        ),
+                        const Divider(color: Color(0x3338BDF8), height: 18),
+                        // Dialogue Text
+                        Text(
+                          dialogueNode.text,
+                          style: const TextStyle(
+                            color: Color(0xFFF1F5F9),
+                            fontSize: 13.5,
+                            height: 1.45,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        // Dialogue Choices
+                        if (dialogueNode.choices.isNotEmpty)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: dialogueNode.choices.map((choice) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 6.0),
+                                child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: const Color(0xFFE2E8F0),
+                                    backgroundColor: const Color(0x401E293B),
+                                    side: const BorderSide(color: Color(0x5538BDF8)),
+                                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                                    alignment: Alignment.centerLeft,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    DialogueManager.instance.selectChoice(choice);
+                                  },
+                                  child: Text(
+                                    "▸ ${choice.text}",
+                                    style: const TextStyle(fontSize: 12.5),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

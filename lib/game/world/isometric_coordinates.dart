@@ -104,6 +104,37 @@ class IsometricCoordinates {
       return 'NE'; // Up-Right
     }
   }
+
+  /// Calculates direction vector to true 8-way orientation (Cardinal + Isometric):
+  /// - 'E':  [-22.5°, 22.5°)
+  /// - 'SE': [22.5°, 67.5°)
+  /// - 'S':  [67.5°, 112.5°)
+  /// - 'SW': [112.5°, 157.5°)
+  /// - 'W':  >= 157.5° or < -157.5°
+  /// - 'NW': [-157.5°, -112.5°)
+  /// - 'N':  [-112.5°, -67.5°)
+  /// - 'NE': [-67.5°, -22.5°)
+  static String vectorToOrientation8Way(double dx, double dy) {
+    if (dx == 0 && dy == 0) return 'SE';
+    final angle = math.atan2(dy, dx);
+    if (angle >= -math.pi / 8 && angle < math.pi / 8) {
+      return 'E';
+    } else if (angle >= math.pi / 8 && angle < 3 * math.pi / 8) {
+      return 'SE';
+    } else if (angle >= 3 * math.pi / 8 && angle < 5 * math.pi / 8) {
+      return 'S';
+    } else if (angle >= 5 * math.pi / 8 && angle < 7 * math.pi / 8) {
+      return 'SW';
+    } else if (angle >= -3 * math.pi / 8 && angle < -math.pi / 8) {
+      return 'NE';
+    } else if (angle >= -5 * math.pi / 8 && angle < -3 * math.pi / 8) {
+      return 'N';
+    } else if (angle >= -7 * math.pi / 8 && angle < -5 * math.pi / 8) {
+      return 'NW';
+    } else {
+      return 'W';
+    }
+  }
 }
 
 class Point2D {

@@ -32,6 +32,11 @@ class IsometricCollisionBox {
     return distSquared < (radius * radius);
   }
 
+  double get minX => worldX - halfWidth;
+  double get maxX => worldX + halfWidth;
+  double get minY => worldY - halfHeight;
+  double get maxY => worldY + halfHeight;
+
   /// Checks if a point is inside the collision area.
   bool contains(double x, double y) {
     return x >= (worldX - halfWidth) &&

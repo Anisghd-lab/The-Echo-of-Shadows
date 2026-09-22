@@ -28,9 +28,22 @@ class AlexRenderInfo {
   });
 }
 
-/// Manages Alex's 360° animations across Cardinal (N, S, E, W) and Isometric (SE, SW, NE, NW) directions.
-/// Uses the authentic, unified 3D-modeled Alex assets from the official new assets library.
-/// Guarantees 100% visual identity consistency, exact invariant feet anchor, and realistic locomotion without foot sliding.
+/// In-memory frame definition allowing single files or strips to be sliced on-the-fly without creating files on disk.
+class FrameDef {
+  final String path;
+  final int? col;
+  final int? totalCols;
+
+  const FrameDef(this.path, [this.col, this.totalCols]);
+}
+
+/// Manages Alex's 8-way animations across Cardinal (N, S, E, W) and Isometric (SE, SW, NE, NW) directions.
+/// Uses the authentic, unified Alex assets from the official new assets library.
+/// Guarantees:
+/// - True foot alternation across all directions (Contact -> Passing -> Opposite Contact -> Passing).
+/// - Specific East/West foot opening/closing alternating cycle.
+/// - Distinct Walk vs Run animation cycles with cadence-movement synchronization.
+/// - Exact invariant feet anchor point.
 class PlayerAnimationController {
   final Map<String, Sprite> _idleSprites = {};
   final Map<String, SpriteAnimation> _walkAnimations = {};
@@ -48,34 +61,21 @@ class PlayerAnimationController {
   /// Official Canonical Alex Reference Asset Path (Front South Pose)
   static const String canonicalAlexReference = 'new assets/characters/alex/Alex-—-Personnage-principal09.png';
 
-  /// Loads verified canonical assets from the official new assets library.
+  /// Loads verified canonical assets and builds authentic 8-way Walk and Run animations.
   Future<void> load(dynamic gameRef) async {
-    // 17 authentic frames from new assets representing 360° rotation:
-    // Frame 01 / 17: North (Back)
-    // Frame 03: North-East
-    // Frame 05: East (Profile Right)
-    // Frame 07: South-East
-    // Frame 09: South (Front)
-    // Frame 11: South-West
-    // Frame 13: West (Profile Left)
-    // Frame 15: North-West
-
-    final frameFiles = {
-      // Cardinal (Phase 13)
+    // 1. Idle Sprites for all 8 directions (from canonical 360° model)
+    final idleFiles = {
       PlayerOrientationController.north: 'new assets/characters/alex/Alex-—-Personnage-principal01.png',
-      PlayerOrientationController.east: 'new assets/characters/alex/Alex-—-Personnage-principal05.png',
-      PlayerOrientationController.south: 'new assets/characters/alex/Alex-—-Personnage-principal09.png',
-      PlayerOrientationController.west: 'new assets/characters/alex/Alex-—-Personnage-principal13.png',
-
-      // Isometric
-      PlayerOrientationController.southEast: 'new assets/characters/alex/Alex-—-Personnage-principal07.png',
-      PlayerOrientationController.southWest: 'new assets/characters/alex/Alex-—-Personnage-principal11.png',
-      PlayerOrientationController.northWest: 'new assets/characters/alex/Alex-—-Personnage-principal15.png',
       PlayerOrientationController.northEast: 'new assets/characters/alex/Alex-—-Personnage-principal03.png',
+      PlayerOrientationController.east: 'new assets/characters/alex/Alex-—-Personnage-principal05.png',
+      PlayerOrientationController.southEast: 'new assets/characters/alex/Alex-—-Personnage-principal07.png',
+      PlayerOrientationController.south: 'new assets/characters/alex/Alex-—-Personnage-principal09.png',
+      PlayerOrientationController.southWest: 'new assets/characters/alex/Alex-—-Personnage-principal11.png',
+      PlayerOrientationController.west: 'new assets/characters/alex/Alex-—-Personnage-principal13.png',
+      PlayerOrientationController.northWest: 'new assets/characters/alex/Alex-—-Personnage-principal15.png',
     };
 
-    // Load Idle and Interact sprites
-    for (final entry in frameFiles.entries) {
+    for (final entry in idleFiles.entries) {
       try {
         final img = await gameRef.images.load(entry.value);
         final sprite = Sprite(img);
@@ -84,122 +84,154 @@ class PlayerAnimationController {
       } catch (_) {}
     }
 
-    // Default fallback if any key is missing
-    final defaultSprite = _idleSprites[PlayerOrientationController.south] ??
-        _idleSprites[PlayerOrientationController.southEast];
-
-    // Build Walk and Run animations strictly from the official new Alex character model
+    // 2. Authentic Walk animation cycles with genuine alternating steps (Phases 4 & 5)
+    // Frame duration: 0.14s (natural walking cadence ~1.8 steps/sec)
     final walkCycles = {
-      PlayerOrientationController.north: [
-        'new assets/characters/alex/Alex-—-Personnage-principal01.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal16.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal01.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal02.png',
+      // West: Marche01 sliced frames in-memory (Contact L -> Passing -> Contact R -> Closing)
+      PlayerOrientationController.west: const [
+        FrameDef('new assets/Alex walk/Alex-—-Marche01.png', 0, 4),
+        FrameDef('new assets/Alex walk/Alex-—-Marche01.png', 1, 4),
+        FrameDef('new assets/Alex walk/Alex-—-Marche01.png', 2, 4),
+        FrameDef('new assets/Alex walk/Alex-—-Marche01.png', 3, 4),
       ],
-      PlayerOrientationController.northEast: [
-        'new assets/characters/alex/Alex-—-Personnage-principal03.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal02.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal03.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal04.png',
+      // East: Marche01 mirrored horizontally (guarantees identical natural alternation)
+      PlayerOrientationController.east: const [
+        FrameDef('new assets/Alex walk/Alex-—-Marche01.png', 0, 4),
+        FrameDef('new assets/Alex walk/Alex-—-Marche01.png', 1, 4),
+        FrameDef('new assets/Alex walk/Alex-—-Marche01.png', 2, 4),
+        FrameDef('new assets/Alex walk/Alex-—-Marche01.png', 3, 4),
       ],
-      PlayerOrientationController.east: [
-        'new assets/characters/alex/Alex-—-Personnage-principal05.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal04.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal05.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal06.png',
+      // North-East: Marche03..06 alternating step cycle
+      PlayerOrientationController.northEast: const [
+        FrameDef('new assets/Alex walk/Alex-—-Marche03.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche04.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche05.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche06.png'),
       ],
-      PlayerOrientationController.southEast: [
-        'new assets/characters/alex/Alex-—-Personnage-principal07.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal06.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal07.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal08.png',
+      // South-West: Marche03..06 mirrored horizontally
+      PlayerOrientationController.southWest: const [
+        FrameDef('new assets/Alex walk/Alex-—-Marche03.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche04.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche05.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche06.png'),
       ],
-      PlayerOrientationController.south: [
-        'new assets/characters/alex/Alex-—-Personnage-principal09.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal08.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal09.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal10.png',
+      // North-West: Marche09..18 back-left cycle
+      PlayerOrientationController.northWest: const [
+        FrameDef('new assets/Alex walk/Alex-—-Marche09.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche11.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche14.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche18.png'),
       ],
-      PlayerOrientationController.southWest: [
-        'new assets/characters/alex/Alex-—-Personnage-principal11.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal10.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal11.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal12.png',
+      // South-East: Marche09..18 mirrored horizontally
+      PlayerOrientationController.southEast: const [
+        FrameDef('new assets/Alex walk/Alex-—-Marche09.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche11.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche14.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche18.png'),
       ],
-      PlayerOrientationController.west: [
-        'new assets/characters/alex/Alex-—-Personnage-principal13.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal12.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal13.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal14.png',
+      // North: Marche17/38/20/39 (left step -> pass -> right step -> pass)
+      PlayerOrientationController.north: const [
+        FrameDef('new assets/Alex walk/Alex-—-Marche17.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche38.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche20.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche39.png'),
       ],
-      PlayerOrientationController.northWest: [
-        'new assets/characters/alex/Alex-—-Personnage-principal15.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal14.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal15.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal16.png',
+      // South: Marche54..57 front walk cycle
+      PlayerOrientationController.south: const [
+        FrameDef('new assets/Alex walk/Alex-—-Marche54.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche55.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche56.png'),
+        FrameDef('new assets/Alex walk/Alex-—-Marche57.png'),
       ],
     };
 
+    // Register which walk cycles are flipped horizontally
+    _walkFlipped.add(PlayerOrientationController.east);
+    _walkFlipped.add(PlayerOrientationController.southWest);
+    _walkFlipped.add(PlayerOrientationController.southEast);
+
+    // 3. Authentic Run animation cycles with dynamic sprint strides (Phase 7)
+    // Frame duration: 0.08s (high-cadence athletic sprint)
     final runCycles = {
-      PlayerOrientationController.north: [
-        'new assets/characters/alex/Alex-—-Personnage-principal01.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal16.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal01.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal02.png',
+      // West: Course02 full 7-frame sprint stride sliced in memory
+      PlayerOrientationController.west: const [
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 0, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 1, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 2, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 3, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 4, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 5, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 6, 7),
       ],
-      PlayerOrientationController.northEast: [
-        'new assets/characters/alex/Alex-—-Personnage-principal03.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal02.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal03.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal04.png',
+      // East: Course02 mirrored horizontally
+      PlayerOrientationController.east: const [
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 0, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 1, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 2, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 3, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 4, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 5, 7),
+        FrameDef('new assets/Alex run/Alex-—-Course02.png', 6, 7),
       ],
-      PlayerOrientationController.east: [
-        'new assets/characters/alex/Alex-—-Personnage-principal05.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal04.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal05.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal06.png',
+      // North-East: Course07 / 10 / 16 sprint cycle
+      PlayerOrientationController.northEast: const [
+        FrameDef('new assets/Alex run/Alex-—-Course07.png', 0, 2),
+        FrameDef('new assets/Alex run/Alex-—-Course07.png', 1, 2),
+        FrameDef('new assets/Alex run/Alex-—-Course10.png'),
+        FrameDef('new assets/Alex run/Alex-—-Course16.png'),
       ],
-      PlayerOrientationController.southEast: [
-        'new assets/characters/alex/Alex-—-Personnage-principal07.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal06.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal07.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal08.png',
+      // South-East: Course07 / 10 / 16 mirrored horizontally
+      PlayerOrientationController.southEast: const [
+        FrameDef('new assets/Alex run/Alex-—-Course07.png', 0, 2),
+        FrameDef('new assets/Alex run/Alex-—-Course07.png', 1, 2),
+        FrameDef('new assets/Alex run/Alex-—-Course10.png'),
+        FrameDef('new assets/Alex run/Alex-—-Course16.png'),
       ],
-      PlayerOrientationController.south: [
-        'new assets/characters/alex/Alex-—-Personnage-principal09.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal08.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal09.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal10.png',
+      // South-West: Course20 / 24 / 28 sprint cycle
+      PlayerOrientationController.southWest: const [
+        FrameDef('new assets/Alex run/Alex-—-Course20.png', 0, 2),
+        FrameDef('new assets/Alex run/Alex-—-Course20.png', 1, 2),
+        FrameDef('new assets/Alex run/Alex-—-Course24.png'),
+        FrameDef('new assets/Alex run/Alex-—-Course28.png'),
       ],
-      PlayerOrientationController.southWest: [
-        'new assets/characters/alex/Alex-—-Personnage-principal11.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal10.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal11.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal12.png',
+      // North-West: Course01 / 04 / 05 / 06 sprint cycle
+      PlayerOrientationController.northWest: const [
+        FrameDef('new assets/Alex run/Alex-—-Course01.png'),
+        FrameDef('new assets/Alex run/Alex-—-Course04.png'),
+        FrameDef('new assets/Alex run/Alex-—-Course05.png'),
+        FrameDef('new assets/Alex run/Alex-—-Course06.png'),
       ],
-      PlayerOrientationController.west: [
-        'new assets/characters/alex/Alex-—-Personnage-principal13.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal12.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal13.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal14.png',
+      // North: Course12 / 13 / 15 sprint back
+      PlayerOrientationController.north: const [
+        FrameDef('new assets/Alex run/Alex-—-Course12.png', 0, 2),
+        FrameDef('new assets/Alex run/Alex-—-Course12.png', 1, 2),
+        FrameDef('new assets/Alex run/Alex-—-Course13.png'),
+        FrameDef('new assets/Alex run/Alex-—-Course15.png'),
       ],
-      PlayerOrientationController.northWest: [
-        'new assets/characters/alex/Alex-—-Personnage-principal15.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal14.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal15.png',
-        'new assets/characters/alex/Alex-—-Personnage-principal16.png',
+      // South: Course34..37 front sprint
+      PlayerOrientationController.south: const [
+        FrameDef('new assets/Alex run/Alex-—-Course34.png'),
+        FrameDef('new assets/Alex run/Alex-—-Course35.png'),
+        FrameDef('new assets/Alex run/Alex-—-Course36.png'),
+        FrameDef('new assets/Alex run/Alex-—-Course37.png'),
       ],
     };
 
+    // Register which run cycles are flipped horizontally
+    _runFlipped.add(PlayerOrientationController.east);
+    _runFlipped.add(PlayerOrientationController.southEast);
+
+    // Build Walk Animations
     for (final entry in walkCycles.entries) {
-      final walkAnim = await _loadFrameSequence(gameRef, entry.value, 0.13);
+      final walkAnim = await _loadCycle(gameRef, entry.value, 0.14);
       if (walkAnim != null) {
         _walkAnimations[entry.key] = walkAnim;
       }
     }
 
+    // Build Run Animations
     for (final entry in runCycles.entries) {
-      final runAnim = await _loadFrameSequence(gameRef, entry.value, 0.08);
+      final runAnim = await _loadCycle(gameRef, entry.value, 0.08);
       if (runAnim != null) {
         _runAnimations[entry.key] = runAnim;
       }
@@ -208,16 +240,27 @@ class PlayerAnimationController {
     _loaded = true;
   }
 
-  Future<SpriteAnimation?> _loadFrameSequence(
+  Future<SpriteAnimation?> _loadCycle(
     dynamic gameRef,
-    List<String> paths,
+    List<FrameDef> defs,
     double frameDuration,
   ) async {
     final frames = <SpriteAnimationFrame>[];
-    for (final path in paths) {
+    for (final def in defs) {
       try {
-        final img = await gameRef.images.load(path);
-        frames.add(SpriteAnimationFrame(Sprite(img), frameDuration));
+        final img = await gameRef.images.load(def.path);
+        if (def.col != null && def.totalCols != null && def.totalCols! > 1) {
+          final frameWidth = img.width / def.totalCols!;
+          final frameHeight = img.height.toDouble();
+          final sprite = Sprite(
+            img,
+            srcPosition: Vector2(def.col! * frameWidth, 0),
+            srcSize: Vector2(frameWidth, frameHeight),
+          );
+          frames.add(SpriteAnimationFrame(sprite, frameDuration));
+        } else {
+          frames.add(SpriteAnimationFrame(Sprite(img), frameDuration));
+        }
       } catch (_) {}
     }
     if (frames.isEmpty) return null;
@@ -234,39 +277,53 @@ class PlayerAnimationController {
 
     if (state == PlayerMovementState.idle) {
       final s = _idleSprites[cleanOrient] ?? _idleSprites[PlayerOrientationController.southEast];
+      final isFlipped = _idleFlipped.contains(cleanOrient);
       return AlexRenderInfo(
         sprite: s,
-        isFlipped: false,
+        isFlipped: isFlipped,
         status: DirectionalStatus.canonical,
         identityScore: 100.0,
-        description: 'OFFICIAL_NEW_ASSET_MODEL ($cleanOrient)',
+        description: 'IDLE ($cleanOrient)',
       );
     } else if (state == PlayerMovementState.walk) {
       final anim = _walkAnimations[cleanOrient] ?? _walkAnimations[PlayerOrientationController.southEast];
+      final isFlipped = _walkFlipped.contains(cleanOrient);
       return AlexRenderInfo(
         sprite: anim?.getSprite() ?? _idleSprites[cleanOrient],
-        isFlipped: false,
+        isFlipped: isFlipped,
         status: DirectionalStatus.canonical,
         identityScore: 100.0,
-        description: 'WALK_ANIMATION ($cleanOrient)',
+        description: 'WALK ($cleanOrient)',
       );
     } else if (state == PlayerMovementState.run) {
       final anim = _runAnimations[cleanOrient] ?? _runAnimations[PlayerOrientationController.southEast];
+      final isFlipped = _runFlipped.contains(cleanOrient);
       return AlexRenderInfo(
         sprite: anim?.getSprite() ?? _idleSprites[cleanOrient],
-        isFlipped: false,
+        isFlipped: isFlipped,
         status: DirectionalStatus.canonical,
         identityScore: 100.0,
-        description: 'RUN_ANIMATION ($cleanOrient)',
+        description: 'RUN ($cleanOrient)',
       );
     } else if (state == PlayerMovementState.interact) {
       final s = _interactSprites[cleanOrient] ?? _interactSprites[PlayerOrientationController.southEast];
+      final isFlipped = _interactFlipped.contains(cleanOrient);
       return AlexRenderInfo(
         sprite: s ?? _idleSprites[cleanOrient],
-        isFlipped: false,
+        isFlipped: isFlipped,
         status: DirectionalStatus.canonical,
         identityScore: 100.0,
-        description: 'INTERACTION_POSE ($cleanOrient)',
+        description: 'INTERACT ($cleanOrient)',
+      );
+    } else if (state == PlayerMovementState.talk) {
+      final s = _idleSprites[cleanOrient] ?? _idleSprites[PlayerOrientationController.southEast];
+      final isFlipped = _idleFlipped.contains(cleanOrient);
+      return AlexRenderInfo(
+        sprite: s,
+        isFlipped: isFlipped,
+        status: DirectionalStatus.canonical,
+        identityScore: 100.0,
+        description: 'TALK ($cleanOrient)',
       );
     }
 
@@ -282,13 +339,13 @@ class PlayerAnimationController {
     final up = orient.toUpperCase();
     if (_idleSprites.containsKey(up)) return up;
     if (up == 'N' || up == 'NORTH') return PlayerOrientationController.north;
-    if (up == 'S' || up == 'SOUTH') return PlayerOrientationController.south;
+    if (up == 'NE' || up == 'NORTHEAST') return PlayerOrientationController.northEast;
     if (up == 'E' || up == 'EAST') return PlayerOrientationController.east;
+    if (up == 'SE' || up == 'SOUTHEAST') return PlayerOrientationController.southEast;
+    if (up == 'S' || up == 'SOUTH') return PlayerOrientationController.south;
+    if (up == 'SW' || up == 'SOUTHWEST') return PlayerOrientationController.southWest;
     if (up == 'W' || up == 'WEST') return PlayerOrientationController.west;
-    if (up == 'SE') return PlayerOrientationController.southEast;
-    if (up == 'SW') return PlayerOrientationController.southWest;
-    if (up == 'NE') return PlayerOrientationController.northEast;
-    if (up == 'NW') return PlayerOrientationController.northWest;
+    if (up == 'NW' || up == 'NORTHWEST') return PlayerOrientationController.northWest;
     return PlayerOrientationController.southEast;
   }
 

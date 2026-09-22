@@ -8,6 +8,7 @@ enum PlayerMovementState {
   walk,
   run,
   interact,
+  talk,
 }
 
 /// Logical controller governing Alex's movement, speed, state transitions,
@@ -84,7 +85,11 @@ class PlayerController {
   }) {
     final magnitude = math.sqrt(inputX * inputX + inputY * inputY);
 
-    // 1. Deadzone: below 0.10 magnitude, stay still
+    // 1. Deadzone or in Talk state: remain still
+    if (state == PlayerMovementState.talk) {
+      return;
+    }
+
     if (magnitude < deadzoneThreshold) {
       if (state != PlayerMovementState.interact) {
         state = PlayerMovementState.idle;
@@ -113,14 +118,16 @@ class PlayerController {
     state = isRunning ? PlayerMovementState.run : PlayerMovementState.walk;
     final currentSpeed = isRunning ? runSpeed : walkSpeed;
 
-    // Compute intended displacement in isometric world coordinates
-    // When pressing down-right (screen +X, +Y), world increases X
-    // When pressing down-left (screen -X, +Y), world increases Y
-    final worldDx = (normX + normY) * currentSpeed * dt * 0.707;
-    final worldDy = (-normX + normY) * currentSpeed * dt * 0.707;
+    // Compute intended displacement in isometric world coordinates from screen input:
+    // Guarantees strictly uniform, isotropic velocity across all 8 cardinal and isometric directions.
+    final screenSpeed = currentSpeed * IsometricCoordinates.halfTileWidth;
+    final worldDisp = IsometricCoordinates.screenToWorld(
+      normX * screenSpeed * dt,
+      normY * screenSpeed * dt,
+    );
 
-    final targetX = worldX + worldDx;
-    final targetY = worldY + worldDy;
+    final targetX = worldX + worldDisp.x;
+    final targetY = worldY + worldDisp.y;
 
     // Resolve collision via sliding
     final resolved = collisionManager.resolveMovement(
@@ -141,5 +148,15 @@ class PlayerController {
     if (newOrientation != null) {
       orientation = newOrientation;
     }
+  }
+
+  /// Automatically orients Alex to face towards a world coordinate (e.g. an NPC or POI).
+  void faceTarget(double targetX, double targetY) {
+    orientation = PlayerOrientationController.calculateFacingOrientation(
+      fromX: worldX,
+      fromY: worldY,
+      toX: targetX,
+      toY: targetY,
+    );
   }
 }

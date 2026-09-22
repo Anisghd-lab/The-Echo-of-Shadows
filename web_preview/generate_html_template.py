@@ -269,6 +269,21 @@ def get_html_content(**assets):
       </div>
     </div>
 
+    <!-- Interactive Narrative Dialogue Modal (Phase 18) -->
+    <div id="dialogue-modal" style="display:none; position:absolute; bottom:24px; left:0; right:0; z-index:150; align-items:center; justify-content:center;">
+      <div style="background:rgba(15, 23, 42, 0.95); border:1.5px solid #38BDF8; border-radius:16px; padding:18px; max-width:650px; width:90%; box-shadow:0 10px 30px rgba(0,0,0,0.8); backdrop-filter:blur(8px);">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(56,189,248,0.25); padding-bottom:8px; margin-bottom:12px;">
+          <div>
+            <div id="dialogue-speaker-name" style="font-size:16px; font-weight:800; color:#38BDF8;"></div>
+            <div id="dialogue-speaker-role" style="font-size:11px; color:#94A3B8;"></div>
+          </div>
+          <button onclick="closeDialogueModal()" style="background:none; border:none; color:#94A3B8; font-size:18px; cursor:pointer;">✕</button>
+        </div>
+        <div id="dialogue-text" style="font-size:13.5px; line-height:1.5; color:#F1F5F9; margin-bottom:14px;"></div>
+        <div id="dialogue-choices" style="display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+    </div>
+
     <!-- Alex 360° Direction Test Scene Modal -->
     <div id="direction-test-modal" style="display:none; position:absolute; inset:0; background:rgba(8,12,20,0.95); z-index:100; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
       <div class="prop-card" style="max-width:680px;">
