@@ -573,6 +573,8 @@
       { id: 'windmill', baseWx: -8.5, baseWy: -2.0, baseHw: 1.3, baseHh: 1.3 },
       { id: 'cottage_west', baseWx: -4.0, baseWy: -0.5, baseHw: 1.3, baseHh: 1.2 },
       { id: 'cottage_south', baseWx: -2.2, baseWy: 1.8, baseHw: 1.3, baseHh: 1.2 },
+      { id: 'cottage_far_west', baseWx: -5.5, baseWy: 2.0, baseHw: 1.2, baseHh: 1.1 },
+      { id: 'riverside_cottage', baseWx: 5.5, baseWy: 3.0, baseHw: 1.2, baseHh: 1.1 },
       { id: 'east_workshop', baseWx: 6.0, baseWy: -1.5, baseHw: 1.2, baseHh: 1.1 },
       { id: 'sawmill', baseWx: 8.5, baseWy: -1.0, baseHw: 1.4, baseHh: 1.3 },
       { id: 'bunker_ext', baseWx: -7.5, baseWy: -7.5, baseHw: 1.4, baseHh: 1.2 },
@@ -978,133 +980,304 @@
             ctx.fill();
           }
         }
+
+        // Draw Alex inside family house
+        const alexPos = worldToScreen(alex.wx, alex.wy);
+        let alexImg = images.alex_s;
+        if (alex.orientation === 'N') alexImg = images.alex_n;
+        else if (alex.orientation === 'NE') alexImg = images.alex_ne;
+        else if (alex.orientation === 'E') alexImg = images.alex_e;
+        else if (alex.orientation === 'SE') alexImg = images.alex_se;
+        else if (alex.orientation === 'S') alexImg = images.alex_s;
+        else if (alex.orientation === 'SW') alexImg = images.alex_sw;
+        else if (alex.orientation === 'W') alexImg = images.alex_w;
+        else if (alex.orientation === 'NW') alexImg = images.alex_nw;
+
+        const bob = alex.state === 'WALK' ? Math.sin(now * 0.012) * 2 : (alex.state === 'RUN' ? Math.sin(now * 0.02) * 3 : 0);
+
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+        ctx.beginPath();
+        ctx.ellipse(alexPos.x, alexPos.y, 14, 6, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (alexImg.complete && alexImg.naturalWidth > 0) {
+          ctx.drawImage(alexImg, alexPos.x - 17, alexPos.y - 74 + bob, 34, 78);
+        }
+
+        if (isDebug) {
+          ctx.strokeStyle = '#EF4444';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(alexPos.x - 17, alexPos.y - 74 + bob, 34, 78);
+        }
       } else {
         // -----------------------------------------------------------------------
-        // RENDER VILLAGE EXTERIOR SYNCHRONIZED 1:1 WITH MAP DU VILLAGE.PNG
+        // RENDER VILLAGE EXTERIOR: MODULAR HIGH-DENSITY DIMETRIC WORLD
+        // Multi-zone ground paving + individual building sprites + dynamic Z-ordering
+        // Reconstructed from canonical blueprint map du village.png
         // -----------------------------------------------------------------------
-        if (images.map_master.complete && images.map_master.naturalWidth > 0) {
-          // Align master blueprint (1536x1024) so fountain at (770, 480) matches (0, 0)
-          const scale = worldScale / 1.6;
-          const originMapX = -770 * scale;
-          const originMapY = -480 * scale;
-          const mapW = 1536 * scale;
-          const mapH = 1024 * scale;
-          ctx.drawImage(images.map_master, originMapX, originMapY, mapW, mapH);
+        function getGroundTile(gx, gy) {
+          const scale = worldScale;
 
-          // Subtle warm atmospheric lantern glow on lamps & windows
-          const lampPositions = [
-            { x: 0, y: 0, r: 40 }, // Plaza fountain
-            { x: -40, y: 300, r: 50 }, // Bridge
-            { x: 480, y: -240, r: 60 }, // Church
-            { x: 160, y: 240, r: 45 }, // Watermill
-            { x: -40, y: -300, r: 70 }, // Family house hearth
-          ];
-          for (const lamp of lampPositions) {
-            const radGrad = ctx.createRadialGradient(lamp.x * scale, lamp.y * scale, 2, lamp.x * scale, lamp.y * scale, lamp.r * scale);
-            radGrad.addColorStop(0, 'rgba(251, 191, 36, 0.25)');
-            radGrad.addColorStop(1, 'rgba(251, 191, 36, 0)');
-            ctx.fillStyle = radGrad;
-            ctx.beginPath();
-            ctx.arc(lamp.x * scale, lamp.y * scale, lamp.r * scale, 0, Math.PI * 2);
-            ctx.fill();
+          // 1. Wooden Bridge across the river gorge
+          const isBridge = Math.abs(gx - gy) <= (1.2 * scale) &&
+              (gx + gy) >= (8.0 * scale) &&
+              (gx + gy) <= (16.0 * scale);
+          if (isBridge) {
+            return images.stone_slab;
           }
-        } else {
-          // Procedural fallback
-          const radius = 18;
-          for (let x = -radius; x <= radius; x++) {
-            for (let y = -radius; y <= radius; y++) {
-              const p = worldToScreen(x * worldScale, y * worldScale);
-              let tileImg = images.snow_slab;
-              if (x >= 5 && x <= 8 && y >= 6 && y <= 9) tileImg = images.stone_slab;
-              else if (Math.abs(x) < 3 && Math.abs(y) < 3) tileImg = images.stone_slab_var;
-              else if (y > 9) tileImg = images.ice_slab;
 
-              if (tileImg.complete && tileImg.naturalWidth > 0) {
-                ctx.drawImage(tileImg, p.x - HALF_W, p.y - HALF_H, TILE_W, TILE_H);
+          // 2. River Docks & Piers
+          const isLeftDock = Math.hypot(gx - 2.0 * scale, gy - 8.5 * scale) <= (1.8 * scale);
+          const isRightDock = Math.hypot(gx - 6.0 * scale, gy - 6.0 * scale) <= (1.8 * scale);
+          if (isLeftDock || isRightDock) {
+            return images.stone_slab;
+          }
+
+          // 3. Frozen River (South Sector)
+          if ((gx + gy) >= 10.0 * scale) {
+            return images.ice_slab;
+          }
+
+          // 4. Central Circular Plaza (around (0.0, 0.0))
+          const distToCenter = Math.hypot(gx, gy);
+          if (distToCenter <= 2.8 * scale) {
+            return ((Math.abs(gx) + Math.abs(gy)) % 2 === 0) ? images.stone_slab_var : images.stone_slab;
+          }
+
+          // 5. Main South Avenue (Connecting Bridge to Plaza)
+          if (Math.abs(gx - gy) <= 1.2 * scale && (gx + gy) >= 0.0 && (gx + gy) <= 9.5 * scale) {
+            return ((Math.abs(gx + gy) % 3 === 0) ? images.stone_slab_var : images.stone_slab);
+          }
+
+          // 6. Church Hill Ascent (Northeast Branch)
+          if (gx >= 0.0 && gx <= 5.5 * scale && gy <= 0.0 && gy >= -8.5 * scale) {
+            const lineDist = Math.abs(gy - (-1.8 * gx)) / Math.sqrt(1 + 1.8 * 1.8);
+            if (lineDist <= 1.4 * scale) return images.stone_slab;
+          }
+
+          // 7. Marketplace & Sawmill Street (Southeast Branch)
+          if (gx >= 0.0 && gx <= 9.5 * scale && gy >= -2.5 * scale && gy <= 1.8 * scale) {
+            return images.stone_slab;
+          }
+
+          // 8. West Residential & Farm Road (Northwest Branch)
+          if (gx <= 0.0 && gx >= -9.0 * scale && gy >= -4.5 * scale && gy <= 2.5 * scale) {
+            return images.stone_slab;
+          }
+
+          // 9. Watermill Trail (Southwest Branch)
+          if (gy >= 2.0 * scale && gy <= 9.5 * scale && gx <= 4.5 * scale && gx >= -3.5 * scale) {
+            return images.stone_slab;
+          }
+
+          // 10. Perimeter Mountain Ridges & Cliffs
+          if (gx <= -10.0 * scale || gy <= -11.5 * scale || (gx >= 10.5 * scale && gy <= -3.0 * scale)) {
+            return images.cliff;
+          }
+
+          // 11. General Deep Winter Snow
+          return images.snow_slab;
+        }
+
+        // Render Ground Paving Grid with Viewport Culling
+        const viewHalfW = (canvas.width / (2 * window.devicePixelRatio)) / camera.zoom;
+        const viewHalfH = (canvas.height / (2 * window.devicePixelRatio)) / camera.zoom;
+        const gridR = 24;
+
+        for (let gx = -gridR; gx <= gridR; gx++) {
+          for (let gy = -gridR; gy <= gridR; gy++) {
+            const p = worldToScreen(gx, gy);
+            if (p.x >= camera.x - viewHalfW - TILE_W && p.x <= camera.x + viewHalfW + TILE_W &&
+                p.y >= camera.y - viewHalfH - TILE_H && p.y <= camera.y + viewHalfH + TILE_H) {
+              const tileImg = getGroundTile(gx, gy);
+              if (tileImg && tileImg.complete && tileImg.naturalWidth > 0) {
+                ctx.drawImage(tileImg, p.x - HALF_W, p.y - HALF_H, TILE_W + 1, TILE_H + 1);
               }
             }
           }
         }
 
-        // Render entities list sorted by Z-Order
+        // Populate All Entities for Dynamic Isometric Z-Ordering
         const entities = [];
 
-        // Standalone building fallback definitions (for test assertions & fallback)
-        if (!images.map_master.complete || images.map_master.naturalWidth === 0) {
-          entities.push({ z: calculateZ(3.5, -7.5), img: images.church, wx: 3.5, wy: -7.5, w: 220, h: 260 });
-          entities.push({ z: calculateZ(-1.5, -5.0), img: images.family_house, wx: -1.5, wy: -5.0, w: 260, h: 240 });
-          entities.push({ z: calculateZ(-2.5, 8.5), img: images.watermill, wx: -2.5, wy: 8.5, w: 240, h: 220 });
-          entities.push({ z: calculateZ(-8.5, -2.0), img: images.windmill, wx: -8.5, wy: -2.0, w: 210, h: 220 });
-          entities.push({ z: calculateZ(-4.0, -0.5), img: images.cottage_west, wx: -4.0, wy: -0.5, w: 200, h: 200 });
-          entities.push({ z: calculateZ(8.5, -1.0), img: images.sawmill, wx: 8.5, wy: -1.0, w: 240, h: 220 });
-          entities.push({ z: calculateZ(6.8, 7.8), img: images.bridge_elem, wx: 6.8, wy: 7.8, w: 180, h: 140 });
-          entities.push({ z: calculateZ(-7.5, -7.5), img: images.bunker_ext, wx: -7.5, wy: -7.5, w: 230, h: 160 });
-          entities.push({ z: calculateZ(0.0, 0.0), img: images.statue, wx: 0.0, wy: 0.0, w: 90, h: 120 });
-          entities.push({ z: calculateZ(1.2, 2.4), img: images.well, wx: 1.2, wy: 2.4, w: 110, h: 100 });
+        // 1. All 11 Village Buildings (Official new assets)
+        entities.push({ id: 'church', z: calculateZ(3.5, -7.5), img: images.church, wx: 3.5, wy: -7.5, w: 280, h: 370, anchorY: 0.88 });
+        entities.push({ id: 'family_house', z: calculateZ(-1.5, -5.0), img: images.family_house, wx: -1.5, wy: -5.0, w: 320, h: 298, anchorY: 0.88 });
+        entities.push({ id: 'watermill', z: calculateZ(-2.5, 8.5), img: images.watermill, wx: -2.5, wy: 8.5, w: 260, h: 244, anchorY: 0.88 });
+        entities.push({ id: 'windmill', z: calculateZ(-8.5, -2.0), img: images.windmill, wx: -8.5, wy: -2.0, w: 240, h: 270, anchorY: 0.88 });
+        entities.push({ id: 'cottage_west', z: calculateZ(-4.0, -0.5), img: images.cottage_west, wx: -4.0, wy: -0.5, w: 220, h: 205, anchorY: 0.88 });
+        entities.push({ id: 'cottage_south', z: calculateZ(-2.2, 1.8), img: images.cottage_south, wx: -2.2, wy: 1.8, w: 230, h: 180, anchorY: 0.88 });
+        entities.push({ id: 'cottage_far_west', z: calculateZ(-5.5, 2.0), img: images.cottage_west, wx: -5.5, wy: 2.0, w: 210, h: 188, anchorY: 0.88 });
+        entities.push({ id: 'riverside_cottage', z: calculateZ(5.5, 3.0), img: images.cottage_west, wx: 5.5, wy: 3.0, w: 215, h: 190, anchorY: 0.88 });
+        entities.push({ id: 'east_workshop', z: calculateZ(6.0, -1.5), img: images.east_workshop, wx: 6.0, wy: -1.5, w: 200, h: 180, anchorY: 0.88 });
+        entities.push({ id: 'sawmill', z: calculateZ(8.5, -1.0), img: images.sawmill, wx: 8.5, wy: -1.0, w: 210, h: 195, anchorY: 0.88 });
+        entities.push({ id: 'bunker_ext', z: calculateZ(-7.5, -7.5), img: images.bunker_ext, wx: -7.5, wy: -7.5, w: 230, h: 160, anchorY: 0.88 });
+        entities.push({ id: 'bridge_elem', z: calculateZ(6.8, 7.8, 30000), img: images.bridge_elem, wx: 6.8, wy: 7.8, w: 180, h: 140, anchorY: 0.70 });
+
+        // 2. Village Props & Installations
+        entities.push({ id: 'statue', z: calculateZ(0.0, 0.0), img: images.statue, wx: 0.0, wy: 0.0, w: 90, h: 140, anchorY: 0.90 });
+        entities.push({ id: 'well', z: calculateZ(1.2, 2.4), img: images.well, wx: 1.2, wy: 2.4, w: 100, h: 112, anchorY: 0.90 });
+        entities.push({ id: 'market_stall_01', z: calculateZ(4.5, -0.5), img: images.market_stall_01, wx: 4.5, wy: -0.5, w: 130, h: 115, anchorY: 0.90 });
+        entities.push({ id: 'market_stall_02', z: calculateZ(5.2, 0.4), img: images.market_stall_02, wx: 5.2, wy: 0.4, w: 115, h: 105, anchorY: 0.90 });
+        entities.push({ id: 'sawmill_crane', z: calculateZ(9.5, -1.8), img: images.sawmill_crane, wx: 9.5, wy: -1.8, w: 88, h: 139, anchorY: 0.92 });
+        entities.push({ id: 'stacked_logs', z: calculateZ(8.0, 0.2), img: images.stacked_logs, wx: 8.0, wy: 0.2, w: 103, h: 93, anchorY: 0.90 });
+        entities.push({ id: 'iron_gate', z: calculateZ(1.8, -3.2), img: images.iron_gate, wx: 1.8, wy: -3.2, w: 130, h: 85, anchorY: 0.90 });
+        entities.push({ id: 'boat', z: calculateZ(2.0, 8.5), img: images.boat, wx: 2.0, wy: 8.5, w: 90, h: 60, anchorY: 0.85 });
+        entities.push({ id: 'dock_crane', z: calculateZ(6.0, 6.0), img: images.dock_crane, wx: 6.0, wy: 6.0, w: 80, h: 135, anchorY: 0.92 });
+
+        // 3. 14 Authentic Street Lamps with Warm Glow Halos
+        const streetLamps = [
+          [4.2, 4.8], [4.8, 4.2], [7.2, 7.8], [7.8, 7.2],
+          [-1.5, -0.8], [0.8, -1.5], [-0.8, 1.5], [1.5, 0.8],
+          [1.8, 2.2], [2.5, -4.2], [3.8, -0.4], [-1.8, 0.6],
+          [5.0, 2.6], [-4.2, -2.2]
+        ];
+        for (const [lx, ly] of streetLamps) {
+          entities.push({
+            z: calculateZ(lx, ly),
+            img: images.lamp_post,
+            wx: lx,
+            wy: ly,
+            w: 36,
+            h: 88,
+            hasLight: true,
+            anchorY: 0.95
+          });
         }
 
-        // Narrative Clues on Exterior Map
+        // 4. Pine Trees & Dead Trees (Nature Foliage)
+        const pineTreePositions = [
+          [4.8, -8.5], [2.2, -8.2], [4.5, -6.5], [1.5, -8.5], [5.2, -7.0],
+          [-7.0, -1.0], [-9.5, -3.5], [-8.0, 0.5], [-6.5, 3.5], [-10.0, -0.5], [-10.5, 2.0],
+          [-5.0, -8.0], [-8.5, -6.5], [-6.0, -6.0], [-4.0, -7.0],
+          [-4.0, 7.0], [-1.0, 9.5], [3.5, 7.5], [8.5, 5.0], [9.0, 6.5],
+          [10.0, -2.5], [9.5, 1.5], [10.5, 0.0],
+          [-3.0, -3.5], [-0.5, -2.5], [-3.5, 3.0]
+        ];
+        for (const [tx, ty] of pineTreePositions) {
+          entities.push({
+            z: calculateZ(tx, ty),
+            img: images.pine_tree,
+            wx: tx,
+            wy: ty,
+            w: 88,
+            h: 146,
+            anchorY: 0.92
+          });
+        }
+
+        const deadTreePositions = [
+          [0.8, -5.2], [1.5, -6.0], [2.2, -5.5], [2.8, -6.8],
+          [-7.2, -5.2], [-9.0, -5.5], [7.5, -3.5]
+        ];
+        for (const [dx, dy] of deadTreePositions) {
+          entities.push({
+            z: calculateZ(dx, dy),
+            img: images.dead_tree,
+            wx: dx,
+            wy: dy,
+            w: 78,
+            h: 128,
+            anchorY: 0.92
+          });
+        }
+
+        // 5. Narrative Clues on Exterior Map
         for (const clue of narrativeProps) {
           if (!clue.inHouse && clue.img.complete && clue.img.naturalWidth > 0) {
-            const pos = worldToScreen(clue.wx * worldScale, clue.wy * worldScale);
-            // Draw interactive glowing beacon
+            entities.push({
+              z: calculateZ(clue.wx, clue.wy),
+              clue: clue,
+              wx: clue.wx,
+              wy: clue.wy
+            });
+          }
+        }
+
+        // 6. NPCs
+        entities.push({ z: calculateZ(6.2, 6.8), img: images.emma, wx: 6.2, wy: 6.8, w: 32, h: 64, isChar: true, anchorY: 0.90 });
+        entities.push({ z: calculateZ(0.8, -0.8), img: images.james, wx: 0.8, wy: -0.8, w: 32, h: 64, isChar: true, anchorY: 0.90 });
+        entities.push({ z: calculateZ(-1.8, -3.8), img: images.michael, wx: -1.8, wy: -3.8, w: 32, h: 64, isChar: true, anchorY: 0.90 });
+        entities.push({ z: calculateZ(-3.2, -6.2), img: images.ethan, wx: -3.2, wy: -6.2, w: 32, h: 64, isChar: true, anchorY: 0.90 });
+
+        // 7. ALEX (The Player) - Inserted dynamically into Z-Ordering!
+        const alexCurWx = alex.wx / worldScale;
+        const alexCurWy = alex.wy / worldScale;
+        entities.push({
+          isPlayer: true,
+          z: calculateZ(alexCurWx, alexCurWy),
+          wx: alexCurWx,
+          wy: alexCurWy
+        });
+
+        // 8. Sort ALL Entities by Isometric Depth (Z-Order)
+        entities.sort((a, b) => a.z - b.z);
+
+        // 9. Draw Sorted Entities with Dynamic Occlusion
+        for (const ent of entities) {
+          if (ent.isPlayer) {
+            // Render Alex with invariant feet anchor and ground shadow
+            const alexPos = worldToScreen(alex.wx, alex.wy);
+            let alexImg = images.alex_s;
+            if (alex.orientation === 'N') alexImg = images.alex_n;
+            else if (alex.orientation === 'NE') alexImg = images.alex_ne;
+            else if (alex.orientation === 'E') alexImg = images.alex_e;
+            else if (alex.orientation === 'SE') alexImg = images.alex_se;
+            else if (alex.orientation === 'S') alexImg = images.alex_s;
+            else if (alex.orientation === 'SW') alexImg = images.alex_sw;
+            else if (alex.orientation === 'W') alexImg = images.alex_w;
+            else if (alex.orientation === 'NW') alexImg = images.alex_nw;
+
+            const bob = alex.state === 'WALK' ? Math.sin(now * 0.012) * 2 : (alex.state === 'RUN' ? Math.sin(now * 0.02) * 3 : 0);
+
+            // Ground shadow
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+            ctx.beginPath();
+            ctx.ellipse(alexPos.x, alexPos.y, 14, 6, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Alex sprite (calibrated human scale 34x78 matching the new 80x40 ground paving)
+            if (alexImg.complete && alexImg.naturalWidth > 0) {
+              ctx.drawImage(alexImg, alexPos.x - 17, alexPos.y - 74 + bob, 34, 78);
+            }
+
+            // Debug hitbox strictly guarded behind isDebug
+            if (isDebug) {
+              ctx.strokeStyle = '#EF4444';
+              ctx.lineWidth = 2;
+              ctx.strokeRect(alexPos.x - 17, alexPos.y - 74 + bob, 34, 78);
+            }
+          } else if (ent.clue) {
+            const pos = worldToScreen(ent.wx * worldScale, ent.wy * worldScale);
             ctx.fillStyle = 'rgba(56, 189, 248, 0.3)';
             ctx.beginPath();
             ctx.arc(pos.x, pos.y, 14 + Math.sin(now * 0.005) * 4, 0, Math.PI * 2);
             ctx.fill();
-            ctx.drawImage(clue.img, pos.x - 16, pos.y - 24, 32, 32);
-          }
-        }
-
-        // NPCs
-        entities.push({ z: calculateZ(6.2, 6.8), img: images.emma, wx: 6.2, wy: 6.8, w: 32, h: 64, isChar: true });
-        entities.push({ z: calculateZ(0.8, -0.8), img: images.james, wx: 0.8, wy: -0.8, w: 32, h: 64, isChar: true });
-        entities.push({ z: calculateZ(-1.8, -3.8), img: images.michael, wx: -1.8, wy: -3.8, w: 32, h: 64, isChar: true });
-        entities.push({ z: calculateZ(-3.2, -6.2), img: images.ethan, wx: -3.2, wy: -6.2, w: 32, h: 64, isChar: true });
-
-        // Draw sorted entities
-        entities.sort((a, b) => a.z - b.z);
-        for (const ent of entities) {
-          if (ent.img.complete && ent.img.naturalWidth > 0) {
+            ctx.drawImage(ent.clue.img, pos.x - 16, pos.y - 24, 32, 32);
+          } else if (ent.img && ent.img.complete && ent.img.naturalWidth > 0) {
             const p = worldToScreen(ent.wx * worldScale, ent.wy * worldScale);
-            ctx.drawImage(ent.img, p.x - ent.w / 2, p.y - ent.h * 0.9, ent.w, ent.h);
+            const ox = p.x - ent.w / 2;
+            const oy = p.y - ent.h * (ent.anchorY || 0.88);
+            ctx.drawImage(ent.img, ox, oy, ent.w, ent.h);
+
+            // Street lamp warm lantern light glow
+            if (ent.hasLight) {
+              const radGrad = ctx.createRadialGradient(p.x, oy + 20, 2, p.x, oy + 20, 50);
+              radGrad.addColorStop(0, 'rgba(251, 191, 36, 0.35)');
+              radGrad.addColorStop(1, 'rgba(251, 191, 36, 0)');
+              ctx.fillStyle = radGrad;
+              ctx.beginPath();
+              ctx.arc(p.x, oy + 20, 50, 0, Math.PI * 2);
+              ctx.fill();
+            }
+
+            if (isDebug) {
+              ctx.strokeStyle = '#38BDF8';
+              ctx.lineWidth = 1;
+              ctx.strokeRect(ox, oy, ent.w, ent.h);
+            }
           }
         }
-      }
-
-      // -------------------------------------------------------------------------
-      // RENDER ALEX (Always with verified invariant feet anchor)
-      // -------------------------------------------------------------------------
-      const alexPos = worldToScreen(alex.wx, alex.wy);
-      let alexImg = images.alex_s;
-      if (alex.orientation === 'N') alexImg = images.alex_n;
-      else if (alex.orientation === 'NE') alexImg = images.alex_ne;
-      else if (alex.orientation === 'E') alexImg = images.alex_e;
-      else if (alex.orientation === 'SE') alexImg = images.alex_se;
-      else if (alex.orientation === 'S') alexImg = images.alex_s;
-      else if (alex.orientation === 'SW') alexImg = images.alex_sw;
-      else if (alex.orientation === 'W') alexImg = images.alex_w;
-      else if (alex.orientation === 'NW') alexImg = images.alex_nw;
-
-      // Subtle breathing / walking bobbing
-      const bob = alex.state === 'WALK' ? Math.sin(now * 0.012) * 2 : (alex.state === 'RUN' ? Math.sin(now * 0.02) * 3 : 0);
-
-      // Realistic feet shadow
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
-      ctx.beginPath();
-      ctx.ellipse(alexPos.x, alexPos.y, 14, 6, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Alex sprite (calibrated human scale 34x78 matching the new 80x40 ground paving)
-      if (alexImg.complete && alexImg.naturalWidth > 0) {
-        ctx.drawImage(alexImg, alexPos.x - 17, alexPos.y - 74 + bob, 34, 78);
-      }
-
-      // Clean Release Mode: Hitboxes strictly guarded behind isDebug
-      if (isDebug) {
-        ctx.strokeStyle = '#EF4444';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(alexPos.x - 17, alexPos.y - 74 + bob, 34, 78);
       }
 
       ctx.restore();

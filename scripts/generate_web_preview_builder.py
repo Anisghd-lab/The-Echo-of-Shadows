@@ -5,7 +5,7 @@ import json
 import base64
 
 ROOT_DIR = "/root/the_echo_of_shadows"
-ASSETS_DIR = os.path.join(ROOT_DIR, "assets", "images")
+ASSETS_DIR = os.path.join(ROOT_DIR, "new assets")
 OUT_FILE = os.path.join(ROOT_DIR, "web_preview", "index.html")
 
 def to_base64(rel_path, mirror=False):
