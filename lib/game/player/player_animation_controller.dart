@@ -46,7 +46,7 @@ class PlayerAnimationController {
   bool get isLoaded => _loaded;
 
   /// Official Canonical Alex Reference Asset Path (Front South Pose)
-  static const String canonicalAlexReference = 'assets/images/characters/alex/Alex-—-Personnage-principal09.png';
+  static const String canonicalAlexReference = 'new assets/characters/alex/Alex-—-Personnage-principal09.png';
 
   /// Loads verified canonical assets from the official new assets library.
   Future<void> load(dynamic gameRef) async {

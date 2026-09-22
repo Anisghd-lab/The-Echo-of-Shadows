@@ -2,7 +2,7 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 
 def build_audit_sheet():
-    alex_dir = '/root/the_echo_of_shadows/assets/images/characters/alex'
+    alex_dir = '/root/the_echo_of_shadows/new assets/characters/alex'
     out_path = '/root/the_echo_of_shadows/alex_direction_audit.png'
     
     font_title = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 26)

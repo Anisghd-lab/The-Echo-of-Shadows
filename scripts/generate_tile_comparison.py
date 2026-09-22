@@ -6,11 +6,11 @@ def create_comparison():
     out_path = "/root/the_echo_of_shadows/tile_size_comparison.png"
     artifact_path = "/root/.gemini/antigravity-cli/brain/531d4802-1264-49d0-8c33-5283cbc86daf/tile_size_comparison.png"
 
-    # Assets
-    slab_path = "/root/the_echo_of_shadows/assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet25.png"
-    snow_path = "/root/the_echo_of_shadows/assets/images/environments/village/buildings/Village-abandonné-—-Environment-Sprite-Sheet31.png"
-    alex_path = "/root/the_echo_of_shadows/assets/images/characters/alex/idle/Alex-—-Animation-Idle03.png"
-    well_path = "/root/the_echo_of_shadows/assets/images/environments/village/decor/Village-abandonné-—-Route-&-décor-extérieur01.png"
+    # Assets (Official New Assets Library)
+    slab_path = "/root/the_echo_of_shadows/new assets/nature/NATURE-GAMEPLAY-STRUCTURES04.png"
+    snow_path = "/root/the_echo_of_shadows/new assets/nature/NATURE-GAMEPLAY-STRUCTURES08.png"
+    alex_path = "/root/the_echo_of_shadows/new assets/characters/alex/Alex-—-Personnage-principal09.png"
+    well_path = "/root/the_echo_of_shadows/new assets/environments/village/VILLAGE-ENVIRONMENT-111.png"
 
     raw_slab = Image.open(slab_path).convert("RGBA")
     raw_snow = Image.open(snow_path).convert("RGBA")

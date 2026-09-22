@@ -257,7 +257,7 @@ def test_phase3_1_inplace_rotation_invariance():
 
 def test_phase3_1_directional_animation_assignment():
     print("Test 10: Phase 3.3 Directional Animation Assignment (Cardinal N/S/E/W + Isometric 360°)...")
-    assets_dir = "/root/the_echo_of_shadows/new assets/characters/alex" if os.path.exists("/root/the_echo_of_shadows/new assets/characters/alex") else "/root/the_echo_of_shadows/assets/images/characters/alex"
+    assets_dir = "/root/the_echo_of_shadows/new assets/characters/alex"
     
     directional_assets = {
         'N': 'Alex-—-Personnage-principal01.png',
@@ -400,7 +400,7 @@ def test_phase3_2_asset_transparency():
         'alex_west': 'characters/alex/Alex-—-Personnage-principal13.png',
     }
 
-    base_dir = '/root/the_echo_of_shadows/new assets' if os.path.exists('/root/the_echo_of_shadows/new assets/characters') else '/root/the_echo_of_shadows/assets/images'
+    base_dir = '/root/the_echo_of_shadows/new assets'
     for name, rel in assets.items():
         p = os.path.join(base_dir, rel)
         im = Image.open(p)
@@ -445,7 +445,7 @@ def test_phase3_3_alex_identity_consistency():
     print("  ✓ alex_direction_audit.png verified (2330x1990, ~788KB)")
 
     # 2. Verify all 17 authentic frames from new assets have uniform scale and height
-    alex_dir = "/root/the_echo_of_shadows/new assets/characters/alex" if os.path.exists("/root/the_echo_of_shadows/new assets/characters/alex") else "/root/the_echo_of_shadows/assets/images/characters/alex"
+    alex_dir = "/root/the_echo_of_shadows/new assets/characters/alex"
     alex_files = sorted([f for f in os.listdir(alex_dir) if f.startswith("Alex-—-Personnage-principal") and f.endswith(".png")])
     assert len(alex_files) == 17, f"17 canonical Alex frames required, found {len(alex_files)}"
     for af in alex_files:
@@ -594,7 +594,7 @@ def test_phase3_4_village_map_reconstruction():
     for expected in ["Alex Miller", "Emma", "James", "Michael", "David", "Sarah", "Ethan Miller"]:
         assert expected in npc_names, f"NPC {expected} missing"
 
-    print("  ✓ assets/data/maps/village.json Schema & Data Integrity: PASSED")
+    print("  ✓ new assets/data/maps/village.json Schema & Data Integrity: PASSED")
 
     # 2. Verify Dart VillageMap and NavigationGrid implementation
     vmap_dart = "/root/the_echo_of_shadows/lib/game/world/village_map.dart"
