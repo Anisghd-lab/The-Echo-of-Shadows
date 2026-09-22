@@ -379,17 +379,34 @@ def build():
     <!-- Action & Rotation Controls -->
     <div id="action-controls">
       <div class="rotation-row">
-        <button class="btn-rotate" onclick="rotateAlexCCW()" title="Tourner à gauche (Q)">↺</button>
+        <button class="btn-rotate" onclick="rotateAlexCCW()" title="Tourner à gauche (R / ↺)">↺</button>
         <span class="orient-badge" id="hud-orient">NW</span>
-        <button class="btn-rotate" onclick="rotateAlexCW()" title="Tourner à droite (E)">↻</button>
+        <button class="btn-rotate" onclick="rotateAlexCW()" title="Tourner à droite (E / ↻)">↻</button>
       </div>
+      <button id="unstuck-btn" onclick="unstuckAlex()" style="padding: 8px 14px; border-radius: 18px; background: rgba(220, 38, 38, 0.85); border: 1px solid #EF4444; color: #FFF; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);" title="Débloquer Alex immédiatement">
+        <span>🔓</span>
+        <span>DÉBLOQUER ALEX</span>
+      </button>
       <button id="sprint-btn" onclick="toggleSprint()">
         <span>⚡</span>
         <span id="sprint-text">SPRINT</span>
       </button>
     </div>
 
-    <!-- Touch Controls -->
+    <!-- On-screen D-Pad Controls for instant touch & mouse movement -->
+    <div id="dpad-controls" style="position: absolute; bottom: 155px; left: 24px; display: grid; grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(3, 40px); gap: 4px; z-index: 25;">
+      <div></div>
+      <button class="dpad-btn" id="dpad-up" onmousedown="setDpad(0, -1)" onmouseup="clearDpad()" ontouchstart="setDpad(0, -1)" ontouchend="clearDpad()" style="background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(148, 163, 184, 0.4); border-radius: 8px; color: #FFF; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Haut (Z / W / ↑)">▲</button>
+      <div></div>
+      <button class="dpad-btn" id="dpad-left" onmousedown="setDpad(-1, 0)" onmouseup="clearDpad()" ontouchstart="setDpad(-1, 0)" ontouchend="clearDpad()" style="background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(148, 163, 184, 0.4); border-radius: 8px; color: #FFF; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Gauche (Q / A / ←)">◀</button>
+      <button class="dpad-btn" id="dpad-center" onclick="unstuckAlex()" style="background: rgba(15, 23, 42, 0.95); border: 1px solid #38BDF8; border-radius: 8px; color: #38BDF8; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Débloquer / Recentrer Alex sur le pont">🔓</button>
+      <button class="dpad-btn" id="dpad-right" onmousedown="setDpad(1, 0)" onmouseup="clearDpad()" ontouchstart="setDpad(1, 0)" ontouchend="clearDpad()" style="background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(148, 163, 184, 0.4); border-radius: 8px; color: #FFF; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Droite (D / →)">▶</button>
+      <div></div>
+      <button class="dpad-btn" id="dpad-down" onmousedown="setDpad(0, 1)" onmouseup="clearDpad()" ontouchstart="setDpad(0, 1)" ontouchend="clearDpad()" style="background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(148, 163, 184, 0.4); border-radius: 8px; color: #FFF; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Bas (S / ↓)">▼</button>
+      <div></div>
+    </div>
+
+    <!-- Touch / Mouse Virtual Joystick -->
     <div id="touch-controls">
       <div id="touch-stick"></div>
     </div>
@@ -654,10 +671,49 @@ def build():
       return false;
     }}
 
+    function getMinObstacleDist(x, y, radius) {{
+      let minClearance = Infinity;
+      for (const obs of obstacles) {{
+        const ox = obs.baseWx * worldScale;
+        const oy = obs.baseWy * worldScale;
+        const ohw = obs.baseHw * worldScale;
+        const ohh = obs.baseHh * worldScale;
+        const dx = Math.abs(x - ox) - ohw;
+        const dy = Math.abs(y - oy) - ohh;
+        let clearance;
+        if (dx <= 0 && dy <= 0) {{
+          clearance = Math.max(dx, dy) - radius;
+        }} else {{
+          const cx = Math.max(ox - ohw, Math.min(x, ox + ohw));
+          const cy = Math.max(oy - ohh, Math.min(y, oy + ohh));
+          clearance = Math.hypot(x - cx, y - cy) - radius;
+        }}
+        if (clearance < minClearance) minClearance = clearance;
+      }}
+      return minClearance;
+    }}
+
     function resolveMovement(curX, curY, targetX, targetY, radius) {{
+      // 1. Direct target is clear
       if (!checkCollision(targetX, targetY, radius)) return {{ x: targetX, y: targetY }};
+
+      // 2. Sliding along X
       if (!checkCollision(targetX, curY, radius)) return {{ x: targetX, y: curY }};
+
+      // 3. Sliding along Y
       if (!checkCollision(curX, targetY, radius)) return {{ x: curX, y: targetY }};
+
+      // 4. Anti-stuck escape: If current position is in collision, allow any movement that increases clearance
+      const curClearance = getMinObstacleDist(curX, curY, radius);
+      if (curClearance < 0) {{
+        const targetClearance = getMinObstacleDist(targetX, targetY, radius);
+        if (targetClearance > curClearance) return {{ x: targetX, y: targetY }};
+        const slideXClearance = getMinObstacleDist(targetX, curY, radius);
+        if (slideXClearance > curClearance) return {{ x: targetX, y: curY }};
+        const slideYClearance = getMinObstacleDist(curX, targetY, radius);
+        if (slideYClearance > curClearance) return {{ x: curX, y: targetY }};
+      }}
+
       return {{ x: curX, y: curY }};
     }}
 
@@ -672,18 +728,22 @@ def build():
       zoom: 1.10
     }};
 
-    // 8. Input State
+    // 8. Input State (Supporting QWERTY, AZERTY, Arrows, Touch, Mouse Joystick, D-Pad, Click-to-Move)
     const keys = {{}};
     let inputX = 0;
     let inputY = 0;
+    let dpadX = 0;
+    let dpadY = 0;
+    let moveTarget = null;
     let isDebug = false;
 
     window.addEventListener('keydown', (e) => {{
       const k = e.key.toLowerCase();
       keys[k] = true;
-      if (k === 'q') rotateAlexCCW();
-      if (k === 'e') rotateAlexCW();
+      if (k === 'r') rotateAlexCW();
+      if (k === 'f') rotateAlexCCW();
       if (k === 't') toggleDirectionTestScene();
+      if (k === 'u') unstuckAlex();
       if (k === '1') setTileSize(128, 64);
       if (k === '2') setTileSize(96, 48);
       if (k === '3') setTileSize(80, 40);
@@ -691,10 +751,11 @@ def build():
     }});
     window.addEventListener('keyup', (e) => {{ keys[e.key.toLowerCase()] = false; }});
 
-    // Touch Joystick Handling
+    // Touch & Mouse Joystick Handling
     const joystick = document.getElementById('touch-controls');
     const stick = document.getElementById('touch-stick');
     let touchId = null;
+    let isMouseDragging = false;
 
     joystick.addEventListener('touchstart', (e) => {{
       const t = e.changedTouches[0];
@@ -723,6 +784,23 @@ def build():
     joystick.addEventListener('touchend', endJoystick);
     joystick.addEventListener('touchcancel', endJoystick);
 
+    // Mouse dragging for virtual joystick (desktop & laptop support)
+    joystick.addEventListener('mousedown', (e) => {{
+      isMouseDragging = true;
+      updateJoystick(e);
+    }});
+    window.addEventListener('mousemove', (e) => {{
+      if (isMouseDragging) updateJoystick(e);
+    }});
+    window.addEventListener('mouseup', () => {{
+      if (isMouseDragging) {{
+        isMouseDragging = false;
+        inputX = 0;
+        inputY = 0;
+        stick.style.transform = 'translate(0px, 0px)';
+      }}
+    }});
+
     function updateJoystick(t) {{
       const rect = joystick.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
@@ -738,6 +816,49 @@ def build():
       stick.style.transform = `translate(${{dx}}px, ${{dy}}px)`;
       inputX = dx / maxR;
       inputY = dy / maxR;
+    }}
+
+    // D-Pad Helper Handlers
+    function setDpad(dx, dy) {{
+      dpadX = dx;
+      dpadY = dy;
+      moveTarget = null;
+    }}
+    function clearDpad() {{
+      dpadX = 0;
+      dpadY = 0;
+    }}
+
+    // Click-to-Move / Tap-to-Move on canvas
+    canvas.addEventListener('click', (e) => {{
+      const rect = canvas.getBoundingClientRect();
+      const clickX = (e.clientX - rect.left) * window.devicePixelRatio;
+      const clickY = (e.clientY - rect.top) * window.devicePixelRatio;
+
+      // Inverse camera transform
+      const screenX = (clickX - canvas.width / 2) / (camera.zoom * window.devicePixelRatio) + camera.x;
+      const screenY = (clickY - canvas.height / 2) / (camera.zoom * window.devicePixelRatio) + camera.y;
+
+      const tw = screenToWorld(screenX, screenY);
+      moveTarget = tw;
+      showToast(`Alex marche vers [${{(tw.x / worldScale).toFixed(1)}}, ${{(tw.y / worldScale).toFixed(1)}}]`);
+    }});
+
+    // Unstuck / Reset Alex Function
+    function unstuckAlex() {{
+      alex.wx = 7.0 * worldScale;
+      alex.wy = 8.0 * worldScale;
+      alex.orientation = 'NW';
+      moveTarget = null;
+      inputX = 0;
+      inputY = 0;
+      dpadX = 0;
+      dpadY = 0;
+      isMouseDragging = false;
+      stick.style.transform = 'translate(0px, 0px)';
+      for (const k in keys) keys[k] = false;
+      document.getElementById('hud-orient').textContent = alex.orientation;
+      showToast('🔓 Alex a été débloqué et repositionné en sécurité sur le pont !');
     }}
 
     function toggleSprint() {{
@@ -897,14 +1018,36 @@ def build():
       const dt = Math.min((now - lastTime) / 1000, 0.1);
       lastTime = now;
 
-      // Movement Input
-      let moveX = inputX;
-      let moveY = inputY;
+      // Movement Input (combining keyboard WASD + ZQSD + Arrows, joystick, D-Pad, and Click-to-Move)
+      let moveX = inputX + dpadX;
+      let moveY = inputY + dpadY;
 
-      if (keys['w'] || keys['arrowup']) moveY -= 1;
+      // Support both QWERTY (WASD) and AZERTY (ZQSD) + Arrows
+      if (keys['w'] || keys['z'] || keys['arrowup']) moveY -= 1;
       if (keys['s'] || keys['arrowdown']) moveY += 1;
-      if (keys['a'] || keys['arrowleft']) moveX -= 1;
+      if (keys['a'] || keys['q'] || keys['arrowleft']) moveX -= 1;
       if (keys['d'] || keys['arrowright']) moveX += 1;
+
+      // Click-to-Move navigation support
+      if (Math.hypot(moveX, moveY) > 0.1) {{
+        moveTarget = null;
+      }} else if (moveTarget) {{
+        const toTargetX = moveTarget.x - alex.wx;
+        const toTargetY = moveTarget.y - alex.wy;
+        const dist = Math.hypot(toTargetX, toTargetY);
+        if (dist > 0.25 * worldScale) {{
+          // Convert world displacement to screen input direction
+          const screenDx = (toTargetX - toTargetY);
+          const screenDy = (toTargetX + toTargetY);
+          const sLen = Math.hypot(screenDx, screenDy);
+          if (sLen > 0.001) {{
+            moveX = screenDx / sLen;
+            moveY = screenDy / sLen;
+          }}
+        }} else {{
+          moveTarget = null;
+        }}
+      }}
 
       const len = Math.hypot(moveX, moveY);
       

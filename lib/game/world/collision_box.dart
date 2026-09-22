@@ -83,8 +83,47 @@ class CollisionManager {
       return math.Point(currentX, targetY);
     }
 
-    // 4. Blocked in all directions: remain at current position
+    // 4. Anti-stuck escape: If current position is already penetrating an obstacle,
+    // allow movement if it increases clearance (moves out towards freedom).
+    final currentClearance = getClearance(currentX, currentY, radius);
+    if (currentClearance < 0) {
+      final targetClearance = getClearance(targetX, targetY, radius);
+      if (targetClearance > currentClearance) {
+        return math.Point(targetX, targetY);
+      }
+      final slideXClearance = getClearance(targetX, currentY, radius);
+      if (slideXClearance > currentClearance) {
+        return math.Point(targetX, currentY);
+      }
+      final slideYClearance = getClearance(currentX, targetY, radius);
+      if (slideYClearance > currentClearance) {
+        return math.Point(currentX, targetY);
+      }
+    }
+
+    // 5. Blocked in all directions: remain at current position
     return math.Point(currentX, currentY);
+  }
+
+  /// Calculates minimum obstacle clearance (negative if penetrating, positive if clear).
+  double getClearance(double x, double y, double radius) {
+    double minClearance = double.infinity;
+    for (final obs in _obstacles) {
+      final dx = (x - obs.worldX).abs() - obs.halfWidth;
+      final dy = (y - obs.worldY).abs() - obs.halfHeight;
+      double clearance;
+      if (dx <= 0 && dy <= 0) {
+        clearance = math.max(dx, dy) - radius;
+      } else {
+        final closestX = math.max(obs.minX, math.min(x, obs.maxX));
+        final closestY = math.max(obs.minY, math.min(y, obs.maxY));
+        clearance = math.hypot(x - closestX, y - closestY) - radius;
+      }
+      if (clearance < minClearance) {
+        minClearance = clearance;
+      }
+    }
+    return minClearance;
   }
 
   /// Checks whether a circular entity at (x, y) collides with any registered obstacle.

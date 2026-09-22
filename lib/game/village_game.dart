@@ -97,6 +97,7 @@ class VillageGame extends FlameGame with KeyboardEvents {
       double kx = 0;
       double ky = 0;
       if (_pressedKeys.contains(LogicalKeyboardKey.keyA) ||
+          _pressedKeys.contains(LogicalKeyboardKey.keyQ) ||
           _pressedKeys.contains(LogicalKeyboardKey.arrowLeft)) {
         kx -= 1;
       }
@@ -105,6 +106,7 @@ class VillageGame extends FlameGame with KeyboardEvents {
         kx += 1;
       }
       if (_pressedKeys.contains(LogicalKeyboardKey.keyW) ||
+          _pressedKeys.contains(LogicalKeyboardKey.keyZ) ||
           _pressedKeys.contains(LogicalKeyboardKey.arrowUp)) {
         ky -= 1;
       }

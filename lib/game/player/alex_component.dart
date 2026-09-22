@@ -4,12 +4,35 @@ import '../world/isometric_coordinates.dart';
 import 'player_animation_controller.dart';
 import 'player_controller.dart';
 
+/// Specialized vector tracking and reactively binding to the active AlexComponent.
+class _AlexPositionVector extends Vector2 {
+  AlexComponent? activeComponent;
+
+  _AlexPositionVector(super.x, super.y);
+
+  @override
+  set x(double value) {
+    super.x = value;
+    if (activeComponent != null && activeComponent!.controller.worldX != value) {
+      activeComponent!.worldX = value;
+    }
+  }
+
+  @override
+  set y(double value) {
+    super.y = value;
+    if (activeComponent != null && activeComponent!.controller.worldY != value) {
+      activeComponent!.worldY = value;
+    }
+  }
+}
+
 /// Static global configuration and coordinates for Alex character.
 /// Allows direct coordinate assignment:
 /// `Alex.position.x = 7.0;`
 /// `Alex.position.y = 8.0;`
 class Alex {
-  static final Vector2 position = Vector2(7.0, 8.0);
+  static final _AlexPositionVector position = _AlexPositionVector(7.0, 8.0);
 
   static double get x => position.x;
   static set x(double val) => position.x = val;
@@ -43,7 +66,9 @@ class AlexComponent extends PositionComponent with HasGameRef {
     final screenPos = IsometricCoordinates.worldToScreen(controller.worldX, controller.worldY);
     position.setValues(screenPos.x, screenPos.y);
     priority = IsometricCoordinates.calculateZOrder(controller.worldX, controller.worldY);
-    Alex.position.setValues(controller.worldX, controller.worldY);
+    Alex.position.activeComponent = this;
+    Alex.position.x = controller.worldX;
+    Alex.position.y = controller.worldY;
   }
 
   /// Direct world coordinate accessors
