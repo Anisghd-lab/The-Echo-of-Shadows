@@ -1,0 +1,63 @@
+name: the_echo_of_shadows
+description: "L'Écho des Ombres (The Echo of Shadows) — 2.5D Isometric Psychological Thriller Game built with Flutter & Flame."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flame: ^1.21.0
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/data/
+    - assets/images/characters/alex/idle/
+    - assets/images/characters/alex/walk/
+    - assets/images/characters/alex/run/
+    - assets/images/characters/alex/interaction/
+    - assets/images/characters/alex/portraits/
+    - assets/images/characters/emma/
+    - assets/images/characters/ethan/
+    - assets/images/characters/james/
+    - assets/images/characters/michael/
+    - assets/images/environments/village/buildings/
+    - assets/images/environments/village/decor/
+    - assets/images/environments/village/map_tiles/
+    - assets/images/environments/family_house/exterior/
+    - assets/images/environments/family_house/bedroom/
+    - assets/images/environments/bunker/exterior/
+    - assets/images/environments/bunker/interior/
+    - assets/images/environments/bunker/secret_basement/
+    - assets/images/environments/forest/discovery/
+    - assets/images/environments/forest/flashback/
+    - assets/images/props/furniture/desk/
+    - assets/images/props/furniture/wardrobe/
+    - assets/images/props/furniture/bed/
+    - assets/images/props/furniture/chair/
+    - assets/images/props/furniture/table/
+    - assets/images/props/furniture/lamp/
+    - assets/images/props/furniture/window/
+    - assets/images/props/furniture/clock/
+    - assets/images/props/investigation/cassette/
+    - assets/images/props/investigation/recorder/
+    - assets/images/props/investigation/key/
+    - assets/images/props/investigation/notebook/
+    - assets/images/props/investigation/box/
+    - assets/images/props/investigation/documents/
+    - assets/images/props/investigation/archives/
+    - assets/images/props/investigation/photos/
+    - assets/images/props/investigation/family_frame/
+    - assets/images/props/investigation/board/
+    - assets/images/props/investigation/phone/
+    - assets/images/props/investigation/wall_map/
