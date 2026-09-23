@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="isometric" renderorder="right-down" width="32" height="32" tilewidth="128" tileheight="64" infinite="0" nextlayerid="10" nextobjectid="500">
+ <tileset firstgid="1" source="village_tileset.tsx"/>
+ <imagelayer id="1" name="Blueprint Reference (map du village.png)" opacity="0.4">
+  <image source="../../map du village.png" width="1536" height="1024"/>
+ </imagelayer>
+ <layer id="2" name="Ground Terrain (Sol Isométrique)" width="32" height="32">
+  <data encoding="csv">
+18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,
+18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,
+18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,
+18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,
+18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,
+18,18,18,18,18,18,2,1,2,2,2,1,3,1,2,1,3,1,2,1,2,1,2,2,2,1,2,18,18,18,18,18,
+18,18,18,18,18,18,2,2,1,1,1,1,1,3,1,3,1,3,1,3,1,1,2,1,1,2,2,18,18,18,18,18,
+18,18,18,18,18,18,3,2,1,2,1,1,1,1,1,3,2,3,1,1,1,1,1,2,1,2,3,18,18,18,18,18,
+18,18,18,18,18,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,1,1,2,1,1,18,18,18,18,18,
+18,18,18,18,18,18,2,2,1,2,2,1,1,1,1,2,1,2,1,4,4,4,3,2,1,2,2,18,18,18,18,18,
+18,18,18,18,18,18,1,1,1,2,2,2,3,16,16,16,2,1,2,4,5,4,2,2,1,1,1,18,18,18,18,16,
+18,18,18,18,18,18,3,1,1,2,1,1,1,16,16,16,1,2,4,4,4,1,1,2,3,1,2,18,18,18,16,13,
+18,18,18,18,18,18,1,2,2,2,1,1,2,16,16,16,1,1,4,4,2,1,1,2,1,2,1,18,18,16,12,12,
+18,18,18,18,18,18,1,1,3,1,1,1,1,1,3,3,2,5,5,4,1,1,1,1,2,1,1,18,16,12,12,15,
+18,18,18,18,18,18,1,1,2,1,1,1,1,1,2,7,6,7,5,1,1,1,1,1,1,1,1,16,12,12,15,15,
+18,18,18,18,18,18,2,1,3,1,1,1,2,1,6,7,6,7,6,8,9,8,8,8,9,8,17,12,12,14,14,14,
+18,18,18,18,18,18,1,1,1,1,1,2,2,9,7,7,6,7,7,9,9,9,8,8,8,16,12,12,14,14,14,15,
+18,18,18,18,18,18,2,1,3,1,1,8,9,8,6,7,6,7,6,8,9,8,8,8,17,12,13,14,14,14,14,14,
+18,18,18,18,18,18,1,1,8,8,8,8,8,8,9,7,6,7,5,4,1,1,1,16,12,12,14,14,14,14,15,15,
+18,18,18,18,18,18,1,1,3,1,1,1,1,1,9,9,9,3,5,4,4,1,16,12,13,14,14,15,14,14,14,15,
+18,18,18,18,18,18,1,2,2,2,1,1,2,1,9,8,8,1,2,4,10,10,12,12,14,15,14,14,14,14,15,14,
+18,18,18,18,18,18,3,1,1,2,1,1,1,1,9,9,8,2,2,1,10,10,10,11,15,14,15,15,14,15,14,15,
+18,18,18,18,18,18,1,1,1,2,2,2,3,1,9,8,9,1,2,16,13,10,10,10,14,14,14,14,15,15,14,14,
+18,18,18,18,18,18,2,2,1,2,2,1,1,1,8,8,8,11,11,11,12,11,10,10,10,15,15,15,15,15,14,14,
+18,18,18,18,18,18,1,2,2,1,1,2,1,1,9,8,8,11,11,11,14,14,14,10,14,14,14,14,14,15,14,15,
+18,18,18,18,18,18,3,2,1,2,1,1,1,1,8,9,17,11,11,11,14,14,14,15,14,15,15,14,14,14,15,15,
+18,18,18,18,18,18,2,2,1,1,2,1,1,3,1,17,12,13,14,15,14,14,14,14,14,14,15,15,14,15,14,15,
+18,18,18,18,18,18,2,1,2,2,2,1,3,1,17,12,13,14,15,14,15,14,15,15,15,14,14,15,15,14,14,15,
+18,18,18,18,18,18,1,1,2,2,2,1,2,17,12,12,14,15,14,15,15,14,15,15,15,14,14,15,14,15,14,14,
+18,18,18,18,18,18,2,2,1,1,2,1,17,13,12,14,14,14,14,15,14,14,15,14,14,15,15,14,15,15,14,15,
+18,18,18,18,18,18,1,3,1,1,1,16,12,12,14,14,15,14,14,14,14,14,14,14,14,15,15,14,15,14,14,15,
+18,18,18,18,18,18,1,1,1,1,17,12,12,14,14,15,14,15,14,14,14,14,15,14,14,14,14,14,14,14,15,14
+  </data>
+ </layer>
+ <objectgroup id="3" name="Buildings (Bâtiments)">
+  <object id="101" name="BUILDING_CHURCH" type="building" gid="19" x="1248.0" y="544.0" width="280" height="370">
+   <properties>
+    <property name="blueprint_feature" value="CHURCH_ST_JUDE"/>
+    <property name="narrative_act" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="102" name="BUILDING_FAMILY_HOUSE" type="building" gid="20" x="928.0" y="704.0" width="320" height="298">
+   <properties>
+    <property name="blueprint_feature" value="COTTAGE_NORTH"/>
+    <property name="narrative_act" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="103" name="BUILDING_WATERMILL" type="building" gid="21" x="864.0" y="1568.0" width="260" height="244">
+   <properties>
+    <property name="blueprint_feature" value="WATERMILL"/>
+    <property name="narrative_act" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="104" name="BUILDING_WINDMILL" type="building" gid="22" x="480.0" y="896.0" width="240" height="270">
+   <properties>
+    <property name="blueprint_feature" value="WINDMILL"/>
+    <property name="narrative_act" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="105" name="BUILDING_COTTAGE_WEST" type="building" gid="23" x="768.0" y="992.0" width="220" height="205">
+   <properties>
+    <property name="blueprint_feature" value="COTTAGE_WEST"/>
+    <property name="narrative_act" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="106" name="BUILDING_COTTAGE_SOUTH" type="building" gid="24" x="883.2" y="1139.2" width="230" height="180">
+   <properties>
+    <property name="blueprint_feature" value="COTTAGE_SOUTH"/>
+    <property name="narrative_act" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="107" name="BUILDING_COTTAGE_FAR_WEST" type="building" gid="23" x="672.0" y="1152.0" width="210" height="188">
+   <properties>
+    <property name="blueprint_feature" value="COTTAGE_FAR_WEST"/>
+    <property name="narrative_act" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="108" name="BUILDING_RIVERSIDE_COTTAGE" type="building" gid="23" x="1376.0" y="1216.0" width="215" height="190">
+   <properties>
+    <property name="blueprint_feature" value="RIVERSIDE_COTTAGE"/>
+    <property name="narrative_act" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="109" name="BUILDING_EAST_WORKSHOP" type="building" gid="25" x="1408.0" y="928.0" width="200" height="180">
+   <properties>
+    <property name="blueprint_feature" value="EAST_COTTAGES"/>
+    <property name="narrative_act" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="110" name="BUILDING_SAWMILL" type="building" gid="26" x="1568.0" y="960.0" width="210" height="195">
+   <properties>
+    <property name="blueprint_feature" value="SAWMILL_LUMBER"/>
+    <property name="narrative_act" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="111" name="BUILDING_BUNKER" type="building" gid="27" x="544.0" y="544.0" width="230" height="160">
+   <properties>
+    <property name="blueprint_feature" value="NORTH_BUNKER"/>
+    <property name="narrative_act" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="112" name="BUILDING_MAIN_BRIDGE" type="building" gid="28" x="1459.2" y="1523.2" width="208" height="149">
+   <properties>
+    <property name="blueprint_feature" value="MAIN_BRIDGE"/>
+    <property name="narrative_act" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="Props (Installations &amp; Mobilier)">
+  <object id="201" name="PROP_STATUE" type="prop" gid="29" x="1024.0" y="1024.0" width="90" height="140"/>
+  <object id="202" name="PROP_WELL" type="prop" gid="30" x="1100.8" y="1177.6" width="100" height="112"/>
+  <object id="203" name="PROP_MARKET_STALL_1" type="prop" gid="31" x="1312.0" y="992.0" width="130" height="115"/>
+  <object id="204" name="PROP_MARKET_STALL_2" type="prop" gid="32" x="1356.8" y="1049.6" width="115" height="105"/>
+  <object id="205" name="PROP_SAWMILL_CRANE" type="prop" gid="33" x="1632.0" y="908.8" width="88" height="139"/>
+  <object id="206" name="PROP_STACKED_LOGS" type="prop" gid="34" x="1536.0" y="1036.8" width="103" height="93"/>
+  <object id="207" name="PROP_IRON_GATE" type="prop" gid="35" x="1139.2" y="819.2" width="130" height="85"/>
+  <object id="208" name="PROP_BOAT" type="prop" gid="36" x="1152.0" y="1568.0" width="90" height="60"/>
+  <object id="209" name="PROP_DOCK_CRANE" type="prop" gid="37" x="1408.0" y="1408.0" width="80" height="135"/>
+ </objectgroup>
+ <objectgroup id="5" name="Street Lighting (Éclairage)">
+  <object id="251" name="STREET_LAMP" type="light" gid="38" x="1292.8" y="1331.2" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="252" name="STREET_LAMP" type="light" gid="38" x="1331.2" y="1292.8" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="253" name="STREET_LAMP" type="light" gid="38" x="1484.8" y="1523.2" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="254" name="STREET_LAMP" type="light" gid="38" x="1523.2" y="1484.8" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="255" name="STREET_LAMP" type="light" gid="38" x="928.0" y="972.8" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="256" name="STREET_LAMP" type="light" gid="38" x="1075.2" y="928.0" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="257" name="STREET_LAMP" type="light" gid="38" x="972.8" y="1120.0" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="258" name="STREET_LAMP" type="light" gid="38" x="1120.0" y="1075.2" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="259" name="STREET_LAMP" type="light" gid="38" x="1139.2" y="1164.8" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="260" name="STREET_LAMP" type="light" gid="38" x="1184.0" y="755.2" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="261" name="STREET_LAMP" type="light" gid="38" x="1267.2" y="998.4" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="262" name="STREET_LAMP" type="light" gid="38" x="908.8" y="1062.4" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="263" name="STREET_LAMP" type="light" gid="38" x="1344.0" y="1190.4" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+  <object id="264" name="STREET_LAMP" type="light" gid="38" x="755.2" y="883.2" width="36" height="88">
+   <properties>
+    <property name="color" type="color" value="#fffbbf24"/>
+    <property name="radius" type="float" value="50.0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="Nature (Végétation &amp; Forêt)">
+  <object id="301" name="PINE_TREE" type="nature" gid="39" x="1331.2" y="480.0" width="88" height="146"/>
+  <object id="302" name="PINE_TREE" type="nature" gid="39" x="1164.8" y="499.20000000000005" width="88" height="146"/>
+  <object id="303" name="PINE_TREE" type="nature" gid="39" x="1312.0" y="608.0" width="88" height="146"/>
+  <object id="304" name="PINE_TREE" type="nature" gid="39" x="1120.0" y="480.0" width="88" height="146"/>
+  <object id="305" name="PINE_TREE" type="nature" gid="39" x="1356.8" y="576.0" width="88" height="146"/>
+  <object id="306" name="PINE_TREE" type="nature" gid="39" x="576.0" y="960.0" width="88" height="146"/>
+  <object id="307" name="PINE_TREE" type="nature" gid="39" x="416.0" y="800.0" width="88" height="146"/>
+  <object id="308" name="PINE_TREE" type="nature" gid="39" x="512.0" y="1056.0" width="88" height="146"/>
+  <object id="309" name="PINE_TREE" type="nature" gid="39" x="608.0" y="1248.0" width="88" height="146"/>
+  <object id="310" name="PINE_TREE" type="nature" gid="39" x="384.0" y="992.0" width="88" height="146"/>
+  <object id="311" name="PINE_TREE" type="nature" gid="39" x="352.0" y="1152.0" width="88" height="146"/>
+  <object id="312" name="PINE_TREE" type="nature" gid="39" x="704.0" y="512.0" width="88" height="146"/>
+  <object id="313" name="PINE_TREE" type="nature" gid="39" x="480.0" y="608.0" width="88" height="146"/>
+  <object id="314" name="PINE_TREE" type="nature" gid="39" x="640.0" y="640.0" width="88" height="146"/>
+  <object id="315" name="PINE_TREE" type="nature" gid="39" x="768.0" y="576.0" width="88" height="146"/>
+  <object id="316" name="PINE_TREE" type="nature" gid="39" x="768.0" y="1472.0" width="88" height="146"/>
+  <object id="317" name="PINE_TREE" type="nature" gid="39" x="960.0" y="1632.0" width="88" height="146"/>
+  <object id="318" name="PINE_TREE" type="nature" gid="39" x="1248.0" y="1504.0" width="88" height="146"/>
+  <object id="319" name="PINE_TREE" type="nature" gid="39" x="1568.0" y="1344.0" width="88" height="146"/>
+  <object id="320" name="PINE_TREE" type="nature" gid="39" x="1600.0" y="1440.0" width="88" height="146"/>
+  <object id="321" name="PINE_TREE" type="nature" gid="39" x="1664.0" y="864.0" width="88" height="146"/>
+  <object id="322" name="PINE_TREE" type="nature" gid="39" x="1632.0" y="1120.0" width="88" height="146"/>
+  <object id="323" name="PINE_TREE" type="nature" gid="39" x="1696.0" y="1024.0" width="88" height="146"/>
+  <object id="324" name="PINE_TREE" type="nature" gid="39" x="832.0" y="800.0" width="88" height="146"/>
+  <object id="325" name="PINE_TREE" type="nature" gid="39" x="992.0" y="864.0" width="88" height="146"/>
+  <object id="326" name="PINE_TREE" type="nature" gid="39" x="800.0" y="1216.0" width="88" height="146"/>
+  <object id="327" name="DEAD_TREE" type="nature" gid="40" x="1075.2" y="691.2" width="78" height="128"/>
+  <object id="328" name="DEAD_TREE" type="nature" gid="40" x="1120.0" y="640.0" width="78" height="128"/>
+  <object id="329" name="DEAD_TREE" type="nature" gid="40" x="1164.8" y="672.0" width="78" height="128"/>
+  <object id="330" name="DEAD_TREE" type="nature" gid="40" x="1203.2" y="588.8" width="78" height="128"/>
+  <object id="331" name="DEAD_TREE" type="nature" gid="40" x="563.2" y="691.2" width="78" height="128"/>
+  <object id="332" name="DEAD_TREE" type="nature" gid="40" x="448.0" y="672.0" width="78" height="128"/>
+  <object id="333" name="DEAD_TREE" type="nature" gid="40" x="1504.0" y="800.0" width="78" height="128"/>
+ </objectgroup>
+ <objectgroup id="7" name="Collisions (Physique &amp; Limites)">
+  <object id="401" name="COL_BUILDING_CHURCH" type="collision" x="1150.0" y="396.0" width="196.0" height="148.0"/>
+  <object id="402" name="COL_BUILDING_FAMILY_HOUSE" type="collision" x="816.0" y="584.8" width="224.0" height="119.2"/>
+  <object id="403" name="COL_BUILDING_WATERMILL" type="collision" x="773.0" y="1470.4" width="182.0" height="97.60000000000001"/>
+  <object id="404" name="COL_BUILDING_WINDMILL" type="collision" x="396.0" y="788.0" width="168.0" height="108.0"/>
+  <object id="405" name="COL_BUILDING_COTTAGE_WEST" type="collision" x="691.0" y="910.0" width="154.0" height="82.0"/>
+  <object id="406" name="COL_BUILDING_COTTAGE_SOUTH" type="collision" x="802.7" y="1067.2" width="161.0" height="72.0"/>
+  <object id="407" name="COL_BUILDING_COTTAGE_FAR_WEST" type="collision" x="598.5" y="1076.8" width="147.0" height="75.2"/>
+  <object id="408" name="COL_BUILDING_RIVERSIDE_COTTAGE" type="collision" x="1300.75" y="1140.0" width="150.5" height="76.0"/>
+  <object id="409" name="COL_BUILDING_EAST_WORKSHOP" type="collision" x="1338.0" y="856.0" width="140.0" height="72.0"/>
+  <object id="410" name="COL_BUILDING_SAWMILL" type="collision" x="1494.5" y="882.0" width="147.0" height="78.0"/>
+  <object id="411" name="COL_BUILDING_BUNKER" type="collision" x="463.5" y="480.0" width="161.0" height="64.0"/>
+  <object id="412" name="COL_BUILDING_MAIN_BRIDGE" type="collision" x="1386.4" y="1463.6000000000001" width="145.6" height="59.6"/>
+  <object id="413" name="COL_RIVER_WATER_HAZARD" type="hazard_water" x="724" y="1664" width="800" height="200"/>
+ </objectgroup>
+ <objectgroup id="8" name="Gameplay (Spawns, NPCs &amp; Indices)">
+  <object id="490" name="PLAYER_SPAWN" type="spawn" x="1472.0" y="1536.0">
+   <properties>
+    <property name="character" value="Alex Miller"/>
+    <property name="orientation" value="NW"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="491" name="NPC_EMMA" type="npc" x="1420.8" y="1459.2">
+   <properties><property name="npc_name" value="Emma"/></properties>
+   <point/>
+  </object>
+  <object id="492" name="NPC_JAMES" type="npc" x="1075.2" y="972.8">
+   <properties><property name="npc_name" value="Officer James"/></properties>
+   <point/>
+  </object>
+  <object id="493" name="NPC_MICHAEL" type="npc" x="908.8" y="780.8">
+   <properties><property name="npc_name" value="Old Michael"/></properties>
+   <point/>
+  </object>
+  <object id="494" name="NPC_ETHAN" type="npc" x="819.2" y="627.2">
+   <properties><property name="npc_name" value="Ethan Miller"/></properties>
+   <point/>
+  </object>
+ </objectgroup>
+</map>
